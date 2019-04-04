@@ -227,7 +227,7 @@ public class Movie {
         this.reviews = reviews;
     }
 
-    @OneToMany(mappedBy = "movie_edits", targetEntity = MovieEdit.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", targetEntity = MovieEdit.class, cascade = CascadeType.ALL)
     public List<MovieEdit> getMovieEdits() {
         return movieEdits;
     }

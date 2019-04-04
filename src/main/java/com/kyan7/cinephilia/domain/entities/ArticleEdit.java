@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "article_edits")
 public class ArticleEdit extends Edit {
 
+    private Article article;
     private User user;
     private String editedTitle;
     private String editedContent;
@@ -15,7 +16,17 @@ public class ArticleEdit extends Edit {
     public ArticleEdit() {
     }
 
-    @OneToOne(targetEntity = User.class)
+    @ManyToOne
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;

@@ -1,11 +1,12 @@
 package com.kyan7.cinephilia.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-public class MovieEdit {
+@Entity
+@Table(name = "movie_edits")
+public class MovieEdit extends Edit {
 
+    private Movie movie;
     private User user;
     private String editedTitle;
     private String editedImdbRating;
@@ -27,7 +28,17 @@ public class MovieEdit {
     public MovieEdit() {
     }
 
-    @OneToOne(targetEntity = User.class)
+    @ManyToOne
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;

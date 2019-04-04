@@ -101,7 +101,7 @@ public class Article {
         this.associatedArticles = associatedArticles;
     }
 
-    @OneToMany(mappedBy = "article_edit", targetEntity = ArticleEdit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", targetEntity = ArticleEdit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<ArticleEdit> getArticleEdits() {
         return articleEdits;
     }
