@@ -12,7 +12,7 @@ public class Article {
     private String id;
     private String title;
     private User creator;
-    private List<User> editors;
+    private List<ArticleEdit> articleEdits;
     private String content;
     private List<Movie> associatedMovies;
     private List<Article> associatedArticles;
@@ -54,18 +54,13 @@ public class Article {
         this.creator = creator;
     }
 
-    @ManyToMany(targetEntity = User.class)
-    @JoinTable(
-            name = "articles_editors",
-            joinColumns = @JoinColumn(name = "editor_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id")
-    )
-    public List<User> getEditors() {
-        return editors;
+    @OneToMany
+    public List<ArticleEdit> getArticleEdits() {
+        return articleEdits;
     }
 
-    public void setEditors(List<User> editors) {
-        this.editors = editors;
+    public void setArticleEdits(List<ArticleEdit> articleEdits) {
+        this.articleEdits = articleEdits;
     }
 
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)

@@ -71,7 +71,7 @@ public class Review {
         this.description = description;
     }
 
-    @OneToOne(targetEntity = Movie.class)
+    @ManyToOne(targetEntity = Movie.class)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     public Movie getMovie() {
         return movie;
