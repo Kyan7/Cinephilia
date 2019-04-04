@@ -13,7 +13,6 @@ public class Movie {
     private String id;
     private String title;
     private User creator;
-    private List<User> editors;
     private long views;
     private Double imdbRating;
     private long rottenTomatoesPercent;
@@ -31,6 +30,7 @@ public class Movie {
     private String trailerLinks;
     private List<Screening> screenings;
     private List<Review> reviews;
+    private List<MovieEdit> movieEdits;
 
     public Movie() {
     }
@@ -67,20 +67,6 @@ public class Movie {
 
     public void setCreator(User creator) {
         this.creator = creator;
-    }
-
-    @ManyToMany(targetEntity = User.class)
-    @JoinTable(
-            name = "movies_editors",
-            joinColumns = @JoinColumn(name = "editor_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    )
-    public List<User> getEditors() {
-        return editors;
-    }
-
-    public void setEditors(List<User> editors) {
-        this.editors = editors;
     }
 
     @Column(name = "views")
@@ -239,5 +225,14 @@ public class Movie {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    @OneToMany(mappedBy = "movie_edits", targetEntity = MovieEdit.class, cascade = CascadeType.ALL)
+    public List<MovieEdit> getMovieEdits() {
+        return movieEdits;
+    }
+
+    public void setMovieEdits(List<MovieEdit> movieEdits) {
+        this.movieEdits = movieEdits;
     }
 }

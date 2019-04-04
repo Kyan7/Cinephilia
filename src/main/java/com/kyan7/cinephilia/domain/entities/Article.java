@@ -12,10 +12,11 @@ public class Article {
     private String id;
     private String title;
     private User creator;
-    private List<ArticleEdit> articleEdits;
+    private long views;
     private String content;
     private List<Movie> associatedMovies;
     private List<Article> associatedArticles;
+    private List<ArticleEdit> articleEdits;
 
     public Article() {
     }
@@ -54,13 +55,13 @@ public class Article {
         this.creator = creator;
     }
 
-    @OneToMany
-    public List<ArticleEdit> getArticleEdits() {
-        return articleEdits;
+    @Column(name = "views")
+    public long getViews() {
+        return views;
     }
 
-    public void setArticleEdits(List<ArticleEdit> articleEdits) {
-        this.articleEdits = articleEdits;
+    public void setViews(long views) {
+        this.views = views;
     }
 
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
@@ -98,5 +99,14 @@ public class Article {
 
     public void setAssociatedArticles(List<Article> associatedArticles) {
         this.associatedArticles = associatedArticles;
+    }
+
+    @OneToMany(mappedBy = "article_edit", targetEntity = ArticleEdit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public List<ArticleEdit> getArticleEdits() {
+        return articleEdits;
+    }
+
+    public void setArticleEdits(List<ArticleEdit> articleEdits) {
+        this.articleEdits = articleEdits;
     }
 }

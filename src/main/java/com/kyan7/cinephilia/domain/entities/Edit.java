@@ -10,8 +10,9 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class Edit {
 
-    public String id;
-    public String timeStamp;
+    private String id;
+    private String editorComments;
+    private String timeStamp;
 
     public Edit() {
     }
@@ -29,6 +30,15 @@ public abstract class Edit {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Column(name = "editor_comments", columnDefinition = "TEXT")
+    public String getEditorComments() {
+        return editorComments;
+    }
+
+    public void setEditorComments(String editorComments) {
+        this.editorComments = editorComments;
     }
 
     @Column(name = "time_stamp", nullable = false, updatable = false)

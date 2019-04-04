@@ -12,6 +12,7 @@ public class Screening {
     private String movieTheater;
     private String type;
     private Double price;
+    private String timeStamp;
     private Movie movie;
 
     @Id
@@ -56,7 +57,16 @@ public class Screening {
         this.price = price;
     }
 
-    @OneToOne(targetEntity = Movie.class)
+    @Column(name = "time_stamp", nullable = false)
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    @ManyToOne(targetEntity = Movie.class)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     public Movie getMovie() {
         return movie;
