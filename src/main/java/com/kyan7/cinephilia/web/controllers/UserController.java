@@ -43,25 +43,9 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView login(ModelAndView modelAndView, HttpSession session) {
-        if (session.getAttribute("username") != null) {
-            modelAndView.setViewName("redirect:/home");
-        } else {
-            modelAndView.setViewName("login");
-        }
-        return modelAndView;
-    }
-
-    /**@PostMapping("/login")
-    public ModelAndView loginConfirm(@ModelAttribute UserLoginBindingModel model, ModelAndView modelAndView, HttpSession session) {
-        UserServiceModel userServiceModel = this.userService.loginUser(this.modelMapper.map(model, UserServiceModel.class));
-        if (userServiceModel == null) {
-            throw new IllegalArgumentException("User login failed!");
-        }
-        session.setAttribute("userId", userServiceModel.getId());
-        session.setAttribute("username", userServiceModel.getUsername());
-        modelAndView.setViewName("redirect:/home");
-        return modelAndView;
+        return super.view("login");
     }
 
     @GetMapping("/logout")
@@ -73,5 +57,5 @@ public class UserController extends BaseController {
             modelAndView.setViewName("redirect:/");
         }
         return modelAndView;
-    }*/
+    }
 }

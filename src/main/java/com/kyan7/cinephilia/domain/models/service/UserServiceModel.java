@@ -1,9 +1,9 @@
 package com.kyan7.cinephilia.domain.models.service;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserServiceModel {
-
 
     private String id;
     private String username;
@@ -13,6 +13,8 @@ public class UserServiceModel {
     private String lastName;
     private List<GenreServiceModel> likedGenres;
     private List<ReviewServiceModel> reviews;
+
+    private Set<RoleServiceModel> authorities;
 
     public UserServiceModel() {
     }
@@ -79,5 +81,13 @@ public class UserServiceModel {
 
     public void setReviews(List<ReviewServiceModel> reviews) {
         this.reviews = reviews;
+    }
+
+    public Set<RoleServiceModel> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<RoleServiceModel> authorities) {
+        this.authorities = authorities;
     }
 }

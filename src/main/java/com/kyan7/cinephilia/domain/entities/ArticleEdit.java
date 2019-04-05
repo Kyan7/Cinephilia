@@ -9,6 +9,7 @@ public class ArticleEdit extends Edit {
     private Article article;
     private User user;
     private String editedTitle;
+    private String editedImageLink;
     private String editedContent;
     private String editedAssociatedMovies;
     private String editedAssociatedArticles;
@@ -43,6 +44,15 @@ public class ArticleEdit extends Edit {
 
     public void setEditedTitle(String editedTitle) {
         this.editedTitle = editedTitle;
+    }
+
+    @Column(name = "edited_image_link", updatable = false)
+    public String getEditedImageLink() {
+        return editedImageLink;
+    }
+
+    public void setEditedImageLink(String editedImageLink) {
+        this.editedImageLink = editedImageLink;
     }
 
     @Column(name = "edited_content", updatable = false)

@@ -14,6 +14,7 @@ public class Movie {
     private String title;
     private User creator;
     private long views;
+    private String imageLink;
     private Double imdbRating;
     private long rottenTomatoesPercent;
     private long budget;
@@ -76,6 +77,15 @@ public class Movie {
 
     public void setViews(long views) {
         this.views = views;
+    }
+
+    @Column(name = "image_link")
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     @Column(name = "imdb_rating")

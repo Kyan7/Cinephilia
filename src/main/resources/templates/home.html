@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
@@ -12,5 +14,6 @@
         <p>Resident Evil is a system that registers virus spreads across the world.</p>
     </div>
 </main>
+<th:block th:include="~{fragments/footer}"></th:block>
 </body>
 </html>

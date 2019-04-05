@@ -1,13 +1,12 @@
-package com.kyan7.cinephilia.domain.entities;
+package com.kyan7.cinephilia.domain.models.service;
 
-import javax.persistence.*;
+public class MovieEditServiceModel {
 
-@Entity
-@Table(name = "movie_edits")
-public class MovieEdit extends Edit {
-
-    private Movie movie;
-    private User user;
+    private String id;
+    private String editorComments;
+    private String timeStamp;
+    private MovieServiceModel movie;
+    private UserServiceModel user;
     private String editedTitle;
     private String editedImageLink;
     private String editedImdbRating;
@@ -26,30 +25,49 @@ public class MovieEdit extends Edit {
     private String editedTrailerLinks;
     private boolean isScreeningsEdited;
 
-    public MovieEdit() {
+    public MovieEditServiceModel() {
     }
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    public Movie getMovie() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEditorComments() {
+        return editorComments;
+    }
+
+    public void setEditorComments(String editorComments) {
+        this.editorComments = editorComments;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public MovieServiceModel getMovie() {
         return movie;
     }
 
-    public void setMovie(Movie movie) {
+    public void setMovie(MovieServiceModel movie) {
         this.movie = movie;
     }
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
+    public UserServiceModel getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserServiceModel user) {
         this.user = user;
     }
 
-    @Column(name = "edited_title", updatable = false)
     public String getEditedTitle() {
         return editedTitle;
     }
@@ -58,7 +76,6 @@ public class MovieEdit extends Edit {
         this.editedTitle = editedTitle;
     }
 
-    @Column(name = "edited_image_link", updatable = false)
     public String getEditedImageLink() {
         return editedImageLink;
     }
@@ -67,7 +84,6 @@ public class MovieEdit extends Edit {
         this.editedImageLink = editedImageLink;
     }
 
-    @Column(name = "edited_imdb_rating", updatable = false)
     public String getEditedImdbRating() {
         return editedImdbRating;
     }
@@ -76,7 +92,6 @@ public class MovieEdit extends Edit {
         this.editedImdbRating = editedImdbRating;
     }
 
-    @Column(name = "edited_rotten_tomatoes_percent", updatable = false)
     public String getEditedRottenTomatoesPercent() {
         return editedRottenTomatoesPercent;
     }
@@ -85,7 +100,6 @@ public class MovieEdit extends Edit {
         this.editedRottenTomatoesPercent = editedRottenTomatoesPercent;
     }
 
-    @Column(name = "edited_budget", updatable = false)
     public String getEditedBudget() {
         return editedBudget;
     }
@@ -94,7 +108,6 @@ public class MovieEdit extends Edit {
         this.editedBudget = editedBudget;
     }
 
-    @Column(name = "edited_box_office", updatable = false)
     public String getEditedBoxOffice() {
         return editedBoxOffice;
     }
@@ -103,7 +116,6 @@ public class MovieEdit extends Edit {
         this.editedBoxOffice = editedBoxOffice;
     }
 
-    @Column(name = "edited_genres", updatable = false)
     public String getEditedGenres() {
         return editedGenres;
     }
@@ -112,7 +124,6 @@ public class MovieEdit extends Edit {
         this.editedGenres = editedGenres;
     }
 
-    @Column(name = "edited_runtime", updatable = false)
     public String getEditedRuntime() {
         return editedRuntime;
     }
@@ -121,7 +132,6 @@ public class MovieEdit extends Edit {
         this.editedRuntime = editedRuntime;
     }
 
-    @Column(name = "edited_release_date", updatable = false)
     public String getEditedReleaseDate() {
         return editedReleaseDate;
     }
@@ -130,7 +140,6 @@ public class MovieEdit extends Edit {
         this.editedReleaseDate = editedReleaseDate;
     }
 
-    @Column(name = "edited_countries", updatable = false)
     public String getEditedCountries() {
         return editedCountries;
     }
@@ -139,7 +148,6 @@ public class MovieEdit extends Edit {
         this.editedCountries = editedCountries;
     }
 
-    @Column(name = "edited_directors", updatable = false)
     public String getEditedDirectors() {
         return editedDirectors;
     }
@@ -148,7 +156,6 @@ public class MovieEdit extends Edit {
         this.editedDirectors = editedDirectors;
     }
 
-    @Column(name = "edited_studios", updatable = false)
     public String getEditedStudios() {
         return editedStudios;
     }
@@ -157,7 +164,6 @@ public class MovieEdit extends Edit {
         this.editedStudios = editedStudios;
     }
 
-    @Column(name = "edited_lead_actor", updatable = false)
     public String getEditedLeadActor() {
         return editedLeadActor;
     }
@@ -166,7 +172,6 @@ public class MovieEdit extends Edit {
         this.editedLeadActor = editedLeadActor;
     }
 
-    @Column(name = "edited_supporting_actors", updatable = false)
     public String getEditedSupportingActors() {
         return editedSupportingActors;
     }
@@ -175,7 +180,6 @@ public class MovieEdit extends Edit {
         this.editedSupportingActors = editedSupportingActors;
     }
 
-    @Column(name = "edited_description", columnDefinition = "TEXT", updatable = false)
     public String getEditedDescription() {
         return editedDescription;
     }
@@ -184,7 +188,6 @@ public class MovieEdit extends Edit {
         this.editedDescription = editedDescription;
     }
 
-    @Column(name = "edited_trailer_links", updatable = false)
     public String getEditedTrailerLinks() {
         return editedTrailerLinks;
     }
@@ -193,7 +196,6 @@ public class MovieEdit extends Edit {
         this.editedTrailerLinks = editedTrailerLinks;
     }
 
-    @Column(name = "is_screenings_edited", updatable = false)
     public boolean isScreeningsEdited() {
         return isScreeningsEdited;
     }

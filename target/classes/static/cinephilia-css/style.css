@@ -4,5 +4,10 @@
 }
 
 .cinephilia-form {
-    margin: 30px 750px;
+    margin: 30px 37%;
+}
+
+.cinephilia-navbar-logo {
+    font-family: "Copperplate Gothic Light";
+    font-size: 40px;
 }

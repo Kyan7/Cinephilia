@@ -120,7 +120,7 @@ public class User implements UserDetails {
     @Override
     @Column(name = "is_account_non_expired")
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return true;
     }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
@@ -130,7 +130,7 @@ public class User implements UserDetails {
     @Override
     @Column(name = "is_account_non_locked")
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
+        return true;
     }
 
     public void setAccountNonLocked(boolean accountNonLocked) {
@@ -140,7 +140,7 @@ public class User implements UserDetails {
     @Override
     @Column(name = "is_credentials_non_expired")
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return true;
     }
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
@@ -150,7 +150,7 @@ public class User implements UserDetails {
     @Override
     @Column(name = "is_enabled")
     public boolean isEnabled() {
-        return isEnabled;
+        return true;
     }
 
     public void setEnabled(boolean enabled) {

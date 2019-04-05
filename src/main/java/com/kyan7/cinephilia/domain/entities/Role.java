@@ -15,6 +15,10 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
+    public Role(String authority) {
+        this.authority = authority;
+    }
+
     @Id
     @GeneratedValue(generator = "uuid-string")
     @GenericGenerator(

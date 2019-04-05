@@ -13,6 +13,7 @@ public class Article {
     private String title;
     private User creator;
     private long views;
+    private String imageLink;
     private String content;
     private List<Movie> associatedMovies;
     private List<Article> associatedArticles;
@@ -62,6 +63,15 @@ public class Article {
 
     public void setViews(long views) {
         this.views = views;
+    }
+
+    @Column(name = "image_link")
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
