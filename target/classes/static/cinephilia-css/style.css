@@ -1,6 +1,10 @@
 .cinephilia-dark {
-    background-color: #000233;
+    background-color: #081241;
     color: white;
+}
+
+.cinephilia-orange {
+    color: #d39e00;
 }
 
 .cinephilia-form {
@@ -10,4 +14,32 @@
 .cinephilia-navbar-logo {
     font-family: "Copperplate Gothic Light";
     font-size: 40px;
+}
+
+.cinephilia-welcome {
+    font-family: "Copperplate Gothic Light";
+    font-size: 50px;
+    text-align: center;
+}
+
+.cinephilia-main-block {
+    margin: 30px 23%;
+}
+
+.cinephilia-small-text-center {
+    font-family: "Copperplate Gothic Light";
+    font-size: 15px;
+    text-align: center;
+}
+
+.cinephilia-medium-text-left {
+    font-family: "Copperplate Gothic Light";
+    font-size: 30px;
+    text-align: left;
+}
+
+.logout-button {
+    background: transparent;
+    border: none;
+    color: white !important;
 }

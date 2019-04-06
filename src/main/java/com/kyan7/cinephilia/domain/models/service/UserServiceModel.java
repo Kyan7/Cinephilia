@@ -11,7 +11,6 @@ public class UserServiceModel {
     private String email;
     private String firstName;
     private String lastName;
-    private List<GenreServiceModel> likedGenres;
     private List<ReviewServiceModel> reviews;
 
     private Set<RoleServiceModel> authorities;
@@ -65,14 +64,6 @@ public class UserServiceModel {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public List<GenreServiceModel> getLikedGenres() {
-        return likedGenres;
-    }
-
-    public void setLikedGenres(List<GenreServiceModel> likedGenres) {
-        this.likedGenres = likedGenres;
     }
 
     public List<ReviewServiceModel> getReviews() {

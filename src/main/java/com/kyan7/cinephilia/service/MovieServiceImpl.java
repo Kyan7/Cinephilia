@@ -21,6 +21,14 @@ public class MovieServiceImpl implements MovieService {
         this.modelMapper = modelMapper;
     }
 
+    //@Override
+    //public List<MovieServiceModel> findTop3Movies() {
+    //    return this.movieRepository.findAllByOrderByViews()
+    //            .stream()
+    //            .map(m -> this.modelMapper.map(m, MovieServiceModel.class))
+    //            .collect(Collectors.toList());
+    //}
+
     @Override
     public List<MovieServiceModel> findAllMovies() {
         return this.movieRepository.findAll()

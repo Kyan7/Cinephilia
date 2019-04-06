@@ -3,6 +3,7 @@ package com.kyan7.cinephilia.web.controllers;
 
 import com.kyan7.cinephilia.domain.models.binding.UserRegisterBindingModel;
 import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
+import com.kyan7.cinephilia.domain.models.view.UserProfileViewModel;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @Controller
 public class UserController extends BaseController {
@@ -48,14 +50,22 @@ public class UserController extends BaseController {
         return super.view("login");
     }
 
-    @GetMapping("/logout")
-    public ModelAndView logout(ModelAndView modelAndView, HttpSession session) {
-        if (session.getAttribute("username") == null) {
-            modelAndView.setViewName("redirect:/login");
-        } else {
-            session.invalidate();
-            modelAndView.setViewName("redirect:/");
-        }
-        return modelAndView;
+    //@GetMapping("/logout")
+    //public ModelAndView logout(ModelAndView modelAndView, HttpSession session) {
+    //    if (session.getAttribute("username") == null) {
+    //        modelAndView.setViewName("redirect:/login");
+    //    } else {
+    //        session.invalidate();
+    //        modelAndView.setViewName("redirect:/");
+    //    }
+    //    return modelAndView;
+    //}
+
+    @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView profile(Principal principal, ModelAndView modelAndView) {
+        modelAndView
+                .addObject("model", this.modelMapper.map(this.userService.findUserByUsername(principal.getName()), UserProfileViewModel.class));
+        return super.view("profile", modelAndView);
     }
 }

@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
 <body>
 <th:block th:include="~{fragments/navbar}"></th:block>
 <main>
-    <div class="jumbotron-fluid cinephilia-dark">
-        <h1>Project: Resident Evil</h1>
+    <div class="jumbotron-fluid cinephilia-dark cinephilia-main-block">
+        <div class="cinephilia-welcome">Welcome to Cinephilia</div>
+        <div class="cinephilia-small-text-center">the go-to website for any moviegoer in Sofia</div>
         <hr/>
-        <p>XDDD.</p>
+        <p class="text-center">To access all our features, you must <a class="cinephilia-orange" th:href="@{/login}">login</a>.</p>
+        <p class="text-center">Don't have an account? <a class="cinephilia-orange" th:href="@{/register}">Register</a> now!</p>
+        <div class="text-center">
+            <img src="https://cdn2.iconfinder.com/data/icons/leisure-entertainment-minimalist-icon-set/100/film-01-512.png" alt="popcorn">
+        </div>
     </div>
 </main>
 <th:block th:include="~{fragments/footer}"></th:block>

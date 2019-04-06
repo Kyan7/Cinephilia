@@ -27,15 +27,42 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="userNavBar">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link text-white" th:href="@{/login}">First Page<span class="sr-only">(current)</span></a>
+                            <a class="nav-link text-white" th:href="@{/movies}">Movies<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link text-white" th:href="@{/register}">Second Page<span class="sr-only">(current)</span></a>
+                            <a class="nav-link text-white" th:href="@{/articles}">Articles<span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li class="nav-item active">
+                                <div class="dropdown">
+                                    <a class="nav-link active dropdown-toggle" href="#" role="button" id="adminDropdown"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <a class="dropdown-item" th:href="@{/user-list}">User List</a>
+                                        <a class="dropdown-item" th:href="@{/article-list}">Article List</a>
+                                        <a class="dropdown-item" th:href="@{/movie-list}">Movie List</a>
+                                        <a class="dropdown-item" th:href="@{/recent-changes}">Recent Changes</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </th:block>
+                        <li class="nav-item active">
+                            <a class="nav-link text-white" th:href="@{/profile}">Profile<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li>
+                            <form action="/logout?login" method="post">
+                                <button class="nav-link logout-button">Logout</button>
+                            </form>
                         </li>
                     </ul>
                 </div>
+
             </header>
         </div>
     </th:block>

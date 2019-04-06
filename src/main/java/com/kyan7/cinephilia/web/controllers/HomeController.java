@@ -1,6 +1,7 @@
 package com.kyan7.cinephilia.web.controllers;
 
 import com.kyan7.cinephilia.domain.models.view.MovieHomeViewModel;
+import com.kyan7.cinephilia.domain.models.view.UserProfileViewModel;
 import com.kyan7.cinephilia.service.MovieService;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController extends BaseController {
@@ -31,8 +34,16 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home() {
-        return super.view("home");
+    public ModelAndView home(Principal principal, ModelAndView modelAndView) {
+        modelAndView
+                .addObject("model", this.modelMapper.map(this.userService.findUserByUsername(principal.getName()), UserProfileViewModel.class));
+        List<MovieHomeViewModel> movies = this.movieService
+                .findAllMovies()
+                .stream()
+                .map(m -> this.modelMapper.map(m, MovieHomeViewModel.class))
+                .collect(Collectors.toList());
+        modelAndView.addObject("movies", movies);
+        return super.view("home", modelAndView);
     }
 }
 

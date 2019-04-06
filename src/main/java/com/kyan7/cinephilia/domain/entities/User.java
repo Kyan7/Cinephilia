@@ -19,7 +19,6 @@ public class User implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
-    private List<Genre> likedGenres;
     private List<Review> reviews;
 
     private boolean isAccountNonExpired;
@@ -92,20 +91,6 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @ManyToMany(targetEntity = Genre.class)
-    @JoinTable(
-            name = "users_liked_genres",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "likedGenre_id", referencedColumnName = "id")
-    )
-    public List<Genre> getLikedGenres() {
-        return likedGenres;
-    }
-
-    public void setLikedGenres(List<Genre> likedGenres) {
-        this.likedGenres = likedGenres;
     }
 
     @OneToMany(mappedBy = "reviewer", targetEntity = Review.class, cascade = CascadeType.ALL)
