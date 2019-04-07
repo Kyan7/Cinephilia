@@ -1,6 +1,5 @@
 package com.kyan7.cinephilia.web.controllers;
 
-
 import com.kyan7.cinephilia.domain.models.binding.UserEditBindingModel;
 import com.kyan7.cinephilia.domain.models.binding.UserRegisterBindingModel;
 import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
@@ -33,6 +31,7 @@ public class UserController extends BaseController {
      * Loads a view of the Register page.
      * @param modelAndView allows us to attach "Register" to the title (e.g. "Register - Cinephilia").
      * @return view of the Register page.
+     * @see BaseController#view(String, ModelAndView)
      */
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
@@ -45,7 +44,9 @@ public class UserController extends BaseController {
      * Checks whether 'password' and 'confirmPassword' match in the form. If so, attempts to register the user into the database. Redirects to login.
      * @param model contains all the data that was submitted in the registration form. Not needed as of now, but consistency is important.
      * @param modelAndView allows us to attach "Register" to the title (e.g. "Register - Cinephilia").
-     * @return view of the Register page if passwords don't match, otherwise view of the Login page
+     * @return view of the Register page if passwords don't match, otherwise view of the Login page.
+     * @see com.kyan7.cinephilia.service.UserService#registerUser(UserServiceModel)
+     * @see BaseController#view(String, ModelAndView)
      */
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
@@ -62,6 +63,7 @@ public class UserController extends BaseController {
      * Loads a view of the Login page.
      * @param modelAndView allows us to attach "Login" to the title (e.g. "Login - Cinephilia").
      * @return view of the Login page.
+     * @see BaseController#view(String, ModelAndView)
      */
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
@@ -74,6 +76,7 @@ public class UserController extends BaseController {
      * Finds the current user's data by their username (using the Principle class). Loads a view of the current user's Profile page.
      * @param modelAndView allows us to attach "#[currentUser]" to the title (e.g. "#Kyan7 - Cinephilia").
      * @return view of the current user's Profile page.
+     * @see BaseController#view(String, ModelAndView)
      */
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
@@ -89,6 +92,7 @@ public class UserController extends BaseController {
      * Finds the current user's data by their username (using the Principle class). Loads a view of the current user's Edit Profile page (which allows certain changes to their data).
      * @param modelAndView allows us to attach "Edit #[currentUser]" to the title (e.g. "Edit #Kyan7 - Cinephilia").
      * @return view of the current user's Edit Profile page.
+     * @see BaseController#view(String, ModelAndView)
      */
     @GetMapping("/edit")
     @PreAuthorize("isAuthenticated()")
@@ -104,7 +108,9 @@ public class UserController extends BaseController {
      * Checks whether 'password' and 'confirmPassword' match in the form. If so, attempts to edit the current user's data. Redirects to the current user's profile.
      * @param model contains all the data that was submitted in the edit profile form.
      * @param modelAndView allows us to attach "Edit #[currentUser]" to the title (e.g. "Edit #Kyan7 - Cinephilia").
-     * @return view of the current user's Edit Profile page if passwords don't match, otherwise view of the current user's Profile page
+     * @return view of the current user's Edit Profile page if passwords don't match, otherwise view of the current user's Profile page.
+     * @see com.kyan7.cinephilia.service.UserService#editUserProfile(UserServiceModel, String)
+     * @see BaseController#view(String, ModelAndView)
      */
     @PatchMapping("/edit")
     @PreAuthorize("isAuthenticated()")
