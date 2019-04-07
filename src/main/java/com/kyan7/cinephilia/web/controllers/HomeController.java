@@ -17,13 +17,11 @@ import java.util.stream.Collectors;
 @Controller
 public class HomeController extends BaseController {
 
-    private final UserService userService;
     private final MovieService movieService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HomeController(UserService userService, MovieService movieService, ModelMapper modelMapper) {
-        this.userService = userService;
+    public HomeController(MovieService movieService, ModelMapper modelMapper) {
         this.movieService = movieService;
         this.modelMapper = modelMapper;
     }

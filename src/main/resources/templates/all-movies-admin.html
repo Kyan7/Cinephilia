@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/navbar}"></th:block>
+<main>
+    <div class="jumbotron cinephilia-dark cinephilia-list-block">
+        <div class="text-center"><a th:href="@{/movies/add/admin}"><button class="btn btn-dark align-content-center cinephilia-button">+</button></a></div>
+        <hr />
+        <table width="100%" class="table-sm table-bordered bg-dark">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-md-1 text-center">#</th>
+                <th class="col-md-3 text-center">ID</th>
+                <th class="col-md-1 text-center">Title</th>
+                <th class="col-md-2 text-center">Creator</th>
+                <th class="col-md-2 text-center">Views</th>
+                <th class="col-md-1 text-center">Genres</th>
+                <th class="col-md-1 text-center">Release Date</th>
+                <th class="col-md-1 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="movie, iter : ${movies}">
+                <tr class="row mx-auto">
+                    <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}" />
+                    <td class="col-md-3 text-center text-sm" th:text="${movie.id}" />
+                    <td class="col-md-1 text-center text-sm" th:text="${movie.title}" />
+                    <td class="col-md-2 text-center text-sm" th:text="${movie.creator}" />
+                    <td class="col-md-2 text-center text-sm" th:text="${movie.views}" />
+                    <td class="col-md-1 text-center text-sm" th:text="${#strings.listJoin(movie.genres, ', ')}" />
+                    <td class="col-md-1 text-center text-sm" th:text="${movie.releaseDate}" />
+                    <!--td class="col-md-1 text-center">
+                        <div class="row justify-content-center">
+                                    <form th:action="@{/movies/edit/{id}(id=${user.id})}" method="post">
+                                        <!--input type="hidden" name="_csrf"
+                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
+                                        <button class="btn btn-dark cinephilia-orange-bg">ADMIN</button>
+                                    </form>
+                                </th:block>
+                                <th:block th:if="${#lists.contains(user.authorities, 'ROLE_ADMIN')}">
+                                    <form th:action="@{/users/set-user/{id}(id=${user.id})}" method="post">
+                                        <!--input type="hidden" name="_csrf"
+                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
+                                        <button class="btn btn-dark cinephilia-orange-bg">USER</button>
+                                    </form>
+                                </th:block>
+                            </th:block>
+                            <th:block th:if="${!#lists.contains(currentUser.authorities, 'ROLE_ROOT') || currentUser.username.equals(user.username)}">
+                                <p>Unavailable</p>
+                            </th:block>
+                        </div>
+                    </td-->
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

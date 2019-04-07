@@ -9,4 +9,6 @@ public interface MovieService {
     //TODO List<MovieServiceModel> findTop3Movies();
 
     List<MovieServiceModel> findAllMovies();
+
+    MovieServiceModel addMovie(MovieServiceModel movieServiceModel);
 }

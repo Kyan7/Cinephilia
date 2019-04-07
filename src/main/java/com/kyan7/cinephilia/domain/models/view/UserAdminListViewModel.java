@@ -2,7 +2,7 @@ package com.kyan7.cinephilia.domain.models.view;
 
 import java.util.Set;
 
-public class UserListViewModel {
+public class UserAdminListViewModel {
 
     private String id;
     private String username;
@@ -12,7 +12,7 @@ public class UserListViewModel {
     private String lastName;
     private Set<String> authorities;
 
-    public UserListViewModel() {
+    public UserAdminListViewModel() {
     }
 
     public String getId() {

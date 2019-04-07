@@ -80,6 +80,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void setUserRole(String id, String role) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User id not found!"));
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        userServiceModel.getAuthorities().clear();
+        if (role.equals("user")) {
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+        } else if (role.equals("admin")) {
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
+        }
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));

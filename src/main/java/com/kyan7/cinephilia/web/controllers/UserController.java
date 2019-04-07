@@ -4,7 +4,7 @@ import com.kyan7.cinephilia.domain.models.binding.UserEditBindingModel;
 import com.kyan7.cinephilia.domain.models.binding.UserRegisterBindingModel;
 import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
 import com.kyan7.cinephilia.domain.models.view.UserAuthoritiesViewModel;
-import com.kyan7.cinephilia.domain.models.view.UserListViewModel;
+import com.kyan7.cinephilia.domain.models.view.UserAdminListViewModel;
 import com.kyan7.cinephilia.domain.models.view.UserProfileViewModel;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -127,14 +127,24 @@ public class UserController extends BaseController {
         return super.redirect("/users/profile");
     }
 
-    @GetMapping("/all")
+    /**
+     * Lists all users in the system with their data (excluding passwords). Loads a view of the list. If the current user is the root user,
+     * they may grant or remove admin rights directly from the page.
+     * @param principal is used to locate the current user's username.
+     * @param modelAndView allows us to attach multiple objects to the resulting web page:
+     *                     -"User List" to the page title (e.g. "User List - Cinephilia")
+     *                     -the list of users
+     *                     -the current user's id, username and authorities
+     * @return view of the list of users
+     */
+    @GetMapping("/all/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allUsers(Principal principal, ModelAndView modelAndView) {
+    public ModelAndView allUsersAdmin(Principal principal, ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "User List");
-        List<UserListViewModel> users = this.userService.findAllUsers()
+        List<UserAdminListViewModel> users = this.userService.findAllUsers()
                 .stream()
                 .map(u -> {
-                    UserListViewModel user = this.modelMapper.map(u, UserListViewModel.class);
+                    UserAdminListViewModel user = this.modelMapper.map(u, UserAdminListViewModel.class);
                     user.setAuthorities(u.getAuthorities()
                             .stream()
                             .map(a -> a.getAuthority())
@@ -147,8 +157,31 @@ public class UserController extends BaseController {
         UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
         currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
         modelAndView.addObject("currentUser", currentUser);
-        return super.view("all-users", modelAndView);
+        return super.view("all-users-admin", modelAndView);
     }
 
+    /**
+     * Allows removal of admin rights. (Only for root user)
+     * @param id is the id of the user who is having his authorities changed.
+     * @return view of the list of users
+     */
+    @PostMapping("/set-user/{id}")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    public ModelAndView setUser(@PathVariable String id) {
+        this.userService.setUserRole(id, "user");
+        return super.redirect("/users/all/admin");
+    }
+
+    /**
+     * Allows granting of admin rights. (Only for root user)
+     * @param id is the id of the user who is having his authorities changed.
+     * @return view of the list of users
+     */
+    @PostMapping("/set-admin/{id}")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    public ModelAndView setAdmin(@PathVariable String id) {
+        this.userService.setUserRole(id, "admin");
+        return super.redirect("/users/all/admin");
+    }
 
 }

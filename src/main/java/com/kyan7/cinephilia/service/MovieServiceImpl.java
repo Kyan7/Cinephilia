@@ -1,5 +1,6 @@
 package com.kyan7.cinephilia.service;
 
+import com.kyan7.cinephilia.domain.entities.Movie;
 import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
 import com.kyan7.cinephilia.repository.MovieRepository;
 import org.modelmapper.ModelMapper;
@@ -35,5 +36,11 @@ public class MovieServiceImpl implements MovieService {
                 .stream()
                 .map(m -> this.modelMapper.map(m, MovieServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public MovieServiceModel addMovie(MovieServiceModel movieServiceModel) {
+        Movie movie = this.modelMapper.map(movieServiceModel, Movie.class);
+        return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
     }
 }
