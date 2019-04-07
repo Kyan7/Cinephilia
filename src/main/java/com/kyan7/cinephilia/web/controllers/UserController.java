@@ -3,6 +3,8 @@ package com.kyan7.cinephilia.web.controllers;
 import com.kyan7.cinephilia.domain.models.binding.UserEditBindingModel;
 import com.kyan7.cinephilia.domain.models.binding.UserRegisterBindingModel;
 import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
+import com.kyan7.cinephilia.domain.models.view.UserAuthoritiesViewModel;
+import com.kyan7.cinephilia.domain.models.view.UserListViewModel;
 import com.kyan7.cinephilia.domain.models.view.UserProfileViewModel;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -122,4 +126,29 @@ public class UserController extends BaseController {
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
         return super.redirect("/users/profile");
     }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView allUsers(Principal principal, ModelAndView modelAndView) {
+        modelAndView.addObject("pageTitle", "User List");
+        List<UserListViewModel> users = this.userService.findAllUsers()
+                .stream()
+                .map(u -> {
+                    UserListViewModel user = this.modelMapper.map(u, UserListViewModel.class);
+                    user.setAuthorities(u.getAuthorities()
+                            .stream()
+                            .map(a -> a.getAuthority())
+                            .collect(Collectors.toSet()));
+                    return user;
+                })
+                .collect(Collectors.toList());
+        modelAndView.addObject("users", users);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+        UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
+        currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
+        modelAndView.addObject("currentUser", currentUser);
+        return super.view("all-users", modelAndView);
+    }
+
+
 }

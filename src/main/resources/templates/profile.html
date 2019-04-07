@@ -15,7 +15,7 @@
         <h4 class="cinephilia-orange-text font-italic"> Email: <h4 th:text="${model.email}" /> </h4>
         <h4 class="cinephilia-orange-text font-italic"> Name: </h4><h4 th:text="${model.firstName} + ' ' + ${model.lastName}" /></h4>
         <hr />
-        <div class="text-center"><a th:href="@{/users/edit}"><button class="btn btn-primary align-content-center cinephilia-button">Edit Profile</button></a></div>
+        <div class="text-center"><a th:href="@{/users/edit}"><button class="btn btn-dark align-content-center cinephilia-button">Edit Profile</button></a></div>
     </div>
 </main>
 <th:block th:include="~{fragments/footer}"></th:block>

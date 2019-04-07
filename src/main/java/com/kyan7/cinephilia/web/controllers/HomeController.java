@@ -36,8 +36,7 @@ public class HomeController extends BaseController {
 
     @GetMapping("/home")
     public ModelAndView home(Principal principal, ModelAndView modelAndView) {
-        modelAndView
-                .addObject("model", this.modelMapper.map(this.userService.findUserByUsername(principal.getName()), UserProfileViewModel.class));
+        modelAndView.addObject("currentUser", principal.getName());
         List<MovieHomeViewModel> movies = this.movieService
                 .findAllMovies()
                 .stream()
