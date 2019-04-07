@@ -8,12 +8,15 @@
 <body>
 <th:block th:include="~{fragments/navbar}"></th:block>
 <main>
-    <div class="jumbotron cinephilia-dark cinephilia-main-block">
-        <div class="cinephilia-medium-text-left"> Username: <th:block th:text="${model.username}" /> </div>
-        <div class="cinephilia-medium-text-left"> Email: <th:block th:text="${model.email}" /> </div>
-        <div class="cinephilia-medium-text-left"> Name: <th:block th:text="${model.firstName}" /> <th:block th:text="${model.lastName}" /></div>
+    <div class="jumbotron cinephilia-dark cinephilia-small-block">
+        <h1 class="text-center">Profile</h1>
+        <hr>
+        <h4 class="cinephilia-orange-text font-italic"> Username: <h4 th:text="${model.username}" /> </h4>
+        <h4 class="cinephilia-orange-text font-italic"> Email: <h4 th:text="${model.email}" /> </h4>
+        <h4 class="cinephilia-orange-text font-italic"> Name: </h4><h4 th:text="${model.firstName} + ' ' + ${model.lastName}" /></h4>
+        <hr />
+        <div class="text-center"><a th:href="@{/users/edit}"><button class="btn btn-primary align-content-center cinephilia-button">Edit Profile</button></a></div>
     </div>
-    <a th:href="@{/profile/edit}">Edit Profile</a>
 </main>
 <th:block th:include="~{fragments/footer}"></th:block>
 </body>

@@ -8,38 +8,38 @@
 <body>
 <th:block th:include="~{fragments/navbar}"></th:block>
 <main class="">
-    <div class="jumbotron cinephilia-dark cinephilia-form col-md-offset-3">
+    <div class="jumbotron cinephilia-dark cinephilia-small-block col-md-offset-3">
         <h1 class="text-center">Register</h1>
         <hr>
-        <form th:action="@{/register}" method="post">
+        <form th:action="@{/users/register}" th:method="post">
             <div class="form-group">
-                <label for="inputUsername">Username</label>
-                <input type="text" class="form-control" id="inputUsername" placeholder="Username" name="username">
+                <label class="cinephilia-orange-text" for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Username" name="username">
             </div>
             <div class="form-group">
-                <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password">
+                <label class="cinephilia-orange-text" for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="********" name="password">
             </div>
             <div class="form-group">
-                <label for="inputConfirmPassword">Password</label>
-                <input type="password" class="form-control" id="inputConfirmPassword" placeholder="********" name="confirmPassword">
+                <label class="cinephilia-orange-text" for="confirmPassword">Password</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="********" name="confirmPassword">
             </div>
             <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com" name="email">
+                <label class="cinephilia-orange-text" for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="email@example.com" name="email">
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="inputFirstName">First Name</label>
-                    <input type="text" class="form-control" id="inputFirstName" placeholder="First name" name="firstName">
+                    <label class="cinephilia-orange-text" for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="First name" name="firstName">
                 </div>
                 <div class="col">
-                    <label for="inputLastName">Last Name</label>
-                    <input type="text" class="form-control" id="inputLastName" placeholder="Last name" name="lastName">
+                    <label class="cinephilia-orange-text" for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Last name" name="lastName">
                 </div>
             </div>
-            <br>
-            <div class="text-center"><button type="submit" class="btn btn-primary align-content-center">Register</button></div>
+            <hr />
+            <div class="text-center"><button type="submit" class="btn btn-primary align-content-center cinephilia-button">Register</button></div>
         </form>
     </div>
 </main>

@@ -3,21 +3,21 @@
     color: white;
 }
 
-.cinephilia-orange {
+.cinephilia-orange-text {
     color: #d39e00;
 }
 
-.cinephilia-form {
+.cinephilia-small-block {
     margin: 30px 37%;
 }
 
 .cinephilia-navbar-logo {
-    font-family: "Copperplate Gothic Light";
+    font-family: Broadway;
     font-size: 40px;
 }
 
 .cinephilia-welcome {
-    font-family: "Copperplate Gothic Light";
+    font-family: Broadway;
     font-size: 50px;
     text-align: center;
 }
@@ -27,13 +27,13 @@
 }
 
 .cinephilia-small-text-center {
-    font-family: "Copperplate Gothic Light";
+    font-family: Broadway;
     font-size: 15px;
     text-align: center;
 }
 
 .cinephilia-medium-text-left {
-    font-family: "Copperplate Gothic Light";
+    font-family: Broadway;
     font-size: 30px;
     text-align: left;
 }
@@ -42,4 +42,18 @@
     background: transparent;
     border: none;
     color: white !important;
+}
+
+.cinephilia-orange-bg {
+    background-color: #d39e00 !important;
+}
+
+.cinephilia-grey-bg {
+    background-color: grey !important;
+}
+
+.cinephilia-button {
+    background-color: #d39e00;
+    border: #d39e00;
+    color: #081241;
 }

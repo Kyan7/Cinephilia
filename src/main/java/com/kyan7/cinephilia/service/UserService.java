@@ -8,4 +8,6 @@ public interface UserService extends UserDetailsService {
     UserServiceModel registerUser(UserServiceModel userServiceModel);
 
     UserServiceModel findUserByUsername(String username);
+
+    UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword);
 }

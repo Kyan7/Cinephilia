@@ -29,8 +29,9 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/")
-    public ModelAndView index() {
-        return super.view("index");
+    public ModelAndView index(ModelAndView modelAndView) {
+        modelAndView.addObject("pageTitle", "Index");
+        return super.view("index", modelAndView);
     }
 
     @GetMapping("/home")
@@ -43,6 +44,7 @@ public class HomeController extends BaseController {
                 .map(m -> this.modelMapper.map(m, MovieHomeViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("movies", movies);
+        modelAndView.addObject("pageTitle", "Home");
         return super.view("home", modelAndView);
     }
 }
