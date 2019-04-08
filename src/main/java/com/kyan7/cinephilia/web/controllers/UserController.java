@@ -137,10 +137,10 @@ public class UserController extends BaseController {
      *                     -the current user's id, username and authorities
      * @return view of the list of users
      */
-    @GetMapping("/all/admin")
+    @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allUsersAdmin(Principal principal, ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "User List");
+    public ModelAndView allUsers(Principal principal, ModelAndView modelAndView) {
+        modelAndView.addObject("pageTitle", "All Users");
         List<UserAdminListViewModel> users = this.userService.findAllUsers()
                 .stream()
                 .map(u -> {
@@ -157,7 +157,7 @@ public class UserController extends BaseController {
         UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
         currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
         modelAndView.addObject("currentUser", currentUser);
-        return super.view("all-users-admin", modelAndView);
+        return super.view("all-users", modelAndView);
     }
 
     /**
@@ -169,7 +169,7 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ROOT')")
     public ModelAndView setUser(@PathVariable String id) {
         this.userService.setUserRole(id, "user");
-        return super.redirect("/users/all/admin");
+        return super.redirect("/users/all");
     }
 
     /**
@@ -181,7 +181,7 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ROOT')")
     public ModelAndView setAdmin(@PathVariable String id) {
         this.userService.setUserRole(id, "admin");
-        return super.redirect("/users/all/admin");
+        return super.redirect("/users/all");
     }
 
 }

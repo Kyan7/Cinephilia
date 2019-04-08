@@ -35,16 +35,16 @@ public class MovieController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView allMovies() {
+    public ModelAndView moviesList() {
         return null;
     }
 
-    @GetMapping("/all/admin")
+    @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView allMoviesAdmin(ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "Movie List");
+    public ModelAndView allMovies(ModelAndView modelAndView) {
+        modelAndView.addObject("pageTitle", "All Movies");
         List<MovieAdminListViewModel> movies = this.movieService.findAllMovies()
                 .stream()
                 .map(m -> {
@@ -57,10 +57,10 @@ public class MovieController extends BaseController {
                 })
                 .collect(Collectors.toList());
         modelAndView.addObject("movies", movies);
-        return super.view("all-movies-admin", modelAndView);
+        return super.view("all-movies", modelAndView);
     }
 
-    @GetMapping("/add/admin")
+    @GetMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView add(ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "Add Movie");
@@ -69,13 +69,13 @@ public class MovieController extends BaseController {
                         .stream()
                         .map(g -> this.modelMapper.map(g, GenreListViewModel.class))
                         .collect(Collectors.toList()));
-        return super.view("add-movie-admin", modelAndView);
+        return super.view("add-movie", modelAndView);
     }
 
-    @PostMapping("/add/admin")
+    @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addConfirm(@ModelAttribute(name = "model") MovieAddBindingModel model, ModelAndView modelAndView) {
         this.movieService.addMovie(this.modelMapper.map(model, MovieServiceModel.class));
-        return super.redirect("/movies/all/admin");
+        return super.redirect("/movies/all");
     }
 }

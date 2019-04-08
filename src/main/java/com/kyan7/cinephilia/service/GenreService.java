@@ -9,4 +9,6 @@ public interface GenreService {
     List<GenreServiceModel> findAllGenresOrderByName();
 
     GenreServiceModel addGenre(GenreServiceModel genreServiceModel);
+
+    void deleteGenre(String id);
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/navbar}"></th:block>
+<main>
+    <div class="jumbotron cinephilia-dark cinephilia-list-block">
+        <h1 class="text-center">All Genres</h1>
+        <hr>
+        <div class="text-center"><a th:href="@{/genres/add}"><button class="btn btn-dark align-content-center cinephilia-button">Add</button></a></div>
+        <hr />
+        <table width="70%" class="table-sm table-hover table-bordered cinephilia-grey-bg central">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-md-2 text-center">#</th>
+                <th class="col-md-5 text-center">ID</th>
+                <th class="col-md-3 text-center">Name</th>
+                <th class="col-md-2 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="genre, iter : ${genres}">
+                <tr class="row mx-auto">
+                    <td class="col-md-2 text-center text-sm " th:text="${iter.index + 1}" />
+                    <td class="col-md-5 text-center text-sm" th:text="${genre.id}" />
+                    <td class="col-md-3 text-center text-sm" th:text="${genre.name}" />
+                    <td class="col-md-2 text-center">
+                        <div class="row justify-content-center">
+                            <a class="push-left" th:href="@{/genres/edit/{id} (id=${genre.id})}">
+                                <button class="btn btn-dark cinephilia-button">EDIT</button>
+                            </a>
+                            <form class="push-right" th:action="@{/genres/delete/{id}(id=${genre.id})}" th:method="delete">
+                                <button class="btn btn-dark cinephilia-button">REMOVE</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

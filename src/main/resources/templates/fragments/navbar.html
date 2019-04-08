@@ -29,10 +29,10 @@
                 <div class="collapse navbar-collapse" id="userNavBar">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link text-white" th:href="@{/movies}">Movies</a>
+                            <a class="nav-link text-white" th:href="@{/articles/list}">Articles</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link text-white" th:href="@{/articles}">Articles</a>
+                            <a class="nav-link text-white" th:href="@{/movies/list}">Movies</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -44,10 +44,11 @@
                                         Admin
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                        <a class="dropdown-item" th:href="@{/users/all/admin}">User List</a>
-                                        <a class="dropdown-item" th:href="@{/articles/all/admin}">Article List</a>
-                                        <a class="dropdown-item" th:href="@{/movies/all/admin}">Movie List</a>
-                                        <a class="dropdown-item" th:href="@{/changes/all/admin}">Recent Changes</a>
+                                        <a class="dropdown-item" th:href="@{/users/all}">User List</a>
+                                        <a class="dropdown-item" th:href="@{/articles/all}">Article List</a>
+                                        <a class="dropdown-item" th:href="@{/movies/all}">Movie List</a>
+                                        <a class="dropdown-item" th:href="@{/genres/all}">Genre List</a>
+                                        <a class="dropdown-item" th:href="@{/changes/all}">Recent Changes</a>
                                     </div>
                                 </div>
                             </li>

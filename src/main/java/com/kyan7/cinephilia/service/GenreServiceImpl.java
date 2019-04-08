@@ -35,4 +35,9 @@ public class GenreServiceImpl implements GenreService {
         Genre genre = this.modelMapper.map(genreServiceModel, Genre.class);
         return this.modelMapper.map(this.genreRepository.saveAndFlush(genre), GenreServiceModel.class);
     }
+
+    @Override
+    public void deleteGenre(String id) {
+        return;
+    }
 }

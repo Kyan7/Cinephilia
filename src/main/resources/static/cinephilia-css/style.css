@@ -61,3 +61,15 @@
     border: #d39e00;
     color: #081241;
 }
+
+.central {
+    margin: 0 auto !important;
+}
+
+.push-left {
+    margin-right: 2px;
+}
+
+.push-right {
+    margin-left: 2px;
+}
