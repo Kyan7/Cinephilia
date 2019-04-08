@@ -2,7 +2,7 @@ package com.kyan7.cinephilia.web.controllers;
 
 import com.kyan7.cinephilia.domain.models.binding.GenreAddBindingModel;
 import com.kyan7.cinephilia.domain.models.service.GenreServiceModel;
-import com.kyan7.cinephilia.domain.models.view.GenreListViewModel;
+import com.kyan7.cinephilia.domain.models.view.GenreViewModel;
 import com.kyan7.cinephilia.service.GenreService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class GenreController extends BaseController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allGenresAdmin(ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "All Genres");
-        List<GenreListViewModel> genres = this.genreService.findAllGenresOrderByName()
+        List<GenreViewModel> genres = this.genreService.findAllGenresOrderByName()
                 .stream()
-                .map(g -> this.modelMapper.map(g, GenreListViewModel.class))
+                .map(g -> this.modelMapper.map(g, GenreViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("genres", genres);
         return super.view("genre/all-genres", modelAndView);
@@ -56,16 +56,20 @@ public class GenreController extends BaseController{
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editGenre(@PathVariable String id, ModelAndView modelAndView) {
-        return null; //modelAndView.addObject("pageTitle", )
+        GenreViewModel genreViewModel = this.modelMapper.map(this.genreService.findGenreById(id), GenreViewModel.class);
+        modelAndView.addObject("pageTitle", "Edit g:" + genreViewModel.getName());
+        modelAndView.addObject("model", genreViewModel);
+        return super.view("genre/edit-genre", modelAndView);
     }
 
-    @PatchMapping("/edit/{id}")
+    @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView modelAndView(@PathVariable String id, ModelAndView modelAndView) {
-        return null;
+    public ModelAndView editGenreConfirm(@PathVariable String id, @ModelAttribute GenreAddBindingModel model) {
+        this.genreService.editGenre(id, this.modelMapper.map(model, GenreServiceModel.class));
+        return super.redirect("/genres/all");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteGenre(@PathVariable String id) {
         this.genreService.deleteGenre(id);

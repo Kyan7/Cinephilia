@@ -7,21 +7,21 @@ import java.util.List;
 
 public class MovieAddBindingModel {
 
-    private String title;
+    private String title; //
     private String creator;
     private String imageLink;
-    private Double imdbRating;
-    private long rottenTomatoesPercent;
-    private long budget;
-    private long boxOffice;
+    private Double imdbRating; //
+    private long rottenTomatoesPercent; //
+    private long budget; //
+    private long boxOffice; //
     private List<String> genres;
-    private long runtime;
-    private LocalDate releaseDate;
-    private String countries;
-    private String directors;
-    private String studios;
-    private String leadActor;
-    private String supportingActors;
+    private long runtime; //
+    private LocalDate releaseDate; //
+    private String countries; //
+    private String directors; //
+    private String studios; //
+    private String leadActor; //
+    private String supportingActors; //
     private String description;
     private String trailerLinks;
 

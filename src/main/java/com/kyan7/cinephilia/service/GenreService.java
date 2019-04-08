@@ -10,5 +10,9 @@ public interface GenreService {
 
     GenreServiceModel addGenre(GenreServiceModel genreServiceModel);
 
-    void deleteGenre(String id);
+    GenreServiceModel findGenreById(String id);
+
+    GenreServiceModel editGenre(String id, GenreServiceModel genreServiceModel);
+
+    GenreServiceModel deleteGenre(String id);
 }

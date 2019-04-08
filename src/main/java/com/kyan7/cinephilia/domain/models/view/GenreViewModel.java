@@ -1,11 +1,11 @@
 package com.kyan7.cinephilia.domain.models.view;
 
-public class GenreListViewModel {
+public class GenreViewModel {
 
     private String id;
     private String name;
 
-    public GenreListViewModel() {
+    public GenreViewModel() {
     }
 
     public String getId() {

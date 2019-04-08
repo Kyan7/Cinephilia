@@ -2,7 +2,7 @@ package com.kyan7.cinephilia.web.controllers;
 
 import com.kyan7.cinephilia.domain.models.binding.MovieAddBindingModel;
 import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
-import com.kyan7.cinephilia.domain.models.view.GenreListViewModel;
+import com.kyan7.cinephilia.domain.models.view.GenreViewModel;
 import com.kyan7.cinephilia.domain.models.view.MovieAdminListViewModel;
 import com.kyan7.cinephilia.service.GenreService;
 import com.kyan7.cinephilia.service.MovieService;
@@ -67,7 +67,7 @@ public class MovieController extends BaseController {
         modelAndView.addObject("genres",
                 this.genreService.findAllGenresOrderByName()
                         .stream()
-                        .map(g -> this.modelMapper.map(g, GenreListViewModel.class))
+                        .map(g -> this.modelMapper.map(g, GenreViewModel.class))
                         .collect(Collectors.toList()));
         return super.view("add-movie", modelAndView);
     }

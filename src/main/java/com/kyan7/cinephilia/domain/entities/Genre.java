@@ -29,7 +29,7 @@ public class Genre {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false, unique = true, updatable = false)
+    @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;
     }
