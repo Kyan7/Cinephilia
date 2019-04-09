@@ -19,7 +19,7 @@ public class User implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
-    private List<Review> reviews;
+    //private List<Review> reviews;
 
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
@@ -93,14 +93,14 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    @OneToMany(mappedBy = "reviewer", targetEntity = Review.class, cascade = CascadeType.ALL)
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
+    //@OneToMany(mappedBy = "reviewer", targetEntity = Review.class, cascade = CascadeType.ALL)
+    //public List<Review> getReviews() {
+    //    return reviews;
+    //}
+//
+    //public void setReviews(List<Review> reviews) {
+    //    this.reviews = reviews;
+    //}
 
     @Override
     @Column(name = "is_account_non_expired")

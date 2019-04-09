@@ -9,7 +9,7 @@
 <th:block th:include="~{fragments/navbar}"></th:block>
 <main>
     <div class="jumbotron cinephilia-dark cinephilia-list-block">
-        <h1 class="text-center">All Genres</h1>
+        <h1 class="text-center">All Movies</h1>
         <hr>
         <div class="text-center"><a th:href="@{/movies/add}"><button class="btn btn-dark align-content-center cinephilia-button">Add</button></a></div>
         <hr />
@@ -19,7 +19,7 @@
                 <th class="col-md-1 text-center">#</th>
                 <th class="col-md-3 text-center">ID</th>
                 <th class="col-md-1 text-center">Title</th>
-                <th class="col-md-2 text-center">Creator</th>
+                <th class="col-md-2 text-center">User</th>
                 <th class="col-md-2 text-center">Views</th>
                 <th class="col-md-1 text-center">Genres</th>
                 <th class="col-md-1 text-center">Release Date</th>
@@ -32,7 +32,7 @@
                         <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}" />
                         <td class="col-md-3 text-center text-sm" th:text="${movie.id}" />
                         <td class="col-md-1 text-center text-sm" th:text="${movie.title}" />
-                        <td class="col-md-2 text-center text-sm" th:text="${movie.creator}" />
+                        <td class="col-md-2 text-center text-sm" th:text="${movie.user}" />
                         <td class="col-md-2 text-center text-sm" th:text="${movie.views}" />
                         <td class="col-md-1 text-center text-sm" th:text="${#strings.listJoin(movie.genres, ', ')}" />
                         <td class="col-md-1 text-center text-sm" th:text="${movie.releaseDate}" />

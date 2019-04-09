@@ -71,7 +71,7 @@ public class Review {
         this.description = description;
     }
 
-    @ManyToOne(targetEntity = Movie.class)
+    @ManyToOne(targetEntity = Movie.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     public Movie getMovie() {
         return movie;

@@ -75,4 +75,14 @@ public class GenreController extends BaseController{
         this.genreService.deleteGenre(id);
         return super.redirect("/genres/all");
     }
+
+    @GetMapping("/fetch")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
+    public List<GenreViewModel> fetchGenres() {
+        return this.genreService.findAllGenresOrderByName()
+                .stream()
+                .map(c -> this.modelMapper.map(c, GenreViewModel.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -12,9 +12,9 @@ public class Movie {
 
     private String id;
     private String title;
-    private User creator;
+    private User user;
     private long views;
-    private String imageLink;
+    private String imageUrl;
     private Double imdbRating;
     private long rottenTomatoesPercent;
     private long budget;
@@ -31,7 +31,6 @@ public class Movie {
     private String trailerLinks;
     private List<Screening> screenings;
     private List<Review> reviews;
-    private List<MovieEdit> movieEdits;
 
     public Movie() {
     }
@@ -61,13 +60,13 @@ public class Movie {
     }
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    public User getCreator() {
-        return creator;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    public User getUser() {
+        return user;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Column(name = "views")
@@ -79,13 +78,13 @@ public class Movie {
         this.views = views;
     }
 
-    @Column(name = "image_link")
-    public String getImageLink() {
-        return imageLink;
+    @Column(name = "image_url")
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Column(name = "imdb_rating")
@@ -124,7 +123,7 @@ public class Movie {
         this.boxOffice = boxOffice;
     }
 
-    @ManyToMany(targetEntity = Genre.class)
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.EAGER)
     @JoinTable(
             name = "movies_genres",
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
@@ -235,14 +234,5 @@ public class Movie {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    }
-
-    @OneToMany(mappedBy = "movie", targetEntity = MovieEdit.class, cascade = CascadeType.ALL)
-    public List<MovieEdit> getMovieEdits() {
-        return movieEdits;
-    }
-
-    public void setMovieEdits(List<MovieEdit> movieEdits) {
-        this.movieEdits = movieEdits;
     }
 }

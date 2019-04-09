@@ -11,13 +11,12 @@ public class Article {
 
     private String id;
     private String title;
-    private User creator;
+    private User user;
     private long views;
-    private String imageLink;
+    private String imageUrl;
     private String content;
     private List<Movie> associatedMovies;
     private List<Article> associatedArticles;
-    private List<ArticleEdit> articleEdits;
 
     public Article() {
     }
@@ -47,13 +46,13 @@ public class Article {
     }
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    public User getCreator() {
-        return creator;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    public User getUser() {
+        return user;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Column(name = "views")
@@ -65,13 +64,13 @@ public class Article {
         this.views = views;
     }
 
-    @Column(name = "image_link")
-    public String getImageLink() {
-        return imageLink;
+    @Column(name = "image_url")
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
@@ -83,7 +82,7 @@ public class Article {
         this.content = content;
     }
 
-    @ManyToMany(targetEntity = Movie.class)
+    @ManyToMany(targetEntity = Movie.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "articles_movies",
             joinColumns = @JoinColumn(name = "associated_movie_id", referencedColumnName = "id"),
@@ -97,7 +96,7 @@ public class Article {
         this.associatedMovies = associatedMovies;
     }
 
-    @ManyToMany(targetEntity = Article.class)
+    @ManyToMany(targetEntity = Article.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "articles_articles",
             joinColumns = @JoinColumn(name = "associated_article_id", referencedColumnName = "id"),
@@ -109,14 +108,5 @@ public class Article {
 
     public void setAssociatedArticles(List<Article> associatedArticles) {
         this.associatedArticles = associatedArticles;
-    }
-
-    @OneToMany(mappedBy = "article", targetEntity = ArticleEdit.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    public List<ArticleEdit> getArticleEdits() {
-        return articleEdits;
-    }
-
-    public void setArticleEdits(List<ArticleEdit> articleEdits) {
-        this.articleEdits = articleEdits;
     }
 }

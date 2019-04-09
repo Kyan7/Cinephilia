@@ -7,9 +7,9 @@ public class MovieServiceModel {
 
     private String id;
     private String title;
-    private UserServiceModel creator;
+    private UserServiceModel user;
     private long views;
-    private String imageLink;
+    private String imageUrl;
     private Double imdbRating;
     private long rottenTomatoesPercent;
     private long budget;
@@ -26,7 +26,6 @@ public class MovieServiceModel {
     private String trailerLinks;
     private List<ScreeningServiceModel> screenings;
     private List<ReviewServiceModel> reviews;
-    private List<MovieEditServiceModel> movieEdits;
 
     public String getId() {
         return id;
@@ -44,12 +43,12 @@ public class MovieServiceModel {
         this.title = title;
     }
 
-    public UserServiceModel getCreator() {
-        return creator;
+    public UserServiceModel getUser() {
+        return user;
     }
 
-    public void setCreator(UserServiceModel creator) {
-        this.creator = creator;
+    public void setUser(UserServiceModel user) {
+        this.user = user;
     }
 
     public long getViews() {
@@ -60,12 +59,12 @@ public class MovieServiceModel {
         this.views = views;
     }
 
-    public String getImageLink() {
-        return imageLink;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Double getImdbRating() {
@@ -194,13 +193,5 @@ public class MovieServiceModel {
 
     public void setReviews(List<ReviewServiceModel> reviews) {
         this.reviews = reviews;
-    }
-
-    public List<MovieEditServiceModel> getMovieEdits() {
-        return movieEdits;
-    }
-
-    public void setMovieEdits(List<MovieEditServiceModel> movieEdits) {
-        this.movieEdits = movieEdits;
     }
 }

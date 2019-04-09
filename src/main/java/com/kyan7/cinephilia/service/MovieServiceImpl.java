@@ -38,9 +38,53 @@ public class MovieServiceImpl implements MovieService {
                 .collect(Collectors.toList());
     }
 
+    //TODO
+
+
     @Override
     public MovieServiceModel addMovie(MovieServiceModel movieServiceModel) {
-        Movie movie = this.modelMapper.map(movieServiceModel, Movie.class);
-        return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
+        System.out.println("title: " + movieServiceModel.getTitle());
+        movieServiceModel.getGenres().stream().map(g -> {
+            System.out.println("genre: " + g.getName());
+            return g;
+        });
+        System.out.println("imdb: " + movieServiceModel.getImdbRating());
+        System.out.println("rt: " + movieServiceModel.getRottenTomatoesPercent());
+        System.out.println("budget: " + movieServiceModel.getBudget());
+        System.out.println("bo: " + movieServiceModel.getBoxOffice());
+        System.out.println("runtime: " + movieServiceModel.getRuntime());
+        System.out.println("relD: " + movieServiceModel.getReleaseDate().toString());
+        System.out.println("countries: " + movieServiceModel.getCountries());
+        System.out.println("dirs: " + movieServiceModel.getDirectors());
+        System.out.println("lead: " + movieServiceModel.getLeadActor());
+        System.out.println("sup: " + movieServiceModel.getSupportingActors());
+        System.out.println("descr: " + movieServiceModel.getDescription());
+        System.out.println("trailers: " + movieServiceModel.getTrailerLinks());
+        System.out.println("image: " + movieServiceModel.getImageUrl());
+        Movie movie = this.movieRepository.findByTitle(movieServiceModel.getTitle()).orElse(null);
+        if (movie != null) {
+            throw new IllegalArgumentException("Movie already exists!");
+        }
+        movie = this.modelMapper.map(movieServiceModel, Movie.class);
+        System.out.println("title: " + movie.getTitle());
+        movie.getGenres().stream().map(g -> {
+            System.out.println("genre: " + g.getName());
+            return g;
+        });
+        System.out.println("imdb: " + movie.getImdbRating());
+        System.out.println("rt: " + movie.getRottenTomatoesPercent());
+        System.out.println("budget: " + movie.getBudget());
+        System.out.println("bo: " + movie.getBoxOffice());
+        System.out.println("runtime: " + movie.getRuntime());
+        System.out.println("relD: " + movie.getReleaseDate().toString());
+        System.out.println("countries: " + movie.getCountries());
+        System.out.println("dirs: " + movie.getDirectors());
+        System.out.println("lead: " + movie.getLeadActor());
+        System.out.println("sup: " + movie.getSupportingActors());
+        System.out.println("descr: " + movie.getDescription());
+        System.out.println("trailers: " + movie.getTrailerLinks());
+        System.out.println("image: " + movie.getImageUrl());
+        this.movieRepository.saveAndFlush(movie);
+        return this.modelMapper.map(movie, MovieServiceModel.class);
     }
 }

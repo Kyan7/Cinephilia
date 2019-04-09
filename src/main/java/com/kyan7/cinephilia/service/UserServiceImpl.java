@@ -2,7 +2,6 @@ package com.kyan7.cinephilia.service;
 
 import com.kyan7.cinephilia.domain.entities.User;
 import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
-import com.kyan7.cinephilia.repository.ReviewRepository;
 import com.kyan7.cinephilia.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,14 +17,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ReviewRepository reviewRepository;
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository userRepository, ReviewRepository reviewRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
-        this.reviewRepository = reviewRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.encoder = encoder;

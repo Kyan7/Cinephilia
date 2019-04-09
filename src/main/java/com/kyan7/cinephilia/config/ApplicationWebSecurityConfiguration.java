@@ -11,7 +11,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class ApplicationWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

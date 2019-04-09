@@ -1,6 +1,7 @@
 package com.kyan7.cinephilia.domain.models.binding;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.List;
 public class MovieAddBindingModel {
 
     private String title; //
-    private String creator;
-    private String imageLink;
+    private String user;
+    private MultipartFile image;
     private Double imdbRating; //
     private long rottenTomatoesPercent; //
     private long budget; //
@@ -22,8 +23,8 @@ public class MovieAddBindingModel {
     private String studios; //
     private String leadActor; //
     private String supportingActors; //
-    private String description;
-    private String trailerLinks;
+    private String description; //
+    private String trailerLinks; //
 
     public MovieAddBindingModel() {
     }
@@ -36,20 +37,20 @@ public class MovieAddBindingModel {
         this.title = title;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getUser() {
+        return user;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getImageLink() {
-        return imageLink;
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 
     public Double getImdbRating() {
