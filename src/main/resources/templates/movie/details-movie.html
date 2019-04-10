@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-6" align="right">
                             <div class="cinephilia-small-text cinephilia-orange-text">IMDB Rating: </div><div class="cinephilia-small-text" th:text="${movie.imdbRating}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Rotten Tomatoes: </div><div class="cinephilia-small-text" th:text="${movie.rottenTomatoesPercent + ' %'}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Rotten Tomatoes: </div><div class="cinephilia-small-text" th:text="${movie.rottenTomatoesPercent + '%'}"></div>
                             <th:block th:if="${movie.budget} >= 1000">
                                 <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:text="${movie.budget}/1000 + ' billion'"></div>
                             </th:block>

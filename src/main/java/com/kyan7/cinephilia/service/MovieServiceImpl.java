@@ -1,5 +1,6 @@
 package com.kyan7.cinephilia.service;
 
+import com.kyan7.cinephilia.domain.entities.Genre;
 import com.kyan7.cinephilia.domain.entities.Movie;
 import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
 import com.kyan7.cinephilia.repository.MovieRepository;
@@ -14,11 +15,13 @@ import java.util.stream.Collectors;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
+    private final GenreService genreService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, ModelMapper modelMapper) {
+    public MovieServiceImpl(MovieRepository movieRepository, GenreService genreService, ModelMapper modelMapper) {
         this.movieRepository = movieRepository;
+        this.genreService = genreService;
         this.modelMapper = modelMapper;
     }
 
@@ -43,47 +46,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieServiceModel addMovie(MovieServiceModel movieServiceModel) {
-        System.out.println("title: " + movieServiceModel.getTitle());
-        movieServiceModel.getGenres().stream().map(g -> {
-            System.out.println("genre: " + g.getName());
-            return g;
-        });
-        System.out.println("imdb: " + movieServiceModel.getImdbRating());
-        System.out.println("rt: " + movieServiceModel.getRottenTomatoesPercent());
-        System.out.println("budget: " + movieServiceModel.getBudget());
-        System.out.println("bo: " + movieServiceModel.getBoxOffice());
-        System.out.println("runtime: " + movieServiceModel.getRuntime());
-        System.out.println("relD: " + movieServiceModel.getReleaseDate().toString());
-        System.out.println("countries: " + movieServiceModel.getCountries());
-        System.out.println("dirs: " + movieServiceModel.getDirectors());
-        System.out.println("lead: " + movieServiceModel.getLeadActor());
-        System.out.println("sup: " + movieServiceModel.getSupportingActors());
-        System.out.println("descr: " + movieServiceModel.getDescription());
-        System.out.println("trailers: " + movieServiceModel.getTrailerLinks());
-        System.out.println("image: " + movieServiceModel.getImageUrl());
         Movie movie = this.movieRepository.findByTitle(movieServiceModel.getTitle()).orElse(null);
         if (movie != null) {
             throw new IllegalArgumentException("Movie already exists!");
         }
         movie = this.modelMapper.map(movieServiceModel, Movie.class);
-        System.out.println("title: " + movie.getTitle());
-        movie.getGenres().stream().map(g -> {
-            System.out.println("genre: " + g.getName());
-            return g;
-        });
-        System.out.println("imdb: " + movie.getImdbRating());
-        System.out.println("rt: " + movie.getRottenTomatoesPercent());
-        System.out.println("budget: " + movie.getBudget());
-        System.out.println("bo: " + movie.getBoxOffice());
-        System.out.println("runtime: " + movie.getRuntime());
-        System.out.println("relD: " + movie.getReleaseDate().toString());
-        System.out.println("countries: " + movie.getCountries());
-        System.out.println("dirs: " + movie.getDirectors());
-        System.out.println("lead: " + movie.getLeadActor());
-        System.out.println("sup: " + movie.getSupportingActors());
-        System.out.println("descr: " + movie.getDescription());
-        System.out.println("trailers: " + movie.getTrailerLinks());
-        System.out.println("image: " + movie.getImageUrl());
         this.movieRepository.saveAndFlush(movie);
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }
@@ -101,4 +68,51 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = this.movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }
+
+    @Override
+    public MovieServiceModel editMovie(String id, MovieServiceModel movieServiceModel, boolean isGenresEdited) {
+        Movie movie = this.movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+        movie.setTitle(movieServiceModel.getTitle());
+        movie.setImdbRating(movieServiceModel.getImdbRating());
+        movie.setRottenTomatoesPercent(movieServiceModel.getRottenTomatoesPercent());
+        movie.setBudget(movieServiceModel.getBudget());
+        movie.setBoxOffice(movieServiceModel.getBoxOffice());
+        if (isGenresEdited) {
+            movie.setGenres(
+                    movieServiceModel.getGenres()
+                            .stream()
+                            .map(c -> this.modelMapper.map(c, Genre.class))
+                            .collect(Collectors.toList())
+            );
+        }
+        movie.setRuntime(movieServiceModel.getRuntime());
+        movie.setReleaseDate(movieServiceModel.getReleaseDate());
+        movie.setCountries(movieServiceModel.getCountries());
+        movie.setDirectors(movieServiceModel.getDirectors());
+        movie.setLeadActor(movieServiceModel.getLeadActor());
+        movie.setSupportingActors(movieServiceModel.getSupportingActors());
+        movie.setDescription(movieServiceModel.getDescription());
+        movie.setTrailerLinks(movieServiceModel.getTrailerLinks());
+
+        return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
+    }
+
+    @Override
+    public MovieServiceModel editMovieWithUneditedGenres(String id, MovieServiceModel movieServiceModel) {
+        return editMovie(id, movieServiceModel, false);
+    }
+
+    @Override
+    public MovieServiceModel editMovieWithEditedGenres(String id, MovieServiceModel movieServiceModel) {
+        return editMovie(id, movieServiceModel, true);
+    }
+
+    @Override
+    public MovieServiceModel deleteMovie(String id) {
+        Movie movie = this.movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+        this.movieRepository.delete(movie);
+        return this.modelMapper.map(movie, MovieServiceModel.class);
+    }
+
 }

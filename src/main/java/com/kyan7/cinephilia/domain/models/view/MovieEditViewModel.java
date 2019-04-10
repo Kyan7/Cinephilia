@@ -1,21 +1,19 @@
-package com.kyan7.cinephilia.domain.models.binding;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
+package com.kyan7.cinephilia.domain.models.view;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class MovieAddBindingModel {
+public class MovieEditViewModel {
 
+    private String id;
     private String title;
-    private String user;
-    private MultipartFile image;
+    private long views;
+    private String imageUrl;
     private Double imdbRating;
     private long rottenTomatoesPercent;
     private long budget;
     private long boxOffice;
-    private List<String> genres;
+    private List<GenreViewModel> genres;
     private long runtime;
     private LocalDate releaseDate;
     private String countries;
@@ -26,7 +24,15 @@ public class MovieAddBindingModel {
     private String description;
     private String trailerLinks;
 
-    public MovieAddBindingModel() {
+    public MovieEditViewModel() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -37,20 +43,20 @@ public class MovieAddBindingModel {
         this.title = title;
     }
 
-    public String getUser() {
-        return user;
+    public long getViews() {
+        return views;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setViews(long views) {
+        this.views = views;
     }
 
-    public MultipartFile getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(MultipartFile image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Double getImdbRating() {
@@ -85,11 +91,11 @@ public class MovieAddBindingModel {
         this.boxOffice = boxOffice;
     }
 
-    public List<String> getGenres() {
+    public List<GenreViewModel> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(List<GenreViewModel> genres) {
         this.genres = genres;
     }
 
@@ -101,7 +107,6 @@ public class MovieAddBindingModel {
         this.runtime = runtime;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public LocalDate getReleaseDate() {
         return releaseDate;
     }

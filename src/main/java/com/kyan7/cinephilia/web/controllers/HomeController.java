@@ -6,6 +6,7 @@ import com.kyan7.cinephilia.service.MovieService;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,12 +28,18 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/")
-    public ModelAndView index(ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "Index");
-        return super.view("index", modelAndView);
+    public ModelAndView index(Principal principal, ModelAndView modelAndView) {
+        try {
+            principal.getName();
+            return super.redirect("/home");
+        } catch (Exception e) {
+            modelAndView.addObject("pageTitle", "Index");
+            return super.view("index", modelAndView);
+        }
     }
 
     @GetMapping("/home")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView home(Principal principal, ModelAndView modelAndView) {
         modelAndView.addObject("currentUser", principal.getName());
         List<MovieHomeViewModel> movies = this.movieService

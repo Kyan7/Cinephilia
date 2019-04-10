@@ -1,12 +1,10 @@
 package com.kyan7.cinephilia.web.controllers;
 
 import com.kyan7.cinephilia.domain.models.binding.MovieAddBindingModel;
+import com.kyan7.cinephilia.domain.models.service.GenreServiceModel;
 import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
 import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
-import com.kyan7.cinephilia.domain.models.view.GenreViewModel;
-import com.kyan7.cinephilia.domain.models.view.MovieAdminListViewModel;
-import com.kyan7.cinephilia.domain.models.view.MovieDetailsViewModel;
-import com.kyan7.cinephilia.domain.models.view.UserAuthoritiesViewModel;
+import com.kyan7.cinephilia.domain.models.view.*;
 import com.kyan7.cinephilia.service.CloudinaryService;
 import com.kyan7.cinephilia.service.GenreService;
 import com.kyan7.cinephilia.service.MovieService;
@@ -125,4 +123,44 @@ public class MovieController extends BaseController {
         modelAndView.addObject("movie", movie);
         return super.view("movie/details-movie", modelAndView);
     }
+
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView editMovie(@PathVariable String id, ModelAndView modelAndView) {
+        MovieServiceModel movieServiceModel = this.movieService.findMovieById(id);
+        MovieAddBindingModel model = this.modelMapper.map(movieServiceModel, MovieAddBindingModel.class);
+        model.setGenres(movieServiceModel.getGenres().stream().map(g -> g.getName()).collect(Collectors.toList()));
+        modelAndView.addObject("pageTitle", "Edit m:" + model.getTitle());
+        modelAndView.addObject("movie", model);
+        modelAndView.addObject("movieId", id);
+
+        return super.view("movie/edit-movie", modelAndView);
+    }
+
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView editMovieConfirm(@PathVariable String id, @ModelAttribute MovieAddBindingModel model) {
+        MovieServiceModel movieServiceModel = this.modelMapper.map(model, MovieServiceModel.class);
+        try {
+            List<GenreServiceModel> genreServiceModels = new ArrayList<>();
+            for (String genreId : model.getGenres()
+            ) {
+                genreServiceModels.add(this.modelMapper.map(this.genreService.findGenreById(genreId), GenreServiceModel.class));
+            }
+            movieServiceModel.setGenres(genreServiceModels);
+            this.movieService.editMovieWithEditedGenres(id, movieServiceModel);
+            return super.redirect("/movies/details/" + id);
+        } catch (Exception e) {
+            this.movieService.editMovieWithUneditedGenres(id, movieServiceModel);
+            return super.redirect("/movies/details/" + id);
+        }
+    }
+
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView deleteMovie(@PathVariable String id) {
+        this.movieService.deleteMovie(id);
+        return super.redirect("/movies/all");
+    }
+
 }

@@ -15,4 +15,12 @@ public interface MovieService {
     MovieServiceModel findMovieByIdAndIncrementViews(String id);
 
     MovieServiceModel findMovieById(String id);
+
+    MovieServiceModel editMovie(String id, MovieServiceModel movieServiceModel, boolean isGenresEdited);
+
+    MovieServiceModel editMovieWithEditedGenres(String id, MovieServiceModel movieServiceModel);
+
+    MovieServiceModel editMovieWithUneditedGenres(String id, MovieServiceModel movieServiceModel);
+
+    MovieServiceModel deleteMovie(String id);
 }
