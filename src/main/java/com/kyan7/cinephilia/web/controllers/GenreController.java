@@ -29,7 +29,7 @@ public class GenreController extends BaseController{
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allGenresAdmin(ModelAndView modelAndView) {
+    public ModelAndView allGenres(ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "All Genres");
         List<GenreViewModel> genres = this.genreService.findAllGenresOrderByName()
                 .stream()

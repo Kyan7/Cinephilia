@@ -22,8 +22,17 @@
     text-align: center;
 }
 
+.cinephilia-title-text {
+    font-size: 40px;
+    text-align: center;
+}
+
 .cinephilia-main-block {
     margin: 30px 23%;
+}
+
+.cinephilia-main-subblock {
+    margin: 5px 3% 5px 38%;
 }
 
 .cinephilia-list-block {
@@ -34,6 +43,11 @@
     font-family: Broadway;
     font-size: 15px;
     text-align: center;
+}
+
+.cinephilia-small-text {
+    font-size:15px;
+    text-align: left;
 }
 
 .cinephilia-medium-text-left {
@@ -62,16 +76,30 @@
     color: #081241;
 }
 
+.cinephilia-remove-button {
+    background-color: red;
+    border: red;
+    color: #081241;
+}
+
 .central {
     margin: 0 auto !important;
 }
 
+.push-up {
+    margin-bottom: 5px;
+}
+
+.push-down {
+    margin-top: 5px;
+}
+
 .push-left {
-    margin-right: 2px;
+    margin-right: 5px;
 }
 
 .push-right {
-    margin-left: 2px;
+    margin-left: 5px;
 }
 
 .row-margin {

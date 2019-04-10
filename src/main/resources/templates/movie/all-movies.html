@@ -20,10 +20,10 @@
                 <th class="col-md-3 text-center">ID</th>
                 <th class="col-md-1 text-center">Title</th>
                 <th class="col-md-2 text-center">User</th>
-                <th class="col-md-2 text-center">Views</th>
+                <th class="col-md-1 text-center">Views</th>
                 <th class="col-md-1 text-center">Genres</th>
                 <th class="col-md-1 text-center">Release Date</th>
-                <th class="col-md-1 text-center">Actions</th>
+                <th class="col-md-2 text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -33,30 +33,22 @@
                         <td class="col-md-3 text-center text-sm" th:text="${movie.id}" />
                         <td class="col-md-1 text-center text-sm" th:text="${movie.title}" />
                         <td class="col-md-2 text-center text-sm" th:text="${movie.user}" />
-                        <td class="col-md-2 text-center text-sm" th:text="${movie.views}" />
+                        <td class="col-md-1 text-center text-sm" th:text="${movie.views}" />
                         <td class="col-md-1 text-center text-sm" th:text="${#strings.listJoin(movie.genres, ', ')}" />
                         <td class="col-md-1 text-center text-sm" th:text="${movie.releaseDate}" />
-                        <!--td class="col-md-1 text-center">
+                        <td class="col-md-2 text-center">
                             <div class="row justify-content-center">
-                                        <form th:action="@{/movies/edit/{id}(id=${user.id})}" method="post">
-                                            <!--input type="hidden" name="_csrf"
-                                                   value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                            <button class="btn btn-dark cinephilia-orange-bg">ADMIN</button>
-                                        </form>
-                                    </th:block>
-                                    <th:block th:if="${#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                                        <form th:action="@{/users/set-user/{id}(id=${user.id})}" method="post">
-                                            <!--input type="hidden" name="_csrf"
-                                                   value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                            <button class="btn btn-dark cinephilia-orange-bg">USER</button>
-                                        </form>
-                                    </th:block>
-                                </th:block>
-                                <th:block th:if="${!#lists.contains(currentUser.authorities, 'ROLE_ROOT') || currentUser.username.equals(user.username)}">
-                                    <p>Unavailable</p>
-                                </th:block>
+                                <a class="push-left" th:href="@{/movies/details/{id} (id=${movie.id})}">
+                                    <button class="btn btn-dark cinephilia-button">DETAILS</button>
+                                </a>
+                                <a class="push-left push-right" th:href="@{/movies/edit/{id} (id=${movie.id})}">
+                                    <button class="btn btn-dark cinephilia-button">EDIT</button>
+                                </a>
+                                <form class="push-right" th:action="@{/movies/delete/{id}(id=${movie.id})}" th:method="post">
+                                    <button class="btn btn-dark cinephilia-remove-button">X</button>
+                                </form>
                             </div>
-                        </td-->
+                        </td>
                     </tr>
                 </th:block>
             </tbody>

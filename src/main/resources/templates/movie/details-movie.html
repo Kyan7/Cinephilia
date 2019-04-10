@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/navbar}"></th:block>
+<main>
+    <div class="jumbotron-fluid cinephilia-dark cinephilia-main-block">
+        <div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="push-up" th:src="${movie.imageUrl}" width="100%" alt="Movie Poster" align="left">
+                    <th:block th:each="trailerId : ${movie.trailerIds}">
+                        <iframe allowfullscreen="allowfullscreen" class="push-down" width="100%"
+                                th:src="'https://www.youtube.com/embed/' + ${trailerId}" align="left">
+                        </iframe>
+                    </th:block>
+                </div>
+                <div class="col-md-8">
+                    <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
+                        <small class="cinephilia-orange-text" th:text="'Creator: ' + ${movie.user}"></small>
+                    </th:block>
+                    <br />
+                    <small class="cinephilia-orange-text" th:text="${movie.views} + ' View(s)'"></small>
+                    <div class="cinephilia-title-text" th:text="${movie.title}"></div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6" align="left">
+                            <div class="cinephilia-small-text cinephilia-orange-text">Genres: </div><div class="cinephilia-small-text" th:text="${#strings.listJoin(movie.genres, ', ')}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Runtime: </div><div class="cinephilia-small-text" th:text="${movie.runtime} + ' mins'"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Studio(s): </div><div class="cinephilia-small-text" th:text="${movie.studios}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Director(s): </div><div class="cinephilia-small-text" th:text="${movie.directors}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Lead Actor: </div><div class="cinephilia-small-text" th:text="${movie.leadActor}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Supporting Actor(s): </div><div class="cinephilia-small-text" th:text="${movie.supportingActors}"></div>
+                        </div>
+                        <div class="col-md-6" align="right">
+                            <div class="cinephilia-small-text cinephilia-orange-text">IMDB Rating: </div><div class="cinephilia-small-text" th:text="${movie.imdbRating}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Rotten Tomatoes: </div><div class="cinephilia-small-text" th:text="${movie.rottenTomatoesPercent + ' %'}"></div>
+                            <th:block th:if="${movie.budget} >= 1000">
+                                <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:text="${movie.budget}/1000 + ' billion'"></div>
+                            </th:block>
+                            <th:block th:if="${movie.budget} < 1000">
+                                <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:text="${movie.budget} + ' million'"></div>
+                            </th:block>
+                            <th:block th:if="${movie.boxOffice} >= 1000">
+                                <div class="cinephilia-small-text cinephilia-orange-text">Box Office: </div><div class="cinephilia-small-text" th:text="${movie.boxOffice}/1000 + ' billion'"></div>
+                            </th:block>
+                            <th:block th:if="${movie.boxOffice} < 1000">
+                                <div class="cinephilia-small-text cinephilia-orange-text">Box Office: </div><div class="cinephilia-small-text" th:text="${movie.boxOffice} + ' million'"></div>
+                            </th:block>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Average user rating: </div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Release Date: </div><div class="cinephilia-small-text" th:text="${movie.releaseDate}"></div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${movie.description}"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

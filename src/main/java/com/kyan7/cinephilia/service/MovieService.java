@@ -11,4 +11,8 @@ public interface MovieService {
     List<MovieServiceModel> findAllMovies();
 
     MovieServiceModel addMovie(MovieServiceModel movieServiceModel);
+
+    MovieServiceModel findMovieByIdAndIncrementViews(String id);
+
+    MovieServiceModel findMovieById(String id);
 }
