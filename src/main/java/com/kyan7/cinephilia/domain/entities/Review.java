@@ -11,10 +11,9 @@ public class Review {
     private String id;
     private String title;
     private User reviewer;
-    private long rating;
+    private Double rating;
     private String description;
     private Movie movie;
-    private boolean isReported;
 
     public Review() {
     }
@@ -54,11 +53,11 @@ public class Review {
     }
 
     @Column(name = "rating", nullable = false)
-    public long getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -71,7 +70,7 @@ public class Review {
         this.description = description;
     }
 
-    @ManyToOne(targetEntity = Movie.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Movie.class)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     public Movie getMovie() {
         return movie;
@@ -79,14 +78,5 @@ public class Review {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
-    }
-
-    @Column(name = "is_reported")
-    public boolean isReported() {
-        return isReported;
-    }
-
-    public void setReported(boolean reported) {
-        isReported = reported;
     }
 }

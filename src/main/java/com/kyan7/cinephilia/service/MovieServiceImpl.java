@@ -15,13 +15,11 @@ import java.util.stream.Collectors;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final GenreService genreService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, GenreService genreService, ModelMapper modelMapper) {
+    public MovieServiceImpl(MovieRepository movieRepository, ModelMapper modelMapper) {
         this.movieRepository = movieRepository;
-        this.genreService = genreService;
         this.modelMapper = modelMapper;
     }
 

@@ -3,6 +3,24 @@
     color: white;
 }
 
+.cinephilia-review-post-block {
+    background-color: #1410a3;
+    padding: 2%;
+    margin: 3%;
+}
+
+.cinephilia-review-block {
+    background-color: #120456;
+    padding: 2%;
+    margin: 3%;
+}
+
+.cinephilia-current-user-review-block {
+    background-color: #4223db;
+    padding: 2%;
+    margin: 3%;
+}
+
 .cinephilia-orange-text {
     color: #d39e00;
 }
@@ -47,6 +65,11 @@
 
 .cinephilia-small-text {
     font-size:15px;
+    text-align: left;
+}
+
+.cinephilia-tiny-text {
+    font-size: 11px;
     text-align: left;
 }
 
@@ -104,4 +127,9 @@
 
 .row-margin {
     margin-bottom: 1rem;
+}
+
+.tiny-margin-top-bottom {
+    margin-top: 1px !important;
+    margin-bottom: 2px !important;
 }

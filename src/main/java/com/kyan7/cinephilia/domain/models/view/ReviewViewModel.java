@@ -1,23 +1,13 @@
-package com.kyan7.cinephilia.domain.models.service;
+package com.kyan7.cinephilia.domain.models.view;
 
-public class ReviewServiceModel {
+public class ReviewViewModel {
 
-    private String id;
     private String title;
-    private UserServiceModel reviewer;
+    private String reviewer;
     private Double rating;
     private String description;
-    private MovieServiceModel movie;
 
-    public ReviewServiceModel() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public ReviewViewModel() {
     }
 
     public String getTitle() {
@@ -28,11 +18,11 @@ public class ReviewServiceModel {
         this.title = title;
     }
 
-    public UserServiceModel getReviewer() {
+    public String getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(UserServiceModel reviewer) {
+    public void setReviewer(String reviewer) {
         this.reviewer = reviewer;
     }
 
@@ -50,13 +40,5 @@ public class ReviewServiceModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public MovieServiceModel getMovie() {
-        return movie;
-    }
-
-    public void setMovie(MovieServiceModel movie) {
-        this.movie = movie;
     }
 }
