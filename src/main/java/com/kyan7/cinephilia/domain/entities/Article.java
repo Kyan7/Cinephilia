@@ -16,7 +16,6 @@ public class Article {
     private String imageUrl;
     private String content;
     private List<Movie> associatedMovies;
-    private List<Article> associatedArticles;
 
     public Article() {
     }
@@ -82,7 +81,7 @@ public class Article {
         this.content = content;
     }
 
-    @ManyToMany(targetEntity = Movie.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Movie.class, fetch = FetchType.EAGER)
     @JoinTable(
             name = "articles_movies",
             joinColumns = @JoinColumn(name = "associated_movie_id", referencedColumnName = "id"),
@@ -94,19 +93,5 @@ public class Article {
 
     public void setAssociatedMovies(List<Movie> associatedMovies) {
         this.associatedMovies = associatedMovies;
-    }
-
-    @ManyToMany(targetEntity = Article.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "articles_articles",
-            joinColumns = @JoinColumn(name = "associated_article_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id")
-    )
-    public List<Article> getAssociatedArticles() {
-        return associatedArticles;
-    }
-
-    public void setAssociatedArticles(List<Article> associatedArticles) {
-        this.associatedArticles = associatedArticles;
     }
 }

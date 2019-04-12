@@ -57,6 +57,12 @@
     margin: 30px 10%;
 }
 
+.cinephilia-article-content {
+    font-size: 24px;
+    text-align: justify;
+}
+
+
 .cinephilia-small-text-center {
     font-family: Broadway;
     font-size: 15px;

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface MovieService {
 
-    //TODO List<MovieServiceModel> findTop3Movies();
-
     List<MovieServiceModel> findAllMovies();
+
+    List<MovieServiceModel> findAllMoviesOrderByTitle();
 
     MovieServiceModel addMovie(MovieServiceModel movieServiceModel);
 

@@ -80,19 +80,24 @@ public class MovieController extends BaseController {
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addMovieConfirm(@ModelAttribute(name = "model") MovieAddBindingModel model, Principal principal, ModelAndView modelAndView) throws IOException {
-        MovieServiceModel movieServiceModel = this.modelMapper.map(model, MovieServiceModel.class);
-        movieServiceModel.setGenres(
-                this.genreService.findAllGenresOrderByName()
-                        .stream()
-                        .filter(g -> model.getGenres().contains(g.getId()))
-                        .collect(Collectors.toList())
-        );
-        movieServiceModel.setImageUrl(
-                this.cloudinaryService.uploadImage(model.getImage())
-        );
-        movieServiceModel.setUser(this.userService.findUserByUsername(principal.getName()));
-        this.movieService.addMovie(movieServiceModel);
-        return super.redirect("/movies/all");
+        try {
+            MovieServiceModel movieServiceModel = this.modelMapper.map(model, MovieServiceModel.class);
+            movieServiceModel.setGenres(
+                    this.genreService.findAllGenresOrderByName()
+                            .stream()
+                            .filter(g -> model.getGenres().contains(g.getId()))
+                            .collect(Collectors.toList())
+            );
+            movieServiceModel.setImageUrl(
+                    this.cloudinaryService.uploadImage(model.getImage())
+            );
+            movieServiceModel.setUser(this.userService.findUserByUsername(principal.getName()));
+            this.movieService.addMovie(movieServiceModel);
+            return super.redirect("/movies/all");
+        } catch (Exception e) {
+            return super.redirect("/movies/all");
+        }
+
     }
 
     @GetMapping("/details/{id}")
@@ -162,18 +167,22 @@ public class MovieController extends BaseController {
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editMovieConfirm(@PathVariable String id, @ModelAttribute MovieAddBindingModel model) {
-        MovieServiceModel movieServiceModel = this.modelMapper.map(model, MovieServiceModel.class);
         try {
-            List<GenreServiceModel> genreServiceModels = new ArrayList<>();
-            for (String genreId : model.getGenres()
-            ) {
-                genreServiceModels.add(this.modelMapper.map(this.genreService.findGenreById(genreId), GenreServiceModel.class));
+            MovieServiceModel movieServiceModel = this.modelMapper.map(model, MovieServiceModel.class);
+            try {
+                List<GenreServiceModel> genreServiceModels = new ArrayList<>();
+                for (String genreId : model.getGenres()
+                ) {
+                    genreServiceModels.add(this.modelMapper.map(this.genreService.findGenreById(genreId), GenreServiceModel.class));
+                }
+                movieServiceModel.setGenres(genreServiceModels);
+                this.movieService.editMovieWithEditedGenres(id, movieServiceModel);
+                return super.redirect("/movies/details/" + id);
+            } catch (Exception e) {
+                this.movieService.editMovieWithUneditedGenres(id, movieServiceModel);
+                return super.redirect("/movies/details/" + id);
             }
-            movieServiceModel.setGenres(genreServiceModels);
-            this.movieService.editMovieWithEditedGenres(id, movieServiceModel);
-            return super.redirect("/movies/details/" + id);
         } catch (Exception e) {
-            this.movieService.editMovieWithUneditedGenres(id, movieServiceModel);
             return super.redirect("/movies/details/" + id);
         }
     }
@@ -181,28 +190,51 @@ public class MovieController extends BaseController {
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteMovie(@PathVariable String id) {
-        this.movieService.deleteMovie(id);
-        return super.redirect("/movies/all");
+        try {
+            this.movieService.deleteMovie(id);
+            return super.redirect("/movies/all");
+        } catch (Exception e) {
+            return super.redirect("/movies/all");
+        }
     }
 
     @PostMapping("/add-review/{movieId}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addReview(@PathVariable String movieId, Principal principal, @ModelAttribute(name = "model") ReviewAddBindingModel model) {
-        ReviewServiceModel reviewServiceModel = this.modelMapper.map(model, ReviewServiceModel.class);
-        reviewServiceModel.setReviewer(this.userService.findUserByUsername(principal.getName()));
-        reviewServiceModel.setMovie(this.movieService.findMovieById(movieId));
-        this.reviewService.addReview(reviewServiceModel);
-        return super.redirect("/movies/details/" + movieId);
+        try {
+            ReviewServiceModel reviewServiceModel = this.modelMapper.map(model, ReviewServiceModel.class);
+            reviewServiceModel.setReviewer(this.userService.findUserByUsername(principal.getName()));
+            reviewServiceModel.setMovie(this.movieService.findMovieById(movieId));
+            this.reviewService.addReview(reviewServiceModel);
+            return super.redirect("/movies/details/" + movieId);
+        } catch (Exception e) {
+            return super.redirect("/movies/details/" + movieId);
+        }
     }
 
     @PostMapping("/delete-review/{movieId}/{reviewId}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView deleteReview(@PathVariable String movieId, @PathVariable String reviewId, Principal principal) {
-        ReviewServiceModel reviewServiceModel = this.reviewService.findReviewById(reviewId);
-        UserAuthoritiesViewModel currentUser = findCurrentUser(principal);
-        if (currentUser.getAuthorities().contains("ROLE_ADMIN") || reviewServiceModel.getReviewer().getUsername().equals(principal.getName())) {
-            this.reviewService.deleteReview(reviewId);
+        try {
+            ReviewServiceModel reviewServiceModel = this.reviewService.findReviewById(reviewId);
+            UserAuthoritiesViewModel currentUser = findCurrentUser(principal);
+            if (currentUser.getAuthorities().contains("ROLE_ADMIN")
+                    || reviewServiceModel.getReviewer().getUsername().equals(principal.getName())) {
+                this.reviewService.deleteReview(reviewId);
+            }
+            return super.redirect("/movies/details/" + movieId);
+        } catch (Exception e) {
+            return super.redirect("/movies/details/" + movieId);
         }
-        return super.redirect("/movies/details/" + movieId);
+    }
+
+    @GetMapping("/fetch")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
+    public List<MovieBasicViewModel> fetchMovies() {
+        return this.movieService.findAllMoviesOrderByTitle()
+                .stream()
+                .map(m -> this.modelMapper.map(m, MovieBasicViewModel.class))
+                .collect(Collectors.toList());
     }
 }

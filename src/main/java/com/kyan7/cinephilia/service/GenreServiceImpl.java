@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
+    private final MovieService movieService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public GenreServiceImpl(GenreRepository genreRepository, ModelMapper modelMapper) {
+    public GenreServiceImpl(GenreRepository genreRepository, MovieService movieService, ModelMapper modelMapper) {
         this.genreRepository = genreRepository;
+        this.movieService = movieService;
         this.modelMapper = modelMapper;
     }
 
@@ -32,7 +34,11 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public GenreServiceModel addGenre(GenreServiceModel genreServiceModel) {
-        Genre genre = this.modelMapper.map(genreServiceModel, Genre.class);
+        Genre genre = this.genreRepository.findByName(genreServiceModel.getName()).orElse(null);
+        if (genre != null) {
+            throw new IllegalArgumentException("Genre with that name already exists");
+        }
+        genre = this.modelMapper.map(genreServiceModel, Genre.class);
         return this.modelMapper.map(this.genreRepository.saveAndFlush(genre), GenreServiceModel.class);
     }
 

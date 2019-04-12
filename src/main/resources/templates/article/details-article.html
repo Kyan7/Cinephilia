@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/navbar}"></th:block>
+<main>
+    <div class="jumbotron-fluid cinephilia-dark cinephilia-main-block">
+        <div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="push-up" th:src="${article.imageUrl}" width="100%" alt="Article Image" align="left">
+                </div>
+                <div class="col-md-8">
+                    <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <a class="push-left" th:href="@{/articles/edit/{id} (id=${article.id})}">
+                                        <button class="btn btn-dark cinephilia-button">EDIT</button>
+                                    </a>
+                                    <form class="push-right" th:action="@{/articles/delete/{id}(id=${article.id})}" th:method="post">
+                                        <button class="btn btn-dark cinephilia-remove-button text-right">X</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <small class="cinephilia-orange-text" th:text="'Creator: ' + ${article.user}"></small>
+                    </th:block>
+                    <br />
+                    <small class="cinephilia-orange-text" th:text="${article.views} + ' View(s)'"></small>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="cinephilia-title-text" th:text="${article.title}"></div>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <hr />
+                            <div class="cinephilia-article-content" th:text="${article.content}"></div>
+                            <hr />
+                            <p class="cinephilia-orange-text"> Associated movies:
+                                <th:block th:each="movie, iter : ${article.associatedMovies}">
+                                    <th:block th:if="${iter.index} < ${article.associatedMovies.size() - 1}">
+                                        <a th:href="@{/movies/details/{movieId}(movieId = ${movie.value})}" th:text="${movie.key}"></a>,
+                                    </th:block>
+                                    <th:block th:if="${iter.index} == ${article.associatedMovies.size() - 1}">
+                                        <a th:href="@{/movies/details/{movieId}(movieId = ${movie.value})}" th:text="${movie.key}"></a>
+                                    </th:block>
+                                </th:block>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

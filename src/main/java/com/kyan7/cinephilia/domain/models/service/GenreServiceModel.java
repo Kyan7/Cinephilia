@@ -1,9 +1,12 @@
 package com.kyan7.cinephilia.domain.models.service;
 
+import java.util.List;
+
 public class GenreServiceModel {
 
     private String id;
     private String name;
+    private List<MovieServiceModel> movies;
 
     public GenreServiceModel() {
     }
@@ -22,5 +25,13 @@ public class GenreServiceModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<MovieServiceModel> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<MovieServiceModel> movies) {
+        this.movies = movies;
     }
 }

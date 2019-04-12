@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Screening {
 
     private String id;
-    private String movieTheater;
+    private MovieTheater movieTheater;
     private String type;
     private Double price;
     private String timeStamp;
@@ -30,12 +30,13 @@ public class Screening {
         this.id = id;
     }
 
-    @Column(name = "movie_theater", nullable = false)
-    public String getMovieTheater() {
+    @ManyToOne(targetEntity = MovieTheater.class)
+    @JoinColumn(name = "movie_theater_id", referencedColumnName = "id")
+    public MovieTheater getMovieTheater() {
         return movieTheater;
     }
 
-    public void setMovieTheater(String movieTheater) {
+    public void setMovieTheater(MovieTheater movieTheater) {
         this.movieTheater = movieTheater;
     }
 

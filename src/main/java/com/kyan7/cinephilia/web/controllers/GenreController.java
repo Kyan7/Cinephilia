@@ -52,9 +52,13 @@ public class GenreController extends BaseController{
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView addGenreConfirm(@ModelAttribute(name = "model") GenreAddBindingModel model, ModelAndView modelAndView) {
-        this.genreService.addGenre(this.modelMapper.map(model, GenreServiceModel.class));
-        return super.redirect("/genres/all");
+    public ModelAndView addGenreConfirm(@ModelAttribute(name = "model") GenreAddBindingModel model) {
+        try {
+            this.genreService.addGenre(this.modelMapper.map(model, GenreServiceModel.class));
+            return super.redirect("all");
+        } catch (IllegalArgumentException iae) {
+            return super.redirect("all");
+        }
     }
 
     @GetMapping("/edit/{id}")
@@ -69,15 +73,23 @@ public class GenreController extends BaseController{
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editGenreConfirm(@PathVariable String id, @ModelAttribute GenreAddBindingModel model) {
-        this.genreService.editGenre(id, this.modelMapper.map(model, GenreServiceModel.class));
-        return super.redirect("/genres/all");
+        try {
+            this.genreService.editGenre(id, this.modelMapper.map(model, GenreServiceModel.class));
+            return super.redirect("/genres/all");
+        } catch (Exception e) {
+            return super.redirect("/genres/all");
+        }
     }
 
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteGenre(@PathVariable String id) {
-        this.genreService.deleteGenre(id);
-        return super.redirect("/genres/all");
+        try {
+            this.genreService.deleteGenre(id);
+            return super.redirect("/genres/all");
+        } catch (Exception e) {
+            return super.redirect("/genres/all");
+        }
     }
 
     @GetMapping("/fetch")
@@ -86,7 +98,7 @@ public class GenreController extends BaseController{
     public List<GenreViewModel> fetchGenres() {
         return this.genreService.findAllGenresOrderByName()
                 .stream()
-                .map(c -> this.modelMapper.map(c, GenreViewModel.class))
+                .map(g -> this.modelMapper.map(g, GenreViewModel.class))
                 .collect(Collectors.toList());
     }
 }

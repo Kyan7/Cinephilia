@@ -6,14 +6,16 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "genres")
-public class Genre {
+@Table(name = "movie_theaters")
+public class MovieTheater {
 
     private String id;
     private String name;
-    private List<Movie> movies;
+    private String address;
+    private List<Screening> screenings;
 
-    public Genre() {
+    public MovieTheater(String id) {
+        this.id = id;
     }
 
     @Id
@@ -40,12 +42,21 @@ public class Genre {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "genres", targetEntity = Movie.class, fetch = FetchType.EAGER)
-    public List<Movie> getMovies() {
-        return movies;
+    @Column(name = "address", nullable = false, unique = true)
+    public String getAddress() {
+        return address;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @OneToMany(mappedBy = "movieTheater", targetEntity = Screening.class, orphanRemoval = true)
+    public List<Screening> getScreenings() {
+        return screenings;
+    }
+
+    public void setScreenings(List<Screening> screenings) {
+        this.screenings = screenings;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, String> {
 
-    //TODO List<Movie> findAllByOrderByViews();
+    List<Movie> findAllByOrderByTitle();
 
     Optional<Movie> findByTitle(String title);
 }

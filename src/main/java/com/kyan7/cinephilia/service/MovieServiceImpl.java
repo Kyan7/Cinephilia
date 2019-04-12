@@ -39,12 +39,21 @@ public class MovieServiceImpl implements MovieService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<MovieServiceModel> findAllMoviesOrderByTitle() {
+        return this.movieRepository.findAllByOrderByTitle()
+                .stream()
+                .map(m -> this.modelMapper.map(m, MovieServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
     //TODO
 
 
     @Override
     public MovieServiceModel addMovie(MovieServiceModel movieServiceModel) {
-        Movie movie = this.movieRepository.findByTitle(movieServiceModel.getTitle()).orElse(null);
+        Movie movie = this.movieRepository.findByTitle(movieServiceModel.getTitle())
+                .orElse(null);
         if (movie != null) {
             throw new IllegalArgumentException("Movie already exists!");
         }
@@ -55,7 +64,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieServiceModel findMovieByIdAndIncrementViews(String id) {
-        Movie movie = this.movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+        Movie movie = this.movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
         movie.setViews(movie.getViews() + 1);
         this.movieRepository.saveAndFlush(movie);
         return this.modelMapper.map(movie, MovieServiceModel.class);
@@ -63,7 +73,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieServiceModel findMovieById(String id) {
-        Movie movie = this.movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+        Movie movie = this.movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }
 
@@ -97,18 +108,19 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieServiceModel editMovieWithUneditedGenres(String id, MovieServiceModel movieServiceModel) {
-        return editMovie(id, movieServiceModel, false);
-    }
-
-    @Override
     public MovieServiceModel editMovieWithEditedGenres(String id, MovieServiceModel movieServiceModel) {
         return editMovie(id, movieServiceModel, true);
     }
 
     @Override
+    public MovieServiceModel editMovieWithUneditedGenres(String id, MovieServiceModel movieServiceModel) {
+        return editMovie(id, movieServiceModel, false);
+    }
+
+    @Override
     public MovieServiceModel deleteMovie(String id) {
-        Movie movie = this.movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+        Movie movie = this.movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
         this.movieRepository.delete(movie);
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }

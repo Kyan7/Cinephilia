@@ -56,12 +56,16 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@ModelAttribute(name = "model") UserRegisterBindingModel model, ModelAndView modelAndView) {
-        if (!model.getPassword().equals(model.getConfirmPassword())) {
-            modelAndView.addObject("pageTitle", "Register");
-            return super.view("register", modelAndView);
+        try {
+            if (!model.getPassword().equals(model.getConfirmPassword())) {
+                modelAndView.addObject("pageTitle", "Register");
+                return super.view("register", modelAndView);
+            }
+            this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
+            return super.redirect("login");
+        } catch (Exception e) {
+            return super.redirect("register");
         }
-        this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
-        return super.redirect("login");
     }
 
     /**
@@ -120,12 +124,16 @@ public class UserController extends BaseController {
     @PatchMapping("/edit")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model, ModelAndView modelAndView) {
-        if (!model.getPassword().equals(model.getConfirmPassword())) {
-            modelAndView.addObject("pageTitle", "Edit #" + model.getUsername());
-            return super.view("edit-profile", modelAndView);
+        try {
+            if (!model.getPassword().equals(model.getConfirmPassword())) {
+                modelAndView.addObject("pageTitle", "Edit #" + model.getUsername());
+                return super.view("edit-profile", modelAndView);
+            }
+            this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
+            return super.redirect("/users/profile");
+        } catch (Exception e) {
+            return super.redirect("/users/profile");
         }
-        this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
-        return super.redirect("/users/profile");
     }
 
     /**
@@ -154,9 +162,7 @@ public class UserController extends BaseController {
                 })
                 .collect(Collectors.toList());
         modelAndView.addObject("users", users);
-        //UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
-        //UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
-        //currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
+
         modelAndView.addObject("currentUser", findCurrentUser(principal));
         return super.view("all-users", modelAndView);
     }
@@ -169,8 +175,13 @@ public class UserController extends BaseController {
     @PostMapping("/set-user/{id}")
     @PreAuthorize("hasRole('ROLE_ROOT')")
     public ModelAndView setUser(@PathVariable String id) {
-        this.userService.setUserRole(id, "user");
-        return super.redirect("/users/all");
+        try {
+            this.userService.setUserRole(id, "user");
+            return super.redirect("/users/all");
+        } catch (Exception e) {
+            return super.redirect("/users/all");
+        }
+
     }
 
     /**
@@ -181,8 +192,12 @@ public class UserController extends BaseController {
     @PostMapping("/set-admin/{id}")
     @PreAuthorize("hasRole('ROLE_ROOT')")
     public ModelAndView setAdmin(@PathVariable String id) {
-        this.userService.setUserRole(id, "admin");
-        return super.redirect("/users/all");
+        try {
+            this.userService.setUserRole(id, "admin");
+            return super.redirect("/users/all");
+        } catch (Exception e) {
+            return super.redirect("/users/all");
+        }
     }
 
 }
