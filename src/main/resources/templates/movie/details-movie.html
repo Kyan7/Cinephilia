@@ -26,10 +26,10 @@
                             <div class="col-md-10"></div>
                             <div class="col-md-2">
                                 <div class="row">
-                                    <a class="push-left" th:href="@{/movies/edit/{id} (id=${movie.id})}">
+                                    <a class="push-left" th:href="@{/movies/edit/{id} (id = ${movie.id})}">
                                         <button class="btn btn-dark cinephilia-button">EDIT</button>
                                     </a>
-                                    <form class="push-right" th:action="@{/movies/delete/{id}(id=${movie.id})}" th:method="post">
+                                    <form class="push-right" th:action="@{/movies/delete/{id} (id = ${movie.id})}" th:method="post">
                                         <button class="btn btn-dark cinephilia-remove-button text-right">X</button>
                                     </form>
                                 </div>
@@ -86,7 +86,7 @@
                             <br />
                             <hr />
                             <div class="jumbotron-fluid cinephilia-review-post-block">
-                                <form th:action="@{/movies/add-review/{id} (id=${movie.id})}" th:method="post">
+                                <form th:action="@{/movies/add-review/{id} (id = ${movie.id})}" th:method="post">
                                     <div class="form-group tiny-margin-top-bottom">
                                         <label class="cinephilia-orange-text cinephilia-tiny-text" for="title">Review title</label>
                                         <input type="text" class="form-control" id="title" placeholder="Review title" name="title">
@@ -109,7 +109,7 @@
                                             <div class="col-md-4">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:text="${review.title}"></div>
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:text="${review.rating}"></div>
-                                                <form th:action="@{/movies/delete-review/{movieId}/{reviewId}(movieId=${movie.id},reviewId=${review.id})}" th:method="post">
+                                                <form th:action="@{/movies/delete-review/{movieId}/{reviewId} (movieId = ${movie.id}, reviewId = ${review.id})}" th:method="post">
                                                     <button class="btn btn-dark cinephilia-remove-button push-down">X</button>
                                                 </form>
                                             </div>
@@ -126,7 +126,7 @@
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:text="${review.title}"></div>
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:text="${review.rating}"></div>
                                                 <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
-                                                    <form th:action="@{/movies/delete-review/{movieId}/{reviewId}(movieId=${movie.id},reviewId=${review.id})}" th:method="post">
+                                                    <form th:action="@{/movies/delete-review/{movieId}/{reviewId} (movieId = ${movie.id}, reviewId = ${review.id})}" th:method="post">
                                                         <button class="btn btn-dark cinephilia-remove-button push-down">X</button>
                                                     </form>
                                                 </th:block>

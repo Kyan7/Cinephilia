@@ -36,12 +36,12 @@
                             <div class="row justify-content-center">
                                 <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ROOT') && !currentUser.username.equals(user.username)}">
                                     <th:block th:if="${!#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                                        <form th:action="@{/users/set-admin/{id}(id=${user.id})}" th:method="post">
+                                        <form th:action="@{/users/set-admin/{id} (id = ${user.id})}" th:method="post">
                                             <button class="btn btn-dark cinephilia-button">ADMIN</button>
                                         </form>
                                     </th:block>
                                     <th:block th:if="${#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                                        <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
+                                        <form th:action="@{/users/set-user/{id} (id = ${user.id})}" th:method="post">
                                             <button class="btn btn-dark cinephilia-button">USER</button>
                                         </form>
                                     </th:block>

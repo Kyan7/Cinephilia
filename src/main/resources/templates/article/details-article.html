@@ -21,10 +21,10 @@
                             <div class="col-md-10"></div>
                             <div class="col-md-2">
                                 <div class="row">
-                                    <a class="push-left" th:href="@{/articles/edit/{id} (id=${article.id})}">
+                                    <a class="push-left" th:href="@{/articles/edit/{id} (id = ${article.id})}">
                                         <button class="btn btn-dark cinephilia-button">EDIT</button>
                                     </a>
-                                    <form class="push-right" th:action="@{/articles/delete/{id}(id=${article.id})}" th:method="post">
+                                    <form class="push-right" th:action="@{/articles/delete/{id} (id = ${article.id})}" th:method="post">
                                         <button class="btn btn-dark cinephilia-remove-button text-right">X</button>
                                     </form>
                                 </div>
@@ -48,10 +48,10 @@
                             <p class="cinephilia-orange-text"> Associated movies:
                                 <th:block th:each="movie, iter : ${article.associatedMovies}">
                                     <th:block th:if="${iter.index} < ${article.associatedMovies.size() - 1}">
-                                        <a th:href="@{/movies/details/{movieId}(movieId = ${movie.value})}" th:text="${movie.key}"></a>,
+                                        <a th:href="@{/movies/details/{movieId} (movieId = ${movie.value})}" th:text="${movie.key}"></a>,
                                     </th:block>
                                     <th:block th:if="${iter.index} == ${article.associatedMovies.size() - 1}">
-                                        <a th:href="@{/movies/details/{movieId}(movieId = ${movie.value})}" th:text="${movie.key}"></a>
+                                        <a th:href="@{/movies/details/{movieId} (movieId = ${movie.value})}" th:text="${movie.key}"></a>
                                     </th:block>
                                 </th:block>
                             </p>

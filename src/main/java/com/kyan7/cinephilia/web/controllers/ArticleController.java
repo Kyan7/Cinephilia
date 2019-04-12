@@ -5,6 +5,7 @@ import com.kyan7.cinephilia.domain.models.service.ArticleServiceModel;
 import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
 import com.kyan7.cinephilia.domain.models.view.ArticleAdminListViewModel;
 import com.kyan7.cinephilia.domain.models.view.ArticleDetailsViewModel;
+import com.kyan7.cinephilia.domain.models.view.UserAuthoritiesViewModel;
 import com.kyan7.cinephilia.service.ArticleService;
 import com.kyan7.cinephilia.service.CloudinaryService;
 import com.kyan7.cinephilia.service.MovieService;
@@ -66,20 +67,18 @@ public class ArticleController extends BaseController {
     @GetMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addArticle(ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "Add Article");
-        //modelAndView.addObject("associatedMovies",
-        //        this.a.findAllGenresOrderByName()
-        //                .stream()
-        //                .map(g -> this.modelMapper.map(g, GenreViewModel.class))
-        //                .collect(Collectors.toList()));
-        return super.view("article/add-article", modelAndView);
+        try {
+            modelAndView.addObject("pageTitle", "Add Article");
+            return super.view("article/add-article", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("/articles/all");
+        }
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addArticleConfirm(@ModelAttribute(name = "model") ArticleAddBindingModel model, Principal principal, ModelAndView modelAndView) throws IOException {
         try {
-            model.getAssociatedMovies().forEach(m -> System.out.println("movie:" + m));
             ArticleServiceModel articleServiceModel = this.modelMapper.map(model, ArticleServiceModel.class);
             articleServiceModel.setAssociatedMovies(
                     this.movieService.findAllMovies()
@@ -87,19 +86,10 @@ public class ArticleController extends BaseController {
                             .filter(m -> model.getAssociatedMovies().contains(m.getId()))
                             .collect(Collectors.toList())
             );
-            System.out.println("Attempting to upload");
             articleServiceModel.setImageUrl(
                     this.cloudinaryService.uploadImage(model.getImage())
             );
             articleServiceModel.setUser(this.userService.findUserByUsername(principal.getName()));
-            System.out.println(articleServiceModel.getTitle());
-            System.out.println(articleServiceModel.getUser());
-            System.out.println(articleServiceModel.getContent());
-            for (var am : articleServiceModel.getAssociatedMovies()
-                 ) {
-                System.out.println(am.getTitle());
-            }
-            System.out.println(articleServiceModel.getImageUrl());
             this.articleService.addArticle(articleServiceModel);
             return super.redirect("/articles/all");
         } catch (Exception e) {
@@ -111,35 +101,48 @@ public class ArticleController extends BaseController {
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView detailsArticle(@PathVariable String id, Principal principal, ModelAndView modelAndView) {
-        modelAndView.addObject("currentUser", findCurrentUser(principal));
+        UserAuthoritiesViewModel currentUser = this.findCurrentUser(principal);
 
-        ArticleServiceModel articleServiceModel = this.articleService.findArticleByIdAndIncrementViews(id);
-        modelAndView.addObject("pageTitle", articleServiceModel.getTitle());
+        try {
+            modelAndView.addObject("currentUser", currentUser);
 
-        ArticleDetailsViewModel article = this.modelMapper.map(articleServiceModel, ArticleDetailsViewModel.class);
-        article.setUser(articleServiceModel.getUser().getUsername());
-        HashMap<String, String> tempAssociatedMovies = new HashMap<>();
-        for (MovieServiceModel movie : articleServiceModel.getAssociatedMovies()
-             ) {
-            tempAssociatedMovies.put(movie.getTitle(), movie.getId());
+            ArticleServiceModel articleServiceModel = this.articleService.findArticleByIdAndIncrementViews(id);
+            modelAndView.addObject("pageTitle", articleServiceModel.getTitle());
+
+            ArticleDetailsViewModel article = this.modelMapper.map(articleServiceModel, ArticleDetailsViewModel.class);
+            article.setUser(articleServiceModel.getUser().getUsername());
+            HashMap<String, String> tempAssociatedMovies = new HashMap<>();
+            for (MovieServiceModel movie : articleServiceModel.getAssociatedMovies()
+            ) {
+                tempAssociatedMovies.put(movie.getTitle(), movie.getId());
+            }
+            article.setAssociatedMovies(tempAssociatedMovies);
+            modelAndView.addObject("article", article);
+
+            return super.view("article/details-article", modelAndView);
+        } catch (Exception e) {
+            if (currentUser.getAuthorities().contains("ROLE_ADMIN")) {
+                return super.redirect("/articles/all");
+            }
+            return super.redirect("/articles/list");
         }
-        article.setAssociatedMovies(tempAssociatedMovies);
-        modelAndView.addObject("article", article);
-
-        return super.view("article/details-article", modelAndView);
     }
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editArticle(@PathVariable String id, ModelAndView modelAndView) {
-        ArticleServiceModel articleServiceModel = this.articleService.findArticleById(id);
-        ArticleAddBindingModel model = this.modelMapper.map(articleServiceModel, ArticleAddBindingModel.class);
-        model.setAssociatedMovies(articleServiceModel.getAssociatedMovies().stream().map(g -> g.getTitle()).collect(Collectors.toList()));
-        modelAndView.addObject("pageTitle", "Edit a:" + model.getTitle());
-        modelAndView.addObject("article", model);
-        modelAndView.addObject("articleId", id);
+        try {
+            ArticleServiceModel articleServiceModel = this.articleService.findArticleById(id);
+            ArticleAddBindingModel model = this.modelMapper.map(articleServiceModel, ArticleAddBindingModel.class);
+            model.setAssociatedMovies(articleServiceModel.getAssociatedMovies().stream().map(g -> g.getTitle()).collect(Collectors.toList()));
+            modelAndView.addObject("pageTitle", "Edit a:" + model.getTitle());
+            modelAndView.addObject("article", model);
+            modelAndView.addObject("articleId", id);
 
-        return super.view("article/edit-article", modelAndView);
+            return super.view("article/edit-article", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("/articles/all");
+        }
     }
 
     @PostMapping("/edit/{id}")

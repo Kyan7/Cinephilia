@@ -12,10 +12,11 @@ public class MovieTheater {
     private String id;
     private String name;
     private String address;
+    private String link;
+    private String phoneNumber;
     private List<Screening> screenings;
 
-    public MovieTheater(String id) {
-        this.id = id;
+    public MovieTheater() {
     }
 
     @Id
@@ -58,5 +59,23 @@ public class MovieTheater {
 
     public void setScreenings(List<Screening> screenings) {
         this.screenings = screenings;
+    }
+
+    @Column(name = "link")
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    @Column(name = "phone_number")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

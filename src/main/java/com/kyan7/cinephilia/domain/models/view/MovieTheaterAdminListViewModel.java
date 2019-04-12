@@ -1,17 +1,13 @@
-package com.kyan7.cinephilia.domain.models.service;
+package com.kyan7.cinephilia.domain.models.view;
 
-import java.util.List;
-
-public class MovieTheaterServiceModel {
+public class MovieTheaterAdminListViewModel {
 
     private String id;
     private String name;
     private String address;
     private String link;
-    private String phoneNumber;
-    private List<ScreeningServiceModel> screenings;
 
-    public MovieTheaterServiceModel() {
+    public MovieTheaterAdminListViewModel() {
     }
 
     public String getId() {
@@ -38,27 +34,11 @@ public class MovieTheaterServiceModel {
         this.address = address;
     }
 
-    public List<ScreeningServiceModel> getScreenings() {
-        return screenings;
-    }
-
-    public void setScreenings(List<ScreeningServiceModel> screenings) {
-        this.screenings = screenings;
-    }
-
     public String getLink() {
         return link;
     }
 
     public void setLink(String link) {
         this.link = link;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 }

@@ -67,8 +67,7 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = this.movieRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
         movie.setViews(movie.getViews() + 1);
-        this.movieRepository.saveAndFlush(movie);
-        return this.modelMapper.map(movie, MovieServiceModel.class);
+        return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
     }
 
     @Override

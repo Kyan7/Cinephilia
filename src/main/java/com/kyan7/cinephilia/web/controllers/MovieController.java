@@ -79,7 +79,7 @@ public class MovieController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView addMovieConfirm(@ModelAttribute(name = "model") MovieAddBindingModel model, Principal principal, ModelAndView modelAndView) throws IOException {
+    public ModelAndView addMovieConfirm(@ModelAttribute(name = "model") MovieAddBindingModel model, Principal principal) {
         try {
             MovieServiceModel movieServiceModel = this.modelMapper.map(model, MovieServiceModel.class);
             movieServiceModel.setGenres(

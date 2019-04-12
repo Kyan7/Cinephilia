@@ -34,6 +34,9 @@
                         <li class="nav-item active">
                             <a class="nav-link text-white" th:href="@{/movies/list}">Movies</a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link text-white" th:href="@{/movie-theaters/list}">Movie Theaters</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
@@ -44,11 +47,11 @@
                                         Admin
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                        <a class="dropdown-item" th:href="@{/users/all}">User List</a>
-                                        <a class="dropdown-item" th:href="@{/articles/all}">Article List</a>
-                                        <a class="dropdown-item" th:href="@{/movies/all}">Movie List</a>
-                                        <a class="dropdown-item" th:href="@{/genres/all}">Genre List</a>
-                                        <a class="dropdown-item" th:href="@{/movie-theaters/all}">Movie Theater List</a>
+                                        <a class="dropdown-item" th:href="@{/users/all}">All Users</a>
+                                        <a class="dropdown-item" th:href="@{/articles/all}">All Articles</a>
+                                        <a class="dropdown-item" th:href="@{/movies/all}">All Movies</a>
+                                        <a class="dropdown-item" th:href="@{/genres/all}">All Genres</a>
+                                        <a class="dropdown-item" th:href="@{/movie-theaters/all}">All Movie Theaters</a>
                                     </div>
                                 </div>
                             </li>
