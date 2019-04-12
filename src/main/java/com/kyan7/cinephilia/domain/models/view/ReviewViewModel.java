@@ -2,6 +2,7 @@ package com.kyan7.cinephilia.domain.models.view;
 
 public class ReviewViewModel {
 
+    private String id;
     private String title;
     private String reviewer;
     private Double rating;
@@ -12,6 +13,14 @@ public class ReviewViewModel {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {

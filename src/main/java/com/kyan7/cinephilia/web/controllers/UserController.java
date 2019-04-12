@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +27,7 @@ public class UserController extends BaseController {
 
     @Autowired
     public UserController(UserService userService, ModelMapper modelMapper) {
+        super(userService, modelMapper);
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
@@ -154,10 +154,10 @@ public class UserController extends BaseController {
                 })
                 .collect(Collectors.toList());
         modelAndView.addObject("users", users);
-        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
-        UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
-        currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
-        modelAndView.addObject("currentUser", currentUser);
+        //UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+        //UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
+        //currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
+        modelAndView.addObject("currentUser", findCurrentUser(principal));
         return super.view("all-users", modelAndView);
     }
 

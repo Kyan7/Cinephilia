@@ -4,6 +4,7 @@ import com.kyan7.cinephilia.domain.models.binding.GenreAddBindingModel;
 import com.kyan7.cinephilia.domain.models.service.GenreServiceModel;
 import com.kyan7.cinephilia.domain.models.view.GenreViewModel;
 import com.kyan7.cinephilia.service.GenreService;
+import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,11 +19,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/genres")
 public class GenreController extends BaseController{
 
+    private final UserService userService;
     private final GenreService genreService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public GenreController(GenreService genreService, ModelMapper modelMapper) {
+    public GenreController(UserService userService, GenreService genreService, ModelMapper modelMapper) {
+        super(userService, modelMapper);
+        this.userService = userService;
         this.genreService = genreService;
         this.modelMapper = modelMapper;
     }

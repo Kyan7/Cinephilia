@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <img class="push-up" th:src="${movie.imageUrl}" width="100%" alt="Movie Poster" align="left">
-                    <th:block th:each="trailerId : ${movie.trailerIds}">
+                    <th:block th:each="trailerId : ${trailerIds}">
                         <iframe allowfullscreen="allowfullscreen" class="push-up push-down" width="100%"
                                 th:src="'https://www.youtube.com/embed/' + ${trailerId}" align="left">
                         </iframe>
@@ -109,6 +109,11 @@
                                             <div class="col-md-4">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:text="${review.title}"></div>
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:text="${review.rating}"></div>
+                                                <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
+                                                    <form th:action="@{/movies/delete-review/{movieId}/{reviewId}(movieId=${movie.id},reviewId=${review.id})}" th:method="post">
+                                                        <button class="btn btn-dark cinephilia-remove-button">X</button>
+                                                    </form>
+                                                </th:block>
                                             </div>
                                             <div class="col-md-7">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${review.description}"></div>
@@ -122,6 +127,11 @@
                                             <div class="col-md-4">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:text="${review.title}"></div>
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:text="${review.rating}"></div>
+                                                <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
+                                                    <form th:action="@{/movies/delete-review/{movieId}/{reviewId}(movieId=${movie.id},reviewId=${review.id})}" th:method="post">
+                                                        <button class="btn btn-dark cinephilia-remove-button">X</button>
+                                                    </form>
+                                                </th:block>
                                             </div>
                                             <div class="col-md-7">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${review.description}"></div>

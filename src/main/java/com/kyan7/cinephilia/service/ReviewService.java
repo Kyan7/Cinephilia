@@ -6,7 +6,11 @@ import java.util.List;
 
 public interface ReviewService {
 
-    List<ReviewServiceModel> findAllByMovieId(String movieId);
+    List<ReviewServiceModel> findAllReviewsByMovieId(String movieId);
+
+    ReviewServiceModel findReviewById(String id);
 
     ReviewServiceModel addReview(ReviewServiceModel reviewServiceModel);
+
+    ReviewServiceModel deleteReview(String id);
 }

@@ -23,7 +23,6 @@ public class MovieDetailsViewModel {
     private String leadActor;
     private String supportingActors;
     private String description;
-    private List<String> trailerIds;
     // private List<String> screenings;
     // private List<String> reviews;
 
@@ -173,13 +172,5 @@ public class MovieDetailsViewModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<String> getTrailerIds() {
-        return trailerIds;
-    }
-
-    public void setTrailerIds(List<String> trailerIds) {
-        this.trailerIds = trailerIds;
     }
 }

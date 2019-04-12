@@ -227,7 +227,7 @@ public class Movie {
         this.screenings = screenings;
     }
 
-    @OneToMany(mappedBy = "movie", targetEntity = Review.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", targetEntity = Review.class, orphanRemoval = true)
     public List<Review> getReviews() {
         return reviews;
     }

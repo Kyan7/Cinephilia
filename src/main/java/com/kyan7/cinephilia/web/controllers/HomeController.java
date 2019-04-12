@@ -1,7 +1,6 @@
 package com.kyan7.cinephilia.web.controllers;
 
 import com.kyan7.cinephilia.domain.models.view.MovieHomeViewModel;
-import com.kyan7.cinephilia.domain.models.view.UserProfileViewModel;
 import com.kyan7.cinephilia.service.MovieService;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -18,11 +17,15 @@ import java.util.stream.Collectors;
 @Controller
 public class HomeController extends BaseController {
 
+
+    private final UserService userService;
     private final MovieService movieService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HomeController(MovieService movieService, ModelMapper modelMapper) {
+    public HomeController(UserService userService, MovieService movieService, ModelMapper modelMapper) {
+        super(userService, modelMapper);
+        this.userService = userService;
         this.movieService = movieService;
         this.modelMapper = modelMapper;
     }

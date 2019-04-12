@@ -36,6 +36,7 @@ public class MovieController extends BaseController {
 
     @Autowired
     public MovieController(MovieService movieService, GenreService genreService, ReviewService reviewService, UserService userService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+        super(userService, modelMapper);
         this.movieService = movieService;
         this.genreService = genreService;
         this.reviewService = reviewService;
@@ -97,10 +98,7 @@ public class MovieController extends BaseController {
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView detailsMovie(@PathVariable String id, Principal principal, ModelAndView modelAndView) {
-        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
-        UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);
-        currentUser.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
-        modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("currentUser", findCurrentUser(principal));
 
         MovieServiceModel movieServiceModel = this.movieService.findMovieByIdAndIncrementViews(id);
         modelAndView.addObject("pageTitle", movieServiceModel.getTitle());
@@ -112,6 +110,8 @@ public class MovieController extends BaseController {
                 .map(g -> g.getName())
                 .distinct()
                 .collect(Collectors.toList()));
+        modelAndView.addObject("movie", movie);
+
         List<String> trailerLinks = Arrays.asList(movieServiceModel
                 .getTrailerLinks()
                 .split(", "));
@@ -120,10 +120,9 @@ public class MovieController extends BaseController {
              ) {
             trailerIds.add(trailerLink.split("=")[1]);
         }
-        movie.setTrailerIds(trailerIds);
-        modelAndView.addObject("movie", movie);
+        modelAndView.addObject("trailerIds", trailerIds);
 
-        List<ReviewViewModel> reviews = this.reviewService.findAllByMovieId(id)
+        List<ReviewViewModel> reviews = this.reviewService.findAllReviewsByMovieId(id)
                 .stream()
                 .map(r -> {
                     ReviewViewModel reviewViewModel = this.modelMapper.map(r, ReviewViewModel.class);
@@ -186,13 +185,24 @@ public class MovieController extends BaseController {
         return super.redirect("/movies/all");
     }
 
-    @PostMapping("/add-review/{id}")
+    @PostMapping("/add-review/{movieId}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView addReview(@PathVariable String id, Principal principal, @ModelAttribute(name = "model") ReviewAddBindingModel model) {
+    public ModelAndView addReview(@PathVariable String movieId, Principal principal, @ModelAttribute(name = "model") ReviewAddBindingModel model) {
         ReviewServiceModel reviewServiceModel = this.modelMapper.map(model, ReviewServiceModel.class);
         reviewServiceModel.setReviewer(this.userService.findUserByUsername(principal.getName()));
-        reviewServiceModel.setMovie(this.movieService.findMovieById(id));
+        reviewServiceModel.setMovie(this.movieService.findMovieById(movieId));
         this.reviewService.addReview(reviewServiceModel);
-        return super.redirect("/movies/details/" + id);
+        return super.redirect("/movies/details/" + movieId);
+    }
+
+    @PostMapping("/delete-review/{movieId}/{reviewId}")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView deleteReview(@PathVariable String movieId, @PathVariable String reviewId, Principal principal) {
+        ReviewServiceModel reviewServiceModel = this.reviewService.findReviewById(reviewId);
+        UserAuthoritiesViewModel currentUser = findCurrentUser(principal);
+        if (currentUser.getAuthorities().contains("ROLE_ADMIN") || reviewServiceModel.getReviewer().getUsername().equals(principal.getName())) {
+            this.reviewService.deleteReview(reviewId);
+        }
+        return super.redirect("/movies/details/" + movieId);
     }
 }
