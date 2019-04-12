@@ -47,21 +47,25 @@ public class ArticleController extends BaseController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView allArticles(ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "All Articles");
-        List<ArticleAdminListViewModel> articles = this.articleService.findAllArticles()
-                .stream()
-                .map(a -> {
-                    ArticleAdminListViewModel article = this.modelMapper.map(a, ArticleAdminListViewModel.class);
-                    article.setAssociatedMovies(a.getAssociatedMovies()
-                            .stream()
-                            .map(m -> m.getTitle())
-                            .collect(Collectors.toList()));
-                    article.setUser(a.getUser().getUsername());
-                    return article;
-                })
-                .collect(Collectors.toList());
-        modelAndView.addObject("articles", articles);
-        return super.view("article/all-articles", modelAndView);
+        try {
+            modelAndView.addObject("pageTitle", "All Articles");
+            List<ArticleAdminListViewModel> articles = this.articleService.findAllArticles()
+                    .stream()
+                    .map(a -> {
+                        ArticleAdminListViewModel article = this.modelMapper.map(a, ArticleAdminListViewModel.class);
+                        article.setAssociatedMovies(a.getAssociatedMovies()
+                                .stream()
+                                .map(m -> m.getTitle())
+                                .collect(Collectors.toList()));
+                        article.setUser(a.getUser().getUsername());
+                        return article;
+                    })
+                    .collect(Collectors.toList());
+            modelAndView.addObject("articles", articles);
+            return super.view("article/all-articles", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("home");
+        }
     }
 
     @GetMapping("/add")

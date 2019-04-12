@@ -6,6 +6,7 @@ public class MovieTheaterAdminListViewModel {
     private String name;
     private String address;
     private String link;
+    private String phoneNumber;
 
     public MovieTheaterAdminListViewModel() {
     }
@@ -40,5 +41,13 @@ public class MovieTheaterAdminListViewModel {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

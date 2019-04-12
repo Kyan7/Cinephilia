@@ -9,17 +9,49 @@
 <th:block th:include="~{fragments/navbar}"></th:block>
 <main>
     <div class="jumbotron-fluid cinephilia-dark cinephilia-main-block">
-        <div>
+        <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4">
-                    <img class="push-up" th:src="${movie.imageUrl}" width="100%" alt="Movie Poster" align="left">
-                    <th:block th:each="trailerId : ${trailerIds}">
-                        <iframe allowfullscreen="allowfullscreen" class="push-up push-down" width="100%"
-                                th:src="'https://www.youtube.com/embed/' + ${trailerId}" align="left">
-                        </iframe>
-                    </th:block>
+                    <div class="row">
+                        <img class="push-up" th:src="${movie.imageUrl}" width="100%" height="100%" alt="Movie Poster" align="left">
+                        <th:block th:each="trailerId : ${trailerIds}">
+                            <iframe allowfullscreen="allowfullscreen" class="push-up push-down" width="100%"
+                                    th:src="'https://www.youtube.com/embed/' + ${trailerId}" align="left">
+                            </iframe>
+                        </th:block>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
+                                <div class="jumbotron-fluid cinephilia-review-post-block">
+                                    <form th:action="@{/movies/add-screening/{id} (id = ${movie.id})}" th:method="post">
+                                        <div class="form-group tiny-margin-top-bottom">
+                                            <label class="cinephilia-orange-text cinephilia-tiny-text" for="add-screening-theater">Movie Theater</label>
+                                            <select class="form-control" id="add-screening-theater" name="movieTheater">
+                                                <option selected disabled="">Select Movie Theater</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group tiny-margin-top-bottom">
+                                            <label class="cinephilia-orange-text cinephilia-tiny-text" for="timeStamps">Time Stamps</label>
+                                            <input type="text" class="form-control" id="timeStamps" placeholder="07:20, 10:30, 15:40, ..." name="timeStamps">
+                                        </div>
+                                        <div class="form-group tiny-margin-top-bottom">
+                                            <label class="cinephilia-orange-text cinephilia-tiny-text" for="type">Type</label>
+                                            <input type="text" class="form-control" id="type" placeholder="Real3D/IMAX3D/2D/..." name="type">
+                                        </div>
+                                        <div class="form-group tiny-margin-top-bottom">
+                                            <label class="cinephilia-orange-text cinephilia-tiny-text" for="price">Price</label>
+                                            <input type="number" step="0.05" min="0" value="0" class="form-control" id="price" placeholder="0.00" name="price">
+                                        </div>
+                                        <button class="btn btn-dark cinephilia-button text-right push-down">Submit</button>
+                                    </form>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-1"></div>
+                <div class="col-md-7">
                     <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
                         <br />
                         <div class="row">
@@ -78,6 +110,68 @@
                             <hr />
                             <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${movie.description}"></div>
                         </div>
+                    </div>
+                    <div class="col-md-11">
+                        <th:block th:each="movieTheater : ${orderedScreenings}">
+                            <div class="jumbotron-fluid cinephilia-screening-theater-block">
+                                <h3 th:text="${movieTheater.key}"></h3>
+                                <th:block th:each="type : ${movieTheater.value}">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="cinephilia-medium-small-text" th:text="${type.key}"></div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <th:block th:each="price : ${type.value}">
+                                                    <div class="col-md-5">
+                                                        <div class="jumbotron-fluid cinephilia-screening-price-block push-left">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="cinephilia-medium-small-text" th:text="${price.key} + 'lv'"></div>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <th:block th:each="screening : ${price.value}">
+                                                                        <div class="row">
+                                                                            <div class="col-md-8">
+                                                                                <div class="jumbotron-fluid cinephilia-screening-block">
+                                                                                    <div class="cinephilia-small-text text-center" th:text="${screening.timeStamp}"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </th:block>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--div class="row push-down push-up">
+                                        <div class="row">
+                                            <div class="jumbotron-fluid cinephilia-screening-type-block">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="cinephilia-small-text" th:text="${type.key}" />
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <th:block th:each="price : ${type.value}">
+                                                            <div class="col-md-6">
+                                                                <div class="jumbotron-fluid cinephilia-screening-price-block">
+                                                                    <div class="row text-center">
+                                                                        <p th:text="${price.key}" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </th:block>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div-->
+                                </th:block>
+                            </div>
+                        </th:block>
                     </div>
                     <div class="row">
                         <div class="col-md-11">
@@ -149,4 +243,12 @@
 </main>
 <th:block th:include="~{fragments/footer}"></th:block>
 </body>
+<script>
+    fetch('/movie-theaters/fetch')
+        .then((response) => response.json())
+    .then((json) => {
+        json.forEach((theater) => $('#add-screening-theater').append(`<option value="${theater.id}">${theater.name}</option>`));
+    })
+    .catch((err) => console.log(err));
+</script>
 </html>

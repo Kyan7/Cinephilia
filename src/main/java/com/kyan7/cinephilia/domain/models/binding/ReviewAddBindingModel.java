@@ -6,7 +6,6 @@ public class ReviewAddBindingModel {
     private String reviewer;
     private Double rating;
     private String description;
-    private String movie;
 
     public ReviewAddBindingModel() {
     }
@@ -41,13 +40,5 @@ public class ReviewAddBindingModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getMovie() {
-        return movie;
-    }
-
-    public void setMovie(String movie) {
-        this.movie = movie;
     }
 }

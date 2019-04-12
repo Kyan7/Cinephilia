@@ -16,20 +16,20 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
-    private final MovieRepository movieRepository;
+    private final MovieService movieService; //TODO
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository, MovieRepository movieRepository, ModelMapper modelMapper) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, MovieService movieService, ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
-        this.movieRepository = movieRepository;
+        this.movieService = movieService;
         this.modelMapper = modelMapper;
     }
 
 
     @Override
     public List<ReviewServiceModel> findAllReviewsByMovieId(String movieId) {
-        Movie movie = this.movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("Movie not found!"));
+        Movie movie = this.modelMapper.map(this.movieService.findMovieById(movieId), Movie.class);
         return this.reviewRepository.findAllByMovie(movie)
                 .stream()
                 .map(r -> this.modelMapper.map(r, ReviewServiceModel.class))
@@ -38,20 +38,21 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public ReviewServiceModel findReviewById(String id) {
-        Review review = this.reviewRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Review not found!"));
+        Review review = this.reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Review not found!"));
         return this.modelMapper.map(review, ReviewServiceModel.class);
     }
 
     @Override
     public ReviewServiceModel addReview(ReviewServiceModel reviewServiceModel) {
         Review review = this.modelMapper.map(reviewServiceModel, Review.class);
-        this.reviewRepository.saveAndFlush(review);
-        return this.modelMapper.map(review, ReviewServiceModel.class);
+        return this.modelMapper.map(this.reviewRepository.saveAndFlush(review), ReviewServiceModel.class);
     }
 
     @Override
     public ReviewServiceModel deleteReview(String id) {
-        Review review = this.reviewRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Review not found!"));
+        Review review = this.reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Review not found!"));
         this.reviewRepository.delete(review);
         return this.modelMapper.map(review, ReviewServiceModel.class);
     }

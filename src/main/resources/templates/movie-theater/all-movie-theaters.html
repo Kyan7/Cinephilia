@@ -21,7 +21,8 @@
                 <th class="col-md-1 text-center">Name</th>
                 <th class="col-md-2 text-center">Address</th>
                 <th class="col-md-3 text-center">Link</th>
-                <th class="col-md-2 text-center">Actions</th>
+                <th class="col-md-1 text-center">Phone Number</th>
+                <th class="col-md-1 text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -32,11 +33,9 @@
                     <td class="col-md-1 text-center text-sm" th:text="${movieTheater.name}"></td>
                     <td class="col-md-2 text-center text-sm" th:text="${movieTheater.address}"></td>
                     <td class="col-md-3 text-center text-sm"><a class="cinephilia-dark-text-important" th:href="${movieTheater.link}" th:text="${movieTheater.link}"></a></td>
-                    <td class="col-md-2 text-center">
+                    <td class="col-md-1 text-center text-sm" th:text="${movieTheater.phoneNumber}"></td>
+                    <td class="col-md-1 text-center">
                         <div class="row justify-content-center">
-                            <a class="push-left" th:href="@{/movie-theaters/details/{id} (id = ${movieTheater.id})}">
-                                <button class="btn btn-dark cinephilia-button">DETAILS</button>
-                            </a>
                             <a class="push-left push-right" th:href="@{/movie-theaters/edit/{id} (id = ${movieTheater.id})}">
                                 <button class="btn btn-dark cinephilia-button">EDIT</button>
                             </a>

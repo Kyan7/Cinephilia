@@ -1,11 +1,10 @@
 package com.kyan7.cinephilia.web.controllers;
 
+import com.kyan7.cinephilia.domain.entities.Screening;
 import com.kyan7.cinephilia.domain.models.binding.MovieAddBindingModel;
 import com.kyan7.cinephilia.domain.models.binding.ReviewAddBindingModel;
-import com.kyan7.cinephilia.domain.models.service.GenreServiceModel;
-import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
-import com.kyan7.cinephilia.domain.models.service.ReviewServiceModel;
-import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
+import com.kyan7.cinephilia.domain.models.binding.ScreeningMultiAddBindingModel;
+import com.kyan7.cinephilia.domain.models.service.*;
 import com.kyan7.cinephilia.domain.models.view.*;
 import com.kyan7.cinephilia.service.*;
 import org.modelmapper.ModelMapper;
@@ -15,11 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,17 +25,21 @@ public class MovieController extends BaseController {
     private final MovieService movieService;
     private final GenreService genreService;
     private final ReviewService reviewService;
+    private final ScreeningService screeningService;
+    private final MovieTheaterService movieTheaterService;
     private final UserService userService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public MovieController(MovieService movieService, GenreService genreService, ReviewService reviewService, UserService userService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public MovieController(MovieService movieService, GenreService genreService, ReviewService reviewService, ScreeningService screeningService, MovieTheaterService movieTheaterService, UserService userService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         super(userService, modelMapper);
         this.movieService = movieService;
         this.genreService = genreService;
         this.reviewService = reviewService;
+        this.screeningService = screeningService;
+        this.movieTheaterService = movieTheaterService;
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
@@ -48,33 +48,41 @@ public class MovieController extends BaseController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView allMovies(ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "All Movies");
-        List<MovieAdminListViewModel> movies = this.movieService.findAllMovies()
-                .stream()
-                .map(m -> {
-                    MovieAdminListViewModel movie = this.modelMapper.map(m, MovieAdminListViewModel.class);
-                    movie.setGenres(m.getGenres()
-                            .stream()
-                            .map(g -> g.getName())
-                            .collect(Collectors.toList()));
-                    movie.setUser(m.getUser().getUsername());
-                    return movie;
-                })
-                .collect(Collectors.toList());
-        modelAndView.addObject("movies", movies);
-        return super.view("movie/all-movies", modelAndView);
+        try {
+            modelAndView.addObject("pageTitle", "All Movies");
+            List<MovieAdminListViewModel> movies = this.movieService.findAllMovies()
+                    .stream()
+                    .map(m -> {
+                        MovieAdminListViewModel movie = this.modelMapper.map(m, MovieAdminListViewModel.class);
+                        movie.setGenres(m.getGenres()
+                                .stream()
+                                .map(g -> g.getName())
+                                .collect(Collectors.toList()));
+                        movie.setUser(m.getUser().getUsername());
+                        return movie;
+                    })
+                    .collect(Collectors.toList());
+            modelAndView.addObject("movies", movies);
+            return super.view("movie/all-movies", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("home");
+        }
     }
 
     @GetMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addMovie(ModelAndView modelAndView) {
-        modelAndView.addObject("pageTitle", "Add Movie");
-        modelAndView.addObject("genres",
-                this.genreService.findAllGenresOrderByName()
-                        .stream()
-                        .map(g -> this.modelMapper.map(g, GenreViewModel.class))
-                        .collect(Collectors.toList()));
-        return super.view("movie/add-movie", modelAndView);
+        try {
+            modelAndView.addObject("pageTitle", "Add Movie");
+            modelAndView.addObject("genres",
+                    this.genreService.findAllGenresOrderByName()
+                            .stream()
+                            .map(g -> this.modelMapper.map(g, GenreViewModel.class))
+                            .collect(Collectors.toList()));
+            return super.view("movie/add-movie", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("/movies/all");
+        }
     }
 
     @PostMapping("/add")
@@ -93,6 +101,7 @@ public class MovieController extends BaseController {
             );
             movieServiceModel.setUser(this.userService.findUserByUsername(principal.getName()));
             this.movieService.addMovie(movieServiceModel);
+
             return super.redirect("/movies/all");
         } catch (Exception e) {
             return super.redirect("/movies/all");
@@ -103,65 +112,97 @@ public class MovieController extends BaseController {
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView detailsMovie(@PathVariable String id, Principal principal, ModelAndView modelAndView) {
-        modelAndView.addObject("currentUser", findCurrentUser(principal));
+        UserAuthoritiesViewModel currentUser = this.findCurrentUser(principal);
 
-        MovieServiceModel movieServiceModel = this.movieService.findMovieByIdAndIncrementViews(id);
-        modelAndView.addObject("pageTitle", movieServiceModel.getTitle());
+            modelAndView.addObject("currentUser", currentUser);
 
-        MovieDetailsViewModel movie = this.modelMapper.map(movieServiceModel, MovieDetailsViewModel.class);
-        movie.setUser(movieServiceModel.getUser().getUsername());
-        movie.setGenres(movieServiceModel.getGenres()
-                .stream()
-                .map(g -> g.getName())
-                .distinct()
-                .collect(Collectors.toList()));
-        modelAndView.addObject("movie", movie);
+            MovieServiceModel movieServiceModel = this.movieService.findMovieByIdAndIncrementViews(id);
+            modelAndView.addObject("pageTitle", movieServiceModel.getTitle());
 
-        List<String> trailerLinks = Arrays.asList(movieServiceModel
-                .getTrailerLinks()
-                .split(", "));
-        List<String> trailerIds = new ArrayList<>();
-        for (String trailerLink : trailerLinks
-             ) {
-            trailerIds.add(trailerLink.split("=")[1]);
-        }
-        modelAndView.addObject("trailerIds", trailerIds);
+            MovieDetailsViewModel movie = this.modelMapper.map(movieServiceModel, MovieDetailsViewModel.class);
+            movie.setUser(movieServiceModel.getUser().getUsername());
+            movie.setGenres(movieServiceModel.getGenres()
+                    .stream()
+                    .map(g -> g.getName())
+                    .distinct()
+                    .collect(Collectors.toList()));
+            modelAndView.addObject("movie", movie);
 
-        List<ReviewViewModel> reviews = this.reviewService.findAllReviewsByMovieId(id)
-                .stream()
-                .map(r -> {
-                    ReviewViewModel reviewViewModel = this.modelMapper.map(r, ReviewViewModel.class);
-                    reviewViewModel.setReviewer(r.getReviewer().getUsername());
-                    return reviewViewModel;
-                })
-                .collect(Collectors.toList());
-        modelAndView.addObject("reviews", reviews);
+            List<String> trailerLinks = Arrays.asList(movieServiceModel
+                    .getTrailerLinks()
+                    .split(", "));
+            List<String> trailerIds = new ArrayList<>();
+            for (String trailerLink : trailerLinks
+            ) {
+                trailerIds.add(trailerLink.split("=")[1]);
+            }
+            modelAndView.addObject("trailerIds", trailerIds);
 
-        String averageUserRating = "N/A";
-        Double sum = 0.0;
-        long count = 0;
-        for (ReviewViewModel review : reviews
-             ) {
-            sum += review.getRating();
-            count++;
-        }
-        if (count > 0) averageUserRating = String.format("%.2f", sum/count).replace(',', '.');
-        modelAndView.addObject("averageUserRating", averageUserRating);
+            List<ScreeningViewModel> screenings = this.screeningService.findAllScreeningsByMovieId(id)
+                    .stream()
+                    .map(s -> {
+                        ScreeningViewModel screeningViewModel = this.modelMapper.map(s, ScreeningViewModel.class);
+                        screeningViewModel.setMovieTheater(s.getMovieTheater().getName());
+                        return screeningViewModel;
+                    })
+                    .collect(Collectors.toList());
+            HashMap<String, HashMap<String, HashMap<Double, ArrayList<ScreeningViewModel>>>> orderedScreenings = new LinkedHashMap<>();
+            for (ScreeningViewModel screening : screenings) {
+                if (!orderedScreenings.containsKey(screening.getMovieTheater())) {
+                    orderedScreenings.put(screening.getMovieTheater(), new HashMap<>());
+                }
+                if (!orderedScreenings.get(screening.getMovieTheater()).containsKey(screening.getType())) {
+                    orderedScreenings.get(screening.getMovieTheater()).put(screening.getType(), new HashMap<>());
+                }
+                if (!orderedScreenings.get(screening.getMovieTheater()).get(screening.getType()).containsKey(screening.getPrice())) {
+                    orderedScreenings.get(screening.getMovieTheater()).get(screening.getType()).put(screening.getPrice(), new ArrayList<>());
+                }
+                orderedScreenings.get(screening.getMovieTheater()).get(screening.getType()).get(screening.getPrice()).add(screening);
+            }
+            modelAndView.addObject("orderedScreenings", orderedScreenings);
 
-        return super.view("movie/details-movie", modelAndView);
+
+
+            List<ReviewViewModel> reviews = this.reviewService.findAllReviewsByMovieId(id)
+                    .stream()
+                    .map(r -> {
+                        ReviewViewModel reviewViewModel = this.modelMapper.map(r, ReviewViewModel.class);
+                        reviewViewModel.setReviewer(r.getReviewer().getUsername());
+                        return reviewViewModel;
+                    })
+                    .collect(Collectors.toList());
+            modelAndView.addObject("reviews", reviews);
+
+            String averageUserRating = "N/A";
+            Double sum = 0.0;
+            long count = 0;
+            for (ReviewViewModel review : reviews
+            ) {
+                sum += review.getRating();
+                count++;
+            }
+            if (count > 0) averageUserRating = String.format("%.2f", sum/count).replace(',', '.');
+            modelAndView.addObject("averageUserRating", averageUserRating);
+
+            return super.view("movie/details-movie", modelAndView);
+
     }
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editMovie(@PathVariable String id, ModelAndView modelAndView) {
-        MovieServiceModel movieServiceModel = this.movieService.findMovieById(id);
-        MovieAddBindingModel model = this.modelMapper.map(movieServiceModel, MovieAddBindingModel.class);
-        model.setGenres(movieServiceModel.getGenres().stream().map(g -> g.getName()).collect(Collectors.toList()));
-        modelAndView.addObject("pageTitle", "Edit m:" + model.getTitle());
-        modelAndView.addObject("movie", model);
-        modelAndView.addObject("movieId", id);
+        try {
+            MovieServiceModel movieServiceModel = this.movieService.findMovieById(id);
+            MovieAddBindingModel model = this.modelMapper.map(movieServiceModel, MovieAddBindingModel.class);
+            model.setGenres(movieServiceModel.getGenres().stream().map(g -> g.getName()).collect(Collectors.toList()));
+            modelAndView.addObject("pageTitle", "Edit m:" + model.getTitle());
+            modelAndView.addObject("movie", model);
+            modelAndView.addObject("movieId", id);
 
-        return super.view("movie/edit-movie", modelAndView);
+            return super.view("movie/edit-movie", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("/movies/all");
+        }
     }
 
     @PostMapping("/edit/{id}")
@@ -227,6 +268,46 @@ public class MovieController extends BaseController {
             return super.redirect("/movies/details/" + movieId);
         }
     }
+
+    @PostMapping("/add-screening/{movieId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView addScreening(@PathVariable String movieId, @ModelAttribute(name = "multiModel") ScreeningMultiAddBindingModel multiModel) {
+        try {
+            MovieTheaterServiceModel movieTheater = this.movieTheaterService.findMovieTheaterById(multiModel.getMovieTheater());
+            MovieServiceModel movie = this.movieService.findMovieById(movieId);
+            Arrays.asList(multiModel.getTimeStamps().split(", "))
+                    .stream()
+                    .forEach(ts -> {
+                        try {
+                            ScreeningServiceModel current = this.modelMapper.map(multiModel, ScreeningServiceModel.class);
+                            current.setTimeStamp(ts);
+                            current.setMovieTheater(movieTheater);
+                            current.setMovie(movie);
+                            this.screeningService.addScreening(current);
+                        } catch (Exception e) {
+                        }
+                    });
+            return super.redirect("/movies/details/" + movieId);
+        } catch (Exception e) {
+            return super.redirect("/movies/details/" + movieId);
+        }
+    }
+//
+    //@PostMapping("/delete-review/{movieId}/{reviewId}")
+    //@PreAuthorize("isAuthenticated()")
+    //public ModelAndView deleteReview(@PathVariable String movieId, @PathVariable String reviewId, Principal principal) {
+    //    try {
+    //        ReviewServiceModel reviewServiceModel = this.reviewService.findReviewById(reviewId);
+    //        UserAuthoritiesViewModel currentUser = findCurrentUser(principal);
+    //        if (currentUser.getAuthorities().contains("ROLE_ADMIN")
+    //                || reviewServiceModel.getReviewer().getUsername().equals(principal.getName())) {
+    //            this.reviewService.deleteReview(reviewId);
+    //        }
+    //        return super.redirect("/movies/details/" + movieId);
+    //    } catch (Exception e) {
+    //        return super.redirect("/movies/details/" + movieId);
+    //    }
+    //}
 
     @GetMapping("/fetch")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

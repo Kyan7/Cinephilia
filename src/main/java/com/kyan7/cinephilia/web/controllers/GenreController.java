@@ -64,10 +64,14 @@ public class GenreController extends BaseController{
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editGenre(@PathVariable String id, ModelAndView modelAndView) {
-        GenreViewModel genreViewModel = this.modelMapper.map(this.genreService.findGenreById(id), GenreViewModel.class);
-        modelAndView.addObject("pageTitle", "Edit g:" + genreViewModel.getName());
-        modelAndView.addObject("model", genreViewModel);
-        return super.view("genre/edit-genre", modelAndView);
+        try {
+            GenreViewModel genreViewModel = this.modelMapper.map(this.genreService.findGenreById(id), GenreViewModel.class);
+            modelAndView.addObject("pageTitle", "Edit g:" + genreViewModel.getName());
+            modelAndView.addObject("model", genreViewModel);
+            return super.view("genre/edit-genre", modelAndView);
+        } catch (Exception e) {
+            return super.redirect("/genres/all");
+        }
     }
 
     @PostMapping("/edit/{id}")

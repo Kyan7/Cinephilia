@@ -1,15 +1,14 @@
-package com.kyan7.cinephilia.domain.models.service;
+package com.kyan7.cinephilia.domain.models.view;
 
-public class ScreeningServiceModel {
+public class ScreeningViewModel {
 
     private String id;
-    private MovieTheaterServiceModel movieTheater;
+    private String MovieTheater;
     private String type;
     private Double price;
     private String timeStamp;
-    private MovieServiceModel movie;
 
-    public ScreeningServiceModel() {
+    public ScreeningViewModel() {
     }
 
     public String getId() {
@@ -20,12 +19,12 @@ public class ScreeningServiceModel {
         this.id = id;
     }
 
-    public MovieTheaterServiceModel getMovieTheater() {
-        return movieTheater;
+    public String getMovieTheater() {
+        return MovieTheater;
     }
 
-    public void setMovieTheater(MovieTheaterServiceModel movieTheater) {
-        this.movieTheater = movieTheater;
+    public void setMovieTheater(String movieTheater) {
+        MovieTheater = movieTheater;
     }
 
     public String getType() {
@@ -50,13 +49,5 @@ public class ScreeningServiceModel {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
-    }
-
-    public MovieServiceModel getMovie() {
-        return movie;
-    }
-
-    public void setMovie(MovieServiceModel movie) {
-        this.movie = movie;
     }
 }

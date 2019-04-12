@@ -21,6 +21,27 @@
     margin: 3%;
 }
 
+.cinephilia-screening-theater-block {
+    background-color: black;
+    padding: 1%;
+    margin: 2%;
+}
+
+
+.cinephilia-screening-price-block {
+    background-color: darkslategrey;
+    padding: 2%;
+    margin: 4%;
+    width: 100%;
+}
+
+.cinephilia-screening-block {
+    background-color: #120456;
+    padding: 1%;
+    margin: 2%;
+    width: 100%;
+}
+
 .cinephilia-orange-text {
     color: #d39e00;
 }
@@ -83,9 +104,19 @@
     text-align: left;
 }
 
-.cinephilia-medium-text-left {
+.cinephilia-medium-broadway-text-left {
     font-family: Broadway;
     font-size: 30px;
+    text-align: left;
+}
+
+.cinephilia-medium-text {
+    font-size: 30px;
+    text-align: left;
+}
+
+.cinephilia-medium-small-text {
+    font-size: 24px;
     text-align: left;
 }
 

@@ -3,6 +3,7 @@ package com.kyan7.cinephilia.web.controllers;
 import com.kyan7.cinephilia.domain.models.binding.MovieTheaterAddBindingModel;
 import com.kyan7.cinephilia.domain.models.service.MovieTheaterServiceModel;
 import com.kyan7.cinephilia.domain.models.view.MovieTheaterAdminListViewModel;
+import com.kyan7.cinephilia.domain.models.view.MovieTheaterBasicViewModel;
 import com.kyan7.cinephilia.service.MovieTheaterService;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -56,9 +57,7 @@ public class MovieTheaterController extends BaseController {
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addMovieTheaterConfirm(@ModelAttribute(name = "model") MovieTheaterAddBindingModel model) {
         try {
-            System.out.println(model.getAddress());
             MovieTheaterServiceModel movieTheaterServiceModel = this.modelMapper.map(model, MovieTheaterServiceModel.class);
-            System.out.println(movieTheaterServiceModel.getAddress());
             this.movieTheaterService.addMovieTheater(movieTheaterServiceModel);
             return super.redirect("/movie-theaters/all");
         } catch (Exception e) {
@@ -103,5 +102,15 @@ public class MovieTheaterController extends BaseController {
         } catch (Exception e) {
             return super.redirect("/movie-theaters/all");
         }
+    }
+
+    @GetMapping("/fetch")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
+    public List<MovieTheaterBasicViewModel> fetchMovies() {
+        return this.movieTheaterService.findAllMovieTheaters()
+                .stream()
+                .map(t -> this.modelMapper.map(t, MovieTheaterBasicViewModel.class))
+                .collect(Collectors.toList());
     }
 }

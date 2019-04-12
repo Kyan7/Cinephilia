@@ -33,7 +33,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleServiceModel addArticle(ArticleServiceModel articleServiceModel) {
-        Article article = this.articleRepository.findByTitle(articleServiceModel.getTitle()).orElse(null);
+        Article article = this.articleRepository.findByTitle(articleServiceModel.getTitle())
+                .orElse(null);
         if (article != null) {
             throw new IllegalArgumentException("Article already exists!");
         }
