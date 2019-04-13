@@ -25,6 +25,8 @@
                             <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
                                 <div class="jumbotron-fluid cinephilia-review-post-block">
                                     <form th:action="@{/movies/add-screening/{id} (id = ${movie.id})}" th:method="post">
+                                        <input type="hidden" name="_csrf"
+                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
                                         <div class="form-group tiny-margin-top-bottom">
                                             <label class="cinephilia-orange-text cinephilia-tiny-text" for="add-screening-theater">Movie Theater</label>
                                             <select class="form-control" id="add-screening-theater" name="movieTheater">
@@ -62,64 +64,66 @@
                                         <button class="btn btn-dark cinephilia-button">EDIT</button>
                                     </a>
                                     <form class="push-right" th:action="@{/movies/delete/{id} (id = ${movie.id})}" th:method="post">
+                                        <input type="hidden" name="_csrf"
+                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
                                         <button class="btn btn-dark cinephilia-remove-button text-right">X</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <small class="cinephilia-orange-text" th:text="'Creator: ' + ${movie.user}"></small>
+                        <small class="cinephilia-orange-text" th:utext="'Creator: ' + ${movie.user}"></small>
                     </th:block>
                     <br>
-                    <small class="cinephilia-orange-text" th:text="${movie.views} + ' View(s)'"></small>
+                    <small class="cinephilia-orange-text" th:utext="${movie.views} + ' View(s)'"></small>
                     <div class="row">
                         <div class="col-md-11">
-                            <div class="cinephilia-title-text" th:text="${movie.title}"></div>
+                            <div class="cinephilia-title-text" th:utext="${movie.title}"></div>
                             <hr>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6" align="left">
-                            <div class="cinephilia-small-text cinephilia-orange-text">Genres: </div><div class="cinephilia-small-text" th:text="${#strings.listJoin(movie.genres, ', ')}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Runtime: </div><div class="cinephilia-small-text" th:text="${movie.runtime} + ' mins'"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Studio(s): </div><div class="cinephilia-small-text" th:text="${movie.studios}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Director(s): </div><div class="cinephilia-small-text" th:text="${movie.directors}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Lead Actor: </div><div class="cinephilia-small-text" th:text="${movie.leadActor}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Supporting Actor(s): </div><div class="cinephilia-small-text" th:text="${movie.supportingActors}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Genres: </div><div class="cinephilia-small-text" th:utext="${#strings.listJoin(movie.genres, ', ')}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Runtime: </div><div class="cinephilia-small-text" th:utext="${movie.runtime} + ' mins'"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Studio(s): </div><div class="cinephilia-small-text" th:utext="${movie.studios}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Director(s): </div><div class="cinephilia-small-text" th:utext="${movie.directors}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Lead Actor: </div><div class="cinephilia-small-text" th:utext="${movie.leadActor}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Supporting Actor(s): </div><div class="cinephilia-small-text" th:utext="${movie.supportingActors}"></div>
                         </div>
                         <div class="col-md-6" align="right">
-                            <div class="cinephilia-small-text cinephilia-orange-text">IMDB Rating: </div><div class="cinephilia-small-text" th:text="${movie.imdbRating}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Rotten Tomatoes: </div><div class="cinephilia-small-text" th:text="${movie.rottenTomatoesPercent + '%'}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">IMDB Rating: </div><div class="cinephilia-small-text" th:utext="${movie.imdbRating}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Rotten Tomatoes: </div><div class="cinephilia-small-text" th:utext="${movie.rottenTomatoesPercent + '%'}"></div>
                             <th:block th:if="${movie.budget} >= 1000">
-                                <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:text="${movie.budget}/1000 + ' billion'"></div>
+                                <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:utext="${movie.budget}/1000 + ' billion'"></div>
                             </th:block>
                             <th:block th:if="${movie.budget} < 1000">
-                                <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:text="${movie.budget} + ' million'"></div>
+                                <div class="cinephilia-small-text cinephilia-orange-text">Budget: </div><div class="cinephilia-small-text" th:utext="${movie.budget} + ' million'"></div>
                             </th:block>
                             <th:block th:if="${movie.boxOffice} >= 1000">
-                                <div class="cinephilia-small-text cinephilia-orange-text">Box Office: </div><div class="cinephilia-small-text" th:text="${movie.boxOffice}/1000 + ' billion'"></div>
+                                <div class="cinephilia-small-text cinephilia-orange-text">Box Office: </div><div class="cinephilia-small-text" th:utext="${movie.boxOffice}/1000 + ' billion'"></div>
                             </th:block>
                             <th:block th:if="${movie.boxOffice} < 1000">
-                                <div class="cinephilia-small-text cinephilia-orange-text">Box Office: </div><div class="cinephilia-small-text" th:text="${movie.boxOffice} + ' million'"></div>
+                                <div class="cinephilia-small-text cinephilia-orange-text">Box Office: </div><div class="cinephilia-small-text" th:utext="${movie.boxOffice} + ' million'"></div>
                             </th:block>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Average user rating: </div><div class="cinephilia-small-text" th:text="${averageUserRating}"></div>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Release Date: </div><div class="cinephilia-small-text" th:text="${movie.releaseDate}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Average user rating: </div><div class="cinephilia-small-text" th:utext="${averageUserRating}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Release Date: </div><div class="cinephilia-small-text" th:utext="${movie.releaseDate}"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-11">
                             <hr>
-                            <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${movie.description}"></div>
+                            <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:utext="${movie.description}"></div>
                         </div>
                     </div>
                     <hr>
                     <div class="col-md-11">
                         <th:block th:each="movieTheater : ${groupedScreenings}">
                             <div class="jumbotron-fluid cinephilia-screening-theater-block">
-                                <h3 th:text="${movieTheater.key}"></h3>
+                                <h3 th:utext="${movieTheater.key}"></h3>
                                 <th:block th:each="type : ${movieTheater.value}">
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <div class="cinephilia-medium-small-text" th:text="${type.key}"></div>
+                                            <div class="cinephilia-medium-small-text" th:utext="${type.key}"></div>
                                         </div>
                                         <div class="col-md-10">
                                             <div class="row">
@@ -128,18 +132,20 @@
                                                         <div class="jumbotron-fluid cinephilia-screening-price-block push-left">
                                                             <div class="row">
                                                                 <div class="col-md-4">
-                                                                    <div class="cinephilia-medium-small-text" th:text="${price.key} + 'lv'"></div>
+                                                                    <div class="cinephilia-medium-small-text" th:utext="${price.key} + 'lv'"></div>
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <th:block th:each="screening : ${price.value}">
                                                                         <div class="row">
                                                                             <div class="col-md-8">
                                                                                 <div class="jumbotron-fluid cinephilia-screening-block">
-                                                                                    <div class="cinephilia-small-text text-center" th:text="${screening.timeStamp}"></div>
+                                                                                    <div class="cinephilia-small-text text-center" th:utext="${screening.timeStamp}"></div>
                                                                                 </div>
                                                                             </div>
                                                                             <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
                                                                                 <form th:action="@{/movies/delete-screening/{movieId}/{screeningId} (movieId = ${movie.id}, screeningId = ${screening.id})}" th:method="post">
+                                                                                    <input type="hidden" name="_csrf"
+                                                                                           value="80417983-fe8b-45c7-963e-31f6915a1560">
                                                                                     <button class="btn btn-dark cinephilia-tiny-remove-button">X</button>
                                                                                 </form>
                                                                             </th:block>
@@ -165,6 +171,8 @@
                             <hr>
                             <div class="jumbotron-fluid cinephilia-review-post-block">
                                 <form th:action="@{/movies/add-review/{id} (id = ${movie.id})}" th:method="post">
+                                    <input type="hidden" name="_csrf"
+                                           value="80417983-fe8b-45c7-963e-31f6915a1560">
                                     <div class="form-group tiny-margin-top-bottom">
                                         <label class="cinephilia-orange-text cinephilia-tiny-text" for="title">Review title</label>
                                         <input type="text" class="form-control" id="title" placeholder="Review title" name="title">
@@ -185,14 +193,16 @@
                                     <div class="jumbotron-fluid cinephilia-current-user-review-block">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:text="${review.title}"></div>
-                                                <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:text="${review.rating}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:utext="${review.title}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:utext="${review.rating}"></div>
                                                 <form th:action="@{/movies/delete-review/{movieId}/{reviewId} (movieId = ${movie.id}, reviewId = ${review.id})}" th:method="post">
+                                                    <input type="hidden" name="_csrf"
+                                                           value="80417983-fe8b-45c7-963e-31f6915a1560">
                                                     <button class="btn btn-dark cinephilia-remove-button push-down">X</button>
                                                 </form>
                                             </div>
                                             <div class="col-md-7">
-                                                <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${review.description}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:utext="${review.description}"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -201,16 +211,18 @@
                                     <div class="jumbotron-fluid cinephilia-review-block">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:text="${review.title}"></div>
-                                                <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:text="${review.rating}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:utext="${review.title}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:utext="${review.rating}"></div>
                                                 <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
                                                     <form th:action="@{/movies/delete-review/{movieId}/{reviewId} (movieId = ${movie.id}, reviewId = ${review.id})}" th:method="post">
+                                                        <input type="hidden" name="_csrf"
+                                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
                                                         <button class="btn btn-dark cinephilia-remove-button push-down">X</button>
                                                     </form>
                                                 </th:block>
                                             </div>
                                             <div class="col-md-7">
-                                                <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${review.description}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:utext="${review.description}"></div>
                                             </div>
                                         </div>
                                     </div>

@@ -19,6 +19,12 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         this.cloudinary = cloudinary;
     }
 
+    /**
+     * Uploads an image to Cloudinary and finds the respective image url.
+     * @param multipartFile is an image we are uploading.
+     * @return the url of the image we have uploaded.
+     * @throws IOException
+     */
     @Override
     public String uploadImage(MultipartFile multipartFile) throws IOException {
         File file = File

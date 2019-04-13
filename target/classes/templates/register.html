@@ -12,6 +12,8 @@
         <h1 class="text-center">Register</h1>
         <hr>
         <form th:action="@{/users/register}" th:method="post">
+            <input type="hidden" name="_csrf"
+                   value="80417983-fe8b-45c7-963e-31f6915a1560">
             <div class="form-group">
                 <label class="cinephilia-orange-text" for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Username" name="username">

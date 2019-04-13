@@ -28,11 +28,11 @@
                                 <div class="col-md-8">
                                     <div class="jumbotron-fluid">
                                         <div class="row">
-                                            <a th:href="@{/articles/details/{id} (id = ${article.id})}"><h2 class="cinephilia-orange-text" th:text="${article.title}"></h2></a>
+                                            <a th:href="@{/articles/details/{id} (id = ${article.id})}"><h2 class="cinephilia-orange-text" th:utext="${article.title}"></h2></a>
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="cinephilia-list-text" th:text="${article.content}"></div>
+                                            <div class="cinephilia-list-text" th:utext="${article.content}"></div>
                                         </div>
                                     </div>
                                 </div>

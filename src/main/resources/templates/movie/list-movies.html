@@ -28,7 +28,7 @@
                                 <div class="col-md-8">
                                     <div class="jumbotron-fluid">
                                         <div class="row">
-                                            <a th:href="@{/movies/details/{id} (id = ${movie.id})}"><h2 class="cinephilia-orange-text" th:text="${movie.title}"></h2></a>
+                                            <a th:href="@{/movies/details/{id} (id = ${movie.id})}"><h2 class="cinephilia-orange-text" th:utext="${movie.title}"></h2></a>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -36,7 +36,7 @@
                                                     <div class="cinephilia-small-text cinephilia-orange-text">Genres: </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="cinephilia-small-text" th:text="${#strings.listJoin(movie.genres, ', ')}"></div>
+                                                    <div class="cinephilia-small-text" th:utext="${#strings.listJoin(movie.genres, ', ')}"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -44,13 +44,13 @@
                                                     <div class="cinephilia-small-text cinephilia-orange-text">Runtime: </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="cinephilia-small-text" th:text="${movie.runtime}"></div>
+                                                    <div class="cinephilia-small-text" th:utext="${movie.runtime}"></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="cinephilia-list-text" th:text="${movie.description}"></div>
+                                            <div class="cinephilia-list-text" th:utext="${movie.description}"></div>
                                         </div>
                                     </div>
                                 </div>

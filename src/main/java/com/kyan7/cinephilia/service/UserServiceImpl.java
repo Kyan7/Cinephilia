@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
         this.encoder = encoder;
     }
 
+    /**
+     * Attempts to register (add) a user to the database.
+     * @param userServiceModel transfers the user's data to the method.
+     * @return a respective model of the user.
+     */
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel) {
         this.roleService.seedRolesInDatabase();
@@ -42,6 +47,11 @@ public class UserServiceImpl implements UserService {
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 
+    /**
+     * Attempts to find a user by their username.
+     * @param username is the user's username.
+     * @return a respective model of the user.
+     */
     @Override
     public UserServiceModel findUserByUsername(String username) {
         return this.userRepository.findByUsername(username)
@@ -49,6 +59,13 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
     }
 
+    /**
+     * Attempts to edit a user.
+     * Only possible if the user service model's data is adequate (the username is in the database, the encoded password matches that in the database, the new password isn't an empty string).
+     * @param userServiceModel
+     * @param oldPassword
+     * @return
+     */
     @Override
     public UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword) {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
@@ -59,7 +76,7 @@ public class UserServiceImpl implements UserService {
         }
         if (!userServiceModel.getPassword().equals("")) {
             user.setPassword(this.encoder.encode(userServiceModel.getPassword()));
-        } else {                                                                                           //нужно ли е??
+        } else {
             user.setPassword(user.getPassword());
         }
         user.setEmail(userServiceModel.getEmail());
@@ -68,6 +85,10 @@ public class UserServiceImpl implements UserService {
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 
+    /**
+     * Finds all users in the database.
+     * @return a list of user service models.
+     */
     @Override
     public List<UserServiceModel> findAllUsers() {
         return this.userRepository.findAll()
@@ -76,6 +97,11 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Attempts to grant/remove admin authorities of a chosen user based on the role that was added. Admins have both user and admin authorities.
+     * @param id is the id of the user whose admin authorities we're changing.
+     * @param role either 'user' if we're removing admin rights or 'admin' if we're granting them.
+     */
     @Override
     public void setUserRole(String id, String role) {
         User user = this.userRepository.findById(id)

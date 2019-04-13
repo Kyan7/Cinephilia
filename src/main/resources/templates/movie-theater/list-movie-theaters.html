@@ -24,7 +24,7 @@
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <div class="row">
-                                    <h2 class="cinephilia-orange-text" th:text="${movieTheater.name}"></h2>
+                                    <h2 class="cinephilia-orange-text" th:utext="${movieTheater.name}"></h2>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -32,7 +32,7 @@
                                             <div class="cinephilia-small-text cinephilia-orange-text">Address: </div>
                                         </div>
                                         <div class="row">
-                                            <div class="cinephilia-small-text" th:text="${movieTheater.address}"></div>
+                                            <div class="cinephilia-small-text" th:utext="${movieTheater.address}"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -40,13 +40,13 @@
                                             <div class="cinephilia-small-text cinephilia-orange-text">Phone Number: </div>
                                         </div>
                                         <div class="row">
-                                            <div class="cinephilia-small-text" th:text="${movieTheater.phoneNumber}"></div>
+                                            <div class="cinephilia-small-text" th:utext="${movieTheater.phoneNumber}"></div>
                                         </div>
                                         <div class="row">
                                             <div class="cinephilia-small-text cinephilia-orange-text">Link: </div>
                                         </div>
                                         <div class="row">
-                                            <a th:href="${movieTheater.link}"><div class="cinephilia-small-text" th:text="${movieTheater.link}"></div></a>
+                                            <a th:href="${movieTheater.link}"><div class="cinephilia-small-text" th:utext="${movieTheater.link}"></div></a>
                                         </div>
                                     </div>
                                 </div>

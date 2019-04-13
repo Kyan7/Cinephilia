@@ -12,6 +12,8 @@
         <h1 class="text-center">Edit Genre</h1>
         <hr>
         <form th:action="@{/genres/edit/{id} (id = ${model.id})}" th:method="post">
+            <input type="hidden" name="_csrf"
+                   value="80417983-fe8b-45c7-963e-31f6915a1560">
             <div class="form-group">
                 <label class="cinephilia-orange-text" for="name">Genre Name</label>
                 <input type="text" th:value="${model.name}" class="form-control" id="name" placeholder="Genre Name" name="name">

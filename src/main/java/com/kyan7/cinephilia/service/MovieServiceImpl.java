@@ -23,14 +23,10 @@ public class MovieServiceImpl implements MovieService {
         this.modelMapper = modelMapper;
     }
 
-    //@Override
-    //public List<MovieServiceModel> findTop3Movies() {
-    //    return this.movieRepository.findAllByOrderByViews()
-    //            .stream()
-    //            .map(m -> this.modelMapper.map(m, MovieServiceModel.class))
-    //            .collect(Collectors.toList());
-    //}
-
+    /**
+     * Finds all movies in the database.
+     * @return a list of movie service models.
+     */
     @Override
     public List<MovieServiceModel> findAllMovies() {
         return this.movieRepository.findAll()
@@ -39,6 +35,10 @@ public class MovieServiceImpl implements MovieService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Finds all movies in the database and orders them by title.
+     * @return a list of movie service models (sorted by name).
+     */
     @Override
     public List<MovieServiceModel> findAllMoviesOrderByTitle() {
         return this.movieRepository.findAllByOrderByTitle()
@@ -47,9 +47,12 @@ public class MovieServiceImpl implements MovieService {
                 .collect(Collectors.toList());
     }
 
-    //TODO
 
-
+    /**
+     * Attempts to add a movie to the database.
+     * @param movieServiceModel transfers the movie's data to the method.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel addMovie(MovieServiceModel movieServiceModel) {
         Movie movie = this.movieRepository.findByTitle(movieServiceModel.getTitle())
@@ -62,6 +65,11 @@ public class MovieServiceImpl implements MovieService {
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }
 
+    /**
+     * Attempts to find a movie and increase its views by 1.
+     * @param id is the id of the movie we're searching for.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel findMovieByIdAndIncrementViews(String id) {
         Movie movie = this.movieRepository.findById(id)
@@ -70,6 +78,11 @@ public class MovieServiceImpl implements MovieService {
         return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
     }
 
+    /**
+     * Attempts to find a movie.
+     * @param id is the id of the movie we're searching for.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel findMovieById(String id) {
         Movie movie = this.movieRepository.findById(id)
@@ -77,6 +90,13 @@ public class MovieServiceImpl implements MovieService {
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }
 
+    /**
+     * Attempts to edit a movie. Depending on whether it's had its genres edited the method chooses whether to set new ones.
+     * @param id is the id of the movie we're editing.
+     * @param movieServiceModel transfers the movie's new data to the method.
+     * @param isGenresEdited shows us whether there the movie's genres have been changed.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel editMovie(String id, MovieServiceModel movieServiceModel, boolean isGenresEdited) {
         Movie movie = this.movieRepository.findById(id)
@@ -106,16 +126,33 @@ public class MovieServiceImpl implements MovieService {
         return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
     }
 
+    /**
+     * Attempts to edit a movie which has had its genres changed.
+     * @param id is the id of the movie we're editing.
+     * @param movieServiceModel transfers the movie's new data to the method.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel editMovieWithEditedGenres(String id, MovieServiceModel movieServiceModel) {
         return editMovie(id, movieServiceModel, true);
     }
 
+    /**
+     * Attempts to edit a movie which hasn't had its genres changed.
+     * @param id is the id of the movie we're editing.
+     * @param movieServiceModel transfers the movie's new data to the method.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel editMovieWithUneditedGenres(String id, MovieServiceModel movieServiceModel) {
         return editMovie(id, movieServiceModel, false);
     }
 
+    /**
+     * Attempts to delete a movie.
+     * @param id is the id of the movie we are deleting.
+     * @return a respective model of the movie.
+     */
     @Override
     public MovieServiceModel deleteMovie(String id) {
         Movie movie = this.movieRepository.findById(id)

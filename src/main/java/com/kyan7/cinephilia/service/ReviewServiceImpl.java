@@ -25,7 +25,11 @@ public class ReviewServiceImpl implements ReviewService{
         this.modelMapper = modelMapper;
     }
 
-
+    /**
+     * Finds all reviews to a movie.
+     * @param movieId is the id of the movie.
+     * @return a list of review service models.
+     */
     @Override
     public List<ReviewServiceModel> findAllReviewsByMovieId(String movieId) {
         Movie movie = this.modelMapper.map(this.movieService.findMovieById(movieId), Movie.class);
@@ -35,6 +39,11 @@ public class ReviewServiceImpl implements ReviewService{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Attempts to find a review.
+     * @param id is the id of the review we are searching for.
+     * @return a respective model of the review.
+     */
     @Override
     public ReviewServiceModel findReviewById(String id) {
         Review review = this.reviewRepository.findById(id)
@@ -42,12 +51,22 @@ public class ReviewServiceImpl implements ReviewService{
         return this.modelMapper.map(review, ReviewServiceModel.class);
     }
 
+    /**
+     * Adds a review.
+     * @param reviewServiceModel transfers the data of the review which we are adding.
+     * @return a respective model of the review.
+     */
     @Override
     public ReviewServiceModel addReview(ReviewServiceModel reviewServiceModel) {
         Review review = this.modelMapper.map(reviewServiceModel, Review.class);
         return this.modelMapper.map(this.reviewRepository.saveAndFlush(review), ReviewServiceModel.class);
     }
 
+    /**
+     * Attempts to delete a review.
+     * @param id is the id of the review we are deleting.
+     * @return a respective model of the review.
+     */
     @Override
     public ReviewServiceModel deleteReview(String id) {
         Review review = this.reviewRepository.findById(id)

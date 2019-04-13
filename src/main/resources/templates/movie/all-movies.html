@@ -29,13 +29,13 @@
             <tbody>
                 <th:block th:each="movie, iter : ${movies}">
                     <tr class="row mx-auto">
-                        <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}">
-                        <td class="col-md-3 text-center text-sm" th:text="${movie.id}">
-                        <td class="col-md-1 text-center text-sm" th:text="${movie.title}">
-                        <td class="col-md-2 text-center text-sm" th:text="${movie.user}">
-                        <td class="col-md-1 text-center text-sm" th:text="${movie.views}">
-                        <td class="col-md-1 text-center text-sm" th:text="${#strings.listJoin(movie.genres, ', ')}">
-                        <td class="col-md-1 text-center text-sm" th:text="${movie.releaseDate}">
+                        <td class="col-md-1 text-center text-sm " th:utext="${iter.index + 1}">
+                        <td class="col-md-3 text-center text-sm" th:utext="${movie.id}">
+                        <td class="col-md-1 text-center text-sm" th:utext="${movie.title}">
+                        <td class="col-md-2 text-center text-sm" th:utext="${movie.user}">
+                        <td class="col-md-1 text-center text-sm" th:utext="${movie.views}">
+                        <td class="col-md-1 text-center text-sm" th:utext="${#strings.listJoin(movie.genres, ', ')}">
+                        <td class="col-md-1 text-center text-sm" th:utext="${movie.releaseDate}">
                         <td class="col-md-2 text-center">
                             <div class="row justify-content-center">
                                 <a class="push-left" th:href="@{/movies/details/{id} (id = ${movie.id})}">
@@ -45,6 +45,8 @@
                                     <button class="btn btn-dark cinephilia-button">EDIT</button>
                                 </a>
                                 <form class="push-right" th:action="@{/movies/delete/{id} (id = ${movie.id})}" th:method="post">
+                                    <input type="hidden" name="_csrf"
+                                           value="80417983-fe8b-45c7-963e-31f6915a1560">
                                     <button class="btn btn-dark cinephilia-remove-button">X</button>
                                 </form>
                             </div>

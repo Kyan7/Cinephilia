@@ -28,12 +28,12 @@
             <tbody>
             <th:block th:each="article, iter : ${articles}">
                 <tr class="row mx-auto">
-                    <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}">
-                    <td class="col-md-3 text-center text-sm" th:text="${article.id}">
-                    <td class="col-md-1 text-center text-sm" th:text="${article.title}">
-                    <td class="col-md-2 text-center text-sm" th:text="${article.user}">
-                    <td class="col-md-1 text-center text-sm" th:text="${article.views}">
-                    <td class="col-md-2 text-center text-sm" th:text="${#strings.listJoin(article.associatedMovies, ', ')}">
+                    <td class="col-md-1 text-center text-sm " th:utext="${iter.index + 1}">
+                    <td class="col-md-3 text-center text-sm" th:utext="${article.id}">
+                    <td class="col-md-1 text-center text-sm" th:utext="${article.title}">
+                    <td class="col-md-2 text-center text-sm" th:utext="${article.user}">
+                    <td class="col-md-1 text-center text-sm" th:utext="${article.views}">
+                    <td class="col-md-2 text-center text-sm" th:utext="${#strings.listJoin(article.associatedMovies, ', ')}">
                     <td class="col-md-2 text-center">
                         <div class="row justify-content-center">
                             <a class="push-left" th:href="@{/articles/details/{id} (id = ${article.id})}">
@@ -43,6 +43,8 @@
                                 <button class="btn btn-dark cinephilia-button">EDIT</button>
                             </a>
                             <form class="push-right" th:action="@{/articles/delete/{id} (id = ${article.id})}" th:method="post">
+                                <input type="hidden" name="_csrf"
+                                       value="80417983-fe8b-45c7-963e-31f6915a1560">
                                 <button class="btn btn-dark cinephilia-remove-button">X</button>
                             </form>
                         </div>

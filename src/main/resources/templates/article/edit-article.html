@@ -12,13 +12,15 @@
         <h1 class="text-center">Edit Movie</h1>
         <hr>
         <form th:action="@{/articles/edit/{id} (id = ${articleId})}" th:method="post" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf"
+                   value="80417983-fe8b-45c7-963e-31f6915a1560">
             <div class="form-group">
                 <label class="cinephilia-orange-text" for="title">Title</label>
                 <input type="text" th:value="${article.title}" class="form-control" id="title" placeholder="Title" name="title">
             </div>
             <div class="form-group">
                 <label class="cinephilia-orange-text" for="content">Content</label>
-                <textarea rows="10" th:text="${article.content}" class="form-control" id="content" placeholder="Content" name="content"></textarea>
+                <textarea rows="10" th:utext="${article.content}" class="form-control" id="content" placeholder="Content" name="content"></textarea>
             </div>
             <div class="form-group">
                 <label class="cinephilia-orange-text" for="add-article-associatedMovies">Associated Movies</label>

@@ -25,6 +25,11 @@ public class ScreeningServiceImpl implements ScreeningService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Finds all screenings of a movie.
+     * @param movieId is the id of the movie.
+     * @return a list of screening service models.
+     */
     @Override
     public List<ScreeningServiceModel> findAllScreeningsByMovieId(String movieId) {
         Movie movie = this.modelMapper.map(this.movieService.findMovieById(movieId), Movie.class);
@@ -34,12 +39,22 @@ public class ScreeningServiceImpl implements ScreeningService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Attempts to add a screening.
+     * @param screeningServiceModel transfers data about the screening to the method.
+     * @return a respective model of the screening.
+     */
     @Override
     public ScreeningServiceModel addScreening(ScreeningServiceModel screeningServiceModel) {
         Screening screening = this.modelMapper.map(screeningServiceModel, Screening.class);
         return this.modelMapper.map(this.screeningRepository.saveAndFlush(screening), ScreeningServiceModel.class);
     }
 
+    /**
+     * Attempts to delete a screening.
+     * @param screeningId is the id of the screening which we are deleting.
+     * @return a respective model of the screening.
+     */
     @Override
     public ScreeningServiceModel deleteScreening(String screeningId) {
         Screening screening = this.screeningRepository.findById(screeningId)

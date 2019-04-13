@@ -9,7 +9,7 @@
 <th:block th:include="~{fragments/navbar}"></th:block>
 <main>
     <div class="jumbotron cinephilia-dark cinephilia-main-block">
-        <div class="cinephilia-welcome"> Hello, <th:block th:text="${currentUser}" />! </div>
+        <div class="cinephilia-welcome"> Hello, <th:block th:utext="${currentUser}" />! </div>
         <div class="text-center">
             <img src="https://cdn2.iconfinder.com/data/icons/leisure-entertainment-minimalist-icon-set/100/film-01-512.png" alt="popcorn">
         </div>

@@ -109,8 +109,8 @@ public class MovieController extends BaseController {
     }
 
     /**
-     * Loads a view of the Add Movie page.
-     * @param modelAndView allows us to attach a list of all possible genres to the page; also allows us to attach "Add Movie" to the page title (e.g. "Add Movie - Cinephilia). Only for admins.
+     * Loads a view of the Add Movie page. Only for admins.
+     * @param modelAndView allows us to attach a list of all possible genres to the page; also allows us to attach "Add Movie" to the page title (e.g. "Add Movie - Cinephilia).
      * @return a view of the page (if there are no errors) or a redirect to the All Movies page (if there are).
      */
     @GetMapping("/add")
@@ -252,7 +252,8 @@ public class MovieController extends BaseController {
     }
 
     /**
-     * Submits the gathered data (from the form on the web page) and attempts to edit the respective movie in the database. If no genres were selected in the form, genres do not get edited. Only for admins.
+     * Submits the gathered data (from the form on the web page) and attempts to edit the respective movie in the database.
+     * If no genres were selected in the form, genres do not get edited. Only for admins.
      * @param id is the id of the movie we're editing.
      * @param model is the collection of submitted data.
      * @return a redirect to the movie's Details page.

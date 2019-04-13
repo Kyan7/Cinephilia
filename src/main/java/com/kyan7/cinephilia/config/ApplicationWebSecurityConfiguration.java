@@ -16,12 +16,13 @@ public class ApplicationWebSecurityConfiguration extends WebSecurityConfigurerAd
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/users/login", "/users/register").anonymous()
-                .antMatchers("/cinephilia-css/*", "/cinephilia-js/*").permitAll()
-                .anyRequest().authenticated()
+                .csrf()
+                    .csrfTokenRepository(this.csrfTokenRepository())
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/", "/users/login", "/users/register").anonymous()
+                    .antMatchers("/cinephilia-css/*", "/cinephilia-js/*").permitAll()
+                    .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/users/login")
@@ -30,9 +31,10 @@ public class ApplicationWebSecurityConfiguration extends WebSecurityConfigurerAd
                     .defaultSuccessUrl("/home")
                 .and()
                     .logout()
+                    .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/");
+                    .accessDeniedPage("/");
     }
 
     private CsrfTokenRepository csrfTokenRepository() {

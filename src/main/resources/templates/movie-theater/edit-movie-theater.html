@@ -12,6 +12,8 @@
         <h1 class="text-center">Edit Movie Theater</h1>
         <hr>
         <form th:action="@{/movie-theaters/edit/{id} (id = ${movieTheaterId})}" th:method="post">
+            <input type="hidden" name="_csrf"
+                   value="80417983-fe8b-45c7-963e-31f6915a1560">
             <div class="form-group">
                 <label class="cinephilia-orange-text" for="name">Movie Theater Name</label>
                 <input type="text" th:value="${movieTheater.name}" class="form-control" id="name" placeholder="Movie Theater Name" name="name">

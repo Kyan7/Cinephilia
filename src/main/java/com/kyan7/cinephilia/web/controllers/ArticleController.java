@@ -73,6 +73,11 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Loads a view of all articles. Only for admins.
+     * @param modelAndView allows us to attach a list of articles to visualize; also allows us to attach "All Articles" to the title of the page (e.g. "All Articles - Cinephilia").
+     * @return a view of the page (if there are no errors) or a redirect to the Home page (if there are).
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView allArticles(ModelAndView modelAndView) {
@@ -97,6 +102,11 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Loads a view of the Add Article page. Only for admins.
+     * @param modelAndView allows us to attach "All Articles" to the page title (e.g. "Add Article - Cinephilia).
+     * @return a view of the page (if there are no errors) or a redirect to the All Articles page (if there are).
+     */
     @GetMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addArticle(ModelAndView modelAndView) {
@@ -108,6 +118,12 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Submits the gathered data (from the form on the web page) and attempts to add an appropriate entity to the database. Only for admins.
+     * @param model is the collection of submitted data.
+     * @param principal is used to get the username of the current user for the purposes of storing who created the article.
+     * @return a view of the All Articles page.
+     */
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addArticleConfirm(@ModelAttribute(name = "model") ArticleAddBindingModel model, Principal principal, ModelAndView modelAndView) {
@@ -131,11 +147,18 @@ public class ArticleController extends BaseController {
 
     }
 
+    /**
+     * Loads a view of a chosen article's Details page. This includes all associated movies (which have their ids and titles made into pairs).
+     * @param id is the id of the articles which is being viewed.
+     * @param principal is used to get the username of the current user for the purposes of finding their authorities.
+     * @param modelAndView allows us to attach the view model; also allows us to add the article title to the page title (e.g. "Fans boycott Captain Marvel - Cinephilia").
+     * @return a view of the page (if there are no errors) or a redirect to either the All Articles page (for admins) or the Articles List page (for other users).
+     * @see #findAssociatedMoviePairs(ArticleServiceModel)
+     */
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView detailsArticle(@PathVariable String id, Principal principal, ModelAndView modelAndView) {
         UserAuthoritiesViewModel currentUser = this.findCurrentUser(principal);
-
         try {
             modelAndView.addObject("currentUser", currentUser);
 
@@ -144,12 +167,7 @@ public class ArticleController extends BaseController {
 
             ArticleDetailsViewModel article = this.modelMapper.map(articleServiceModel, ArticleDetailsViewModel.class);
             article.setUser(articleServiceModel.getUser().getUsername());
-            HashMap<String, String> tempAssociatedMovies = new HashMap<>();
-            for (MovieServiceModel movie : articleServiceModel.getAssociatedMovies()
-            ) {
-                tempAssociatedMovies.put(movie.getTitle(), movie.getId());
-            }
-            article.setAssociatedMovies(tempAssociatedMovies);
+            article.setAssociatedMovies(findAssociatedMoviePairs(articleServiceModel));
             modelAndView.addObject("article", article);
 
             return view("article/details-article", modelAndView);
@@ -161,6 +179,12 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Load a view of a chosen article's Edit page. Only for admins.
+     * @param id is the id of the article we're editing.
+     * @param modelAndView allows us to attach multiple objects to the page.
+     * @return a view of the chosen article's Edit page (if there are no errors) or a redirect to the All Articles page.
+     */
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editArticle(@PathVariable String id, ModelAndView modelAndView) {
@@ -178,6 +202,13 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Submits the gathered data (from the form on the web page) and attempts to edit the respective article in the database.
+     * If no associated movies were selected in the form, associated movies do not get edited. Only for admins.
+     * @param id is the id of the article we're editing.
+     * @param model is the collection of submitted data.
+     * @return a redirect to the article's Details page.
+     */
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editMovieConfirm(@PathVariable String id, @ModelAttribute ArticleAddBindingModel model) {
@@ -185,12 +216,12 @@ public class ArticleController extends BaseController {
             ArticleServiceModel articleServiceModel = this.modelMapper.map(model, ArticleServiceModel.class);
             try {
                 List<MovieServiceModel> movieServiceModels = new ArrayList<>();
-                for (String movieId : model.getAssociatedMovies()
-                ) {
+                for (String movieId : model.getAssociatedMovies()) {
                     movieServiceModels.add(this.modelMapper.map(this.movieService.findMovieById(movieId), MovieServiceModel.class));
                 }
                 articleServiceModel.setAssociatedMovies(movieServiceModels);
                 this.articleService.editArticleWithEditedAssociatedMovies(id, articleServiceModel);
+
                 return redirect("/articles/details/" + id);
             } catch (Exception e) {
                 this.articleService.editArticleWithUneditedAssociatedMovies(id, articleServiceModel);
@@ -201,6 +232,11 @@ public class ArticleController extends BaseController {
         }
     }
 
+    /**
+     * Attempts to delete a chosen article. Only for admins.
+     * @param id is the id of the article we're deleting.
+     * @return a redirect to the All Articles page.
+     */
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteArticle(@PathVariable String id) {
@@ -210,5 +246,18 @@ public class ArticleController extends BaseController {
         } catch (Exception e) {
             return redirect("/articles/all");
         }
+    }
+
+    /**
+     * Creates a HashMap with pairs movieTitle-movieId.
+     * @param articleServiceModel is the article which has a list of associated movies.
+     * @return a HashMap where keys are movie titles and values are their ids.
+     */
+    private HashMap<String, String> findAssociatedMoviePairs(ArticleServiceModel articleServiceModel) {
+        HashMap<String, String> tempAssociatedMovies = new HashMap<>();
+        for (MovieServiceModel movie : articleServiceModel.getAssociatedMovies()) {
+            tempAssociatedMovies.put(movie.getTitle(), movie.getId());
+        }
+        return tempAssociatedMovies;
     }
 }
