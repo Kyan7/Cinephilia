@@ -4,6 +4,7 @@ import com.kyan7.cinephilia.domain.models.binding.MovieTheaterAddBindingModel;
 import com.kyan7.cinephilia.domain.models.service.MovieTheaterServiceModel;
 import com.kyan7.cinephilia.domain.models.view.MovieTheaterAdminListViewModel;
 import com.kyan7.cinephilia.domain.models.view.MovieTheaterBasicViewModel;
+import com.kyan7.cinephilia.domain.models.view.MovieTheaterUserListViewModel;
 import com.kyan7.cinephilia.service.MovieTheaterService;
 import com.kyan7.cinephilia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -28,6 +29,29 @@ public class MovieTheaterController extends BaseController {
         super(userService, modelMapper);
         this.movieTheaterService = movieTheaterService;
         this.modelMapper = modelMapper1;
+    }
+
+    /**
+     * Loads a view of the user-friendly list of movie theaters.
+     * @param modelAndView allows us to attach a list of movie theaters to visualize; also allows us to attach "Movie Theater List" to the title (e.g. "Movie Theater List - Cinephilia").
+     * @return a view of the page (if there are no errors) or a redirect to the Home page (if there are).
+     */
+    @GetMapping("/list")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView listMovieTheaters(ModelAndView modelAndView) {
+        try {
+            modelAndView.addObject("pageTitle", "Movie Theater List");
+
+            List<MovieTheaterUserListViewModel> movieTheaters = this.movieTheaterService.findAllMovieTheatersOrderByName()
+                    .stream()
+                    .map(t -> this.modelMapper.map(t, MovieTheaterUserListViewModel.class))
+                    .collect(Collectors.toList());
+            modelAndView.addObject("movieTheaters", movieTheaters);
+
+            return view("movie-theater/list-movie-theaters", modelAndView);
+        } catch (Exception e) {
+            return redirect("home");
+        }
     }
 
     @GetMapping("/all")

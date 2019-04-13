@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/navbar}"></th:block>
+<main>
+    <div class="jumbotron-fluid cinephilia-dark cinephilia-main-block">
+        <hr />
+        <h1 class="text-center cinephilia-orange-text">Movie List</h1>
+        <br />
+        <th:block th:if="${movies.size() == 0}">
+            <h2 class="text-center">There are currently no movies!</h2>
+        </th:block>
+        <th:block th:each="movie : ${movies}">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="jumbotron-fluid cinephilia-entity-block">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a th:href="@{/movies/details/{id} (id = ${movie.id})}"><img class="push-up" th:src="${movie.imageUrl}" width="70%" alt="Movie Poster" align="left"></a>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="jumbotron-fluid">
+                                        <div class="row">
+                                            <a th:href="@{/movies/details/{id} (id = ${movie.id})}"><h2 class="cinephilia-orange-text" th:text="${movie.title}"></h2></a>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="cinephilia-small-text cinephilia-orange-text">Genres: </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="cinephilia-small-text" th:text="${#strings.listJoin(movie.genres, ', ')}"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="cinephilia-small-text cinephilia-orange-text">Runtime: </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="cinephilia-small-text" th:text="${movie.runtime}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="cinephilia-list-text" th:text="${movie.description}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </th:block>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

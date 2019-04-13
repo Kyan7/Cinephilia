@@ -21,6 +21,13 @@
     margin: 3%;
 }
 
+.cinephilia-entity-block {
+    background-color: black;
+    padding: 1%;
+    margin: 1%;
+    width: 100%;
+}
+
 .cinephilia-screening-theater-block {
     background-color: black;
     padding: 1%;
@@ -72,6 +79,7 @@
 
 .cinephilia-main-block {
     margin: 30px 23%;
+    justify-content: center;
 }
 
 .cinephilia-main-subblock {
@@ -115,8 +123,18 @@
     text-align: left;
 }
 
+.cinephilia-medium-large-text {
+    font-size: 36px;
+    text-align: left;
+}
+
 .cinephilia-medium-small-text {
     font-size: 24px;
+    text-align: left;
+}
+
+.cinephilia-list-text {
+    font-size: 20px;
     text-align: left;
 }
 

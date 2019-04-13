@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/navbar}"></th:block>
+<main>
+    <div class="jumbotron-fluid cinephilia-dark cinephilia-main-block">
+        <hr />
+        <h1 class="text-center cinephilia-orange-text">Movie Theater List</h1>
+        <br />
+        <th:block th:if="${movieTheaters.size() == 0}">
+            <h2 class="text-center">There are currently no movie theaters!</h2>
+        </th:block>
+        <th:block th:each="movieTheater : ${movieTheaters}">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="jumbotron-fluid cinephilia-entity-block">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <h2 class="cinephilia-orange-text" th:text="${movieTheater.name}"></h2>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="cinephilia-small-text cinephilia-orange-text">Address: </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cinephilia-small-text" th:text="${movieTheater.address}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="cinephilia-small-text cinephilia-orange-text">Phone Number: </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cinephilia-small-text" th:text="${movieTheater.phoneNumber}"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cinephilia-small-text cinephilia-orange-text">Link: </div>
+                                        </div>
+                                        <div class="row">
+                                            <a th:href="${movieTheater.link}"><div class="cinephilia-small-text" th:text="${movieTheater.link}"></div></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </th:block>
+        <hr />
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

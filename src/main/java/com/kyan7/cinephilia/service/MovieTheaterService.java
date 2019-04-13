@@ -8,6 +8,8 @@ public interface MovieTheaterService {
 
     List<MovieTheaterServiceModel> findAllMovieTheaters();
 
+    List<MovieTheaterServiceModel> findAllMovieTheatersOrderByName();
+
     MovieTheaterServiceModel addMovieTheater(MovieTheaterServiceModel movieTheaterServiceModel);
 
     MovieTheaterServiceModel findMovieTheaterById(String id);

@@ -5,6 +5,7 @@ import com.kyan7.cinephilia.domain.models.service.ArticleServiceModel;
 import com.kyan7.cinephilia.domain.models.service.MovieServiceModel;
 import com.kyan7.cinephilia.domain.models.view.ArticleAdminListViewModel;
 import com.kyan7.cinephilia.domain.models.view.ArticleDetailsViewModel;
+import com.kyan7.cinephilia.domain.models.view.ArticleUserListViewModel;
 import com.kyan7.cinephilia.domain.models.view.UserAuthoritiesViewModel;
 import com.kyan7.cinephilia.service.ArticleService;
 import com.kyan7.cinephilia.service.CloudinaryService;
@@ -42,6 +43,35 @@ public class ArticleController extends BaseController {
         this.userService = userService1;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper1;
+    }
+
+    /**
+     * Loads a view of the user-friendly list of articles.
+     * @param modelAndView allows us to attach a list of articles to visualize; also allows us to attach "Article List" to the title (e.g. "Article List - Cinephilia").
+     * @return a view of the page (if there are no errors) or a redirect to the Home page (if there are).
+     */
+    @GetMapping("/list")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView listArticles(ModelAndView modelAndView) {
+        try {
+            modelAndView.addObject("pageTitle", "Article List");
+
+            List<ArticleUserListViewModel> articles = this.articleService.findAllArticles()
+                    .stream()
+                    .map(a -> {
+                        ArticleUserListViewModel article = this.modelMapper.map(a, ArticleUserListViewModel.class);
+                        if (article.getContent().length() > 100) {
+                            article.setContent(article.getContent().substring(0, 100) + "...");
+                        }
+                        return article;
+                    })
+                    .collect(Collectors.toList());
+            modelAndView.addObject("articles", articles);
+
+            return view("article/list-articles", modelAndView);
+        } catch (Exception e) {
+            return redirect("home");
+        }
     }
 
     @GetMapping("/all")

@@ -23,9 +23,6 @@ public class MovieDetailsViewModel {
     private String leadActor;
     private String supportingActors;
     private String description;
-    // private List<String> screenings;
-    // private List<String> reviews;
-
 
     public MovieDetailsViewModel() {
     }

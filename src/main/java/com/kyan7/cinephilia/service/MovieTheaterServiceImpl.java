@@ -31,6 +31,14 @@ public class MovieTheaterServiceImpl implements MovieTheaterService {
     }
 
     @Override
+    public List<MovieTheaterServiceModel> findAllMovieTheatersOrderByName() {
+        return this.movieTheaterRepository.findAllByOrderByNameAsc()
+                .stream()
+                .map(t -> this.modelMapper.map(t, MovieTheaterServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public MovieTheaterServiceModel addMovieTheater(MovieTheaterServiceModel movieTheaterServiceModel) {
         MovieTheater movieTheater = this.movieTheaterRepository.findByName(movieTheaterServiceModel.getName())
                 .orElse(null);

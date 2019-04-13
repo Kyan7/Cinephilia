@@ -46,15 +46,49 @@ public class MovieController extends BaseController {
     }
 
     /**
+     * Loads a view of the user-friendly list of movies.
+     * @param modelAndView allows us to attach a list of movies to visualize; also allows us to attach "Movie List" to the title (e.g. "Movie List - Cinephilia").
+     * @return a view of the page (if there are no errors) or a redirect to the Home page (if there are).
+     */
+    @GetMapping("/list")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView listMovies(ModelAndView modelAndView) {
+        try {
+            modelAndView.addObject("pageTitle", "Movie List");
+
+            List<MovieUserListViewModel> movies = this.movieService.findAllMovies()
+                    .stream()
+                    .map(m -> {
+                        MovieUserListViewModel movie = this.modelMapper.map(m, MovieUserListViewModel.class);
+                        movie.setGenres(m.getGenres()
+                                .stream()
+                                .map(g -> g.getName())
+                                .collect(Collectors.toList()));
+                        if (movie.getDescription().length() > 100) {
+                            movie.setDescription(movie.getDescription().substring(0, 100) + "...");
+                        }
+                        return movie;
+                    })
+                    .collect(Collectors.toList());
+            modelAndView.addObject("movies", movies);
+
+            return view("movie/list-movies", modelAndView);
+        } catch (Exception e) {
+            return redirect("home");
+        }
+    }
+
+    /**
      * Loads a view of all movies. Only for admins.
      * @param modelAndView allows us to attach a list of movies to visualize; also allows us to attach "All Movies" to the title of the page (e.g. "All Movies - Cinephilia").
-     * @return a view of the page (if there are no errors) or the home page (if there are).
+     * @return a view of the page (if there are no errors) or a redirect to the Home page (if there are).
      */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView allMovies(ModelAndView modelAndView) {
         try {
             modelAndView.addObject("pageTitle", "All Movies");
+
             List<MovieAdminListViewModel> movies = this.movieService.findAllMovies()
                     .stream()
                     .map(m -> {
@@ -78,7 +112,7 @@ public class MovieController extends BaseController {
     /**
      * Loads a view of the Add Movie page.
      * @param modelAndView allows us to attach a list of all possible genres to the page; also allows us to attach "Add Movie" to the page title (e.g. "Add Movie - Cinephilia). Only for admins.
-     * @return a view of the page (if there are no errors) or the All Movies page (if there are).
+     * @return a view of the page (if there are no errors) or a redirect to the All Movies page (if there are).
      */
     @GetMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
@@ -197,7 +231,7 @@ public class MovieController extends BaseController {
      * Load a view of a chosen movie's Edit page. Only for admins.
      * @param id is the id of the movie we're editing.
      * @param modelAndView allows us to attach multiple objects to the page.
-     * @return a view of the chosen movie's Edit page (if there are no errors) or redirects us to the All Movies page.
+     * @return a view of the chosen movie's Edit page (if there are no errors) or a redirect to the All Movies page.
      */
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
