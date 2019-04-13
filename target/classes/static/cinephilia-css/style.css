@@ -146,6 +146,13 @@
     color: #081241;
 }
 
+.cinephilia-tiny-remove-button {
+    background-color: red;
+    border: red;
+    color: #081241;
+    font-size: 11px;
+}
+
 .central {
     margin: 0 auto !important;
 }

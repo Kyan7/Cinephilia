@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -111,8 +111,9 @@
                             <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${movie.description}"></div>
                         </div>
                     </div>
+                    <hr />
                     <div class="col-md-11">
-                        <th:block th:each="movieTheater : ${orderedScreenings}">
+                        <th:block th:each="movieTheater : ${groupedScreenings}">
                             <div class="jumbotron-fluid cinephilia-screening-theater-block">
                                 <h3 th:text="${movieTheater.key}"></h3>
                                 <th:block th:each="type : ${movieTheater.value}">
@@ -137,6 +138,11 @@
                                                                                     <div class="cinephilia-small-text text-center" th:text="${screening.timeStamp}"></div>
                                                                                 </div>
                                                                             </div>
+                                                                            <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
+                                                                                <form th:action="@{/movies/delete-screening/{movieId}/{screeningId} (movieId = ${movie.id}, screeningId = ${screening.id})}" th:method="post">
+                                                                                    <button class="btn btn-dark cinephilia-tiny-remove-button">X</button>
+                                                                                </form>
+                                                                            </th:block>
                                                                         </div>
                                                                     </th:block>
                                                                 </div>
@@ -147,28 +153,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--div class="row push-down push-up">
-                                        <div class="row">
-                                            <div class="jumbotron-fluid cinephilia-screening-type-block">
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <div class="cinephilia-small-text" th:text="${type.key}" />
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <th:block th:each="price : ${type.value}">
-                                                            <div class="col-md-6">
-                                                                <div class="jumbotron-fluid cinephilia-screening-price-block">
-                                                                    <div class="row text-center">
-                                                                        <p th:text="${price.key}" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </th:block>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div-->
                                 </th:block>
                             </div>
                         </th:block>

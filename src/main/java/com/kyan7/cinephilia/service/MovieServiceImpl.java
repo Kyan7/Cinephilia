@@ -65,7 +65,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieServiceModel findMovieByIdAndIncrementViews(String id) {
         Movie movie = this.movieRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found!"));
         movie.setViews(movie.getViews() + 1);
         return this.modelMapper.map(this.movieRepository.saveAndFlush(movie), MovieServiceModel.class);
     }
@@ -73,14 +73,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieServiceModel findMovieById(String id) {
         Movie movie = this.movieRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found!"));
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }
 
     @Override
     public MovieServiceModel editMovie(String id, MovieServiceModel movieServiceModel, boolean isGenresEdited) {
         Movie movie = this.movieRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found!"));
         movie.setTitle(movieServiceModel.getTitle());
         movie.setImdbRating(movieServiceModel.getImdbRating());
         movie.setRottenTomatoesPercent(movieServiceModel.getRottenTomatoesPercent());
@@ -119,7 +119,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieServiceModel deleteMovie(String id) {
         Movie movie = this.movieRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found!"));
         this.movieRepository.delete(movie);
         return this.modelMapper.map(movie, MovieServiceModel.class);
     }

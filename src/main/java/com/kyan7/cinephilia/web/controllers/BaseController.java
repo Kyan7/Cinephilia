@@ -46,13 +46,18 @@ public abstract class BaseController {
 
     /**
      * Redirects us to a url.
-     * @param url
+     * @param url is the url to which we are redirected.
      * @return a view of the page.
      */
     protected ModelAndView redirect(String url) {
         return this.view("redirect:" + url);
     }
 
+    /**
+     * Finds the current user (with their authorities) through their name.
+     * @param principal is used to find the current user's name.
+     * @return the current user (with their authorities)
+     */
     protected UserAuthoritiesViewModel findCurrentUser(Principal principal) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserAuthoritiesViewModel currentUser = this.modelMapper.map(userServiceModel, UserAuthoritiesViewModel.class);

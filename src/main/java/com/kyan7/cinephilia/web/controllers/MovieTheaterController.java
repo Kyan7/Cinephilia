@@ -39,7 +39,7 @@ public class MovieTheaterController extends BaseController {
                 .map(t -> this.modelMapper.map(t, MovieTheaterAdminListViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("movieTheaters", movieTheaters);
-        return super.view("movie-theater/all-movie-theaters", modelAndView);
+        return view("movie-theater/all-movie-theaters", modelAndView);
     }
 
     @GetMapping("/add")
@@ -47,9 +47,9 @@ public class MovieTheaterController extends BaseController {
     public ModelAndView addMovieTheater(ModelAndView modelAndView) {
         try {
             modelAndView.addObject("pageTitle", "Add Movie Theater");
-            return super.view("movie-theater/add-movie-theater", modelAndView);
+            return view("movie-theater/add-movie-theater", modelAndView);
         } catch (Exception e) {
-            return super.redirect("/movie-theaters/all");
+            return redirect("/movie-theaters/all");
         }
     }
 
@@ -59,9 +59,9 @@ public class MovieTheaterController extends BaseController {
         try {
             MovieTheaterServiceModel movieTheaterServiceModel = this.modelMapper.map(model, MovieTheaterServiceModel.class);
             this.movieTheaterService.addMovieTheater(movieTheaterServiceModel);
-            return super.redirect("/movie-theaters/all");
+            return redirect("/movie-theaters/all");
         } catch (Exception e) {
-            return super.redirect("/movie-theaters/all");
+            return redirect("/movie-theaters/all");
         }
     }
 
@@ -75,9 +75,9 @@ public class MovieTheaterController extends BaseController {
             modelAndView.addObject("movieTheater", model);
             modelAndView.addObject("movieTheaterId", id);
 
-            return super.view("movie-theater/edit-movie-theater", modelAndView);
+            return view("movie-theater/edit-movie-theater", modelAndView);
         } catch (Exception e) {
-            return super.redirect("/movie-theaters/all");
+            return redirect("/movie-theaters/all");
         }
     }
 
@@ -87,9 +87,9 @@ public class MovieTheaterController extends BaseController {
         try {
             MovieTheaterServiceModel movieTheaterServiceModel = this.modelMapper.map(model, MovieTheaterServiceModel.class);
             this.movieTheaterService.editMovieTheater(id, movieTheaterServiceModel);
-            return super.redirect("/movie-theaters/details/" + id);
+            return redirect("/movie-theaters/details/" + id);
         } catch (Exception e) {
-            return super.redirect("/movie-theaters/details/" + id);
+            return redirect("/movie-theaters/details/" + id);
         }
     }
 
@@ -98,9 +98,9 @@ public class MovieTheaterController extends BaseController {
     public ModelAndView deleteMovieTheater(@PathVariable String id) {
         try {
             this.movieTheaterService.deleteMovie(id);
-            return super.redirect("/movie-theaters/all");
+            return redirect("/movie-theaters/all");
         } catch (Exception e) {
-            return super.redirect("/movie-theaters/all");
+            return redirect("/movie-theaters/all");
         }
     }
 

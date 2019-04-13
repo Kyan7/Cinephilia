@@ -34,10 +34,10 @@ public class HomeController extends BaseController {
     public ModelAndView index(Principal principal, ModelAndView modelAndView) {
         try {
             principal.getName();
-            return super.redirect("/home");
+            return redirect("/home");
         } catch (Exception e) {
             modelAndView.addObject("pageTitle", "Index");
-            return super.view("index", modelAndView);
+            return view("index", modelAndView);
         }
     }
 
@@ -52,7 +52,7 @@ public class HomeController extends BaseController {
                 .collect(Collectors.toList());
         modelAndView.addObject("movies", movies);
         modelAndView.addObject("pageTitle", "Home");
-        return super.view("home", modelAndView);
+        return view("home", modelAndView);
     }
 }
 

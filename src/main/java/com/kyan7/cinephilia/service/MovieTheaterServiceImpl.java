@@ -44,14 +44,14 @@ public class MovieTheaterServiceImpl implements MovieTheaterService {
     @Override
     public MovieTheaterServiceModel findMovieTheaterById(String id) {
         MovieTheater movieTheater = this.movieTheaterRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie theater id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie theater not found!"));
         return this.modelMapper.map(movieTheater, MovieTheaterServiceModel.class);
     }
 
     @Override
     public MovieTheaterServiceModel editMovieTheater(String id, MovieTheaterServiceModel movieTheaterServiceModel) {
         MovieTheater movieTheater = this.movieTheaterRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie theater id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie theater not found!"));
         movieTheater.setName(movieTheaterServiceModel.getName());
         movieTheater.setAddress(movieTheaterServiceModel.getAddress());
         movieTheater.setLink(movieTheaterServiceModel.getLink());
@@ -62,7 +62,7 @@ public class MovieTheaterServiceImpl implements MovieTheaterService {
     @Override
     public MovieTheaterServiceModel deleteMovie(String id) {
         MovieTheater movieTheater = this.movieTheaterRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Movie theater id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie theater not found!"));
         this.movieTheaterRepository.delete(movieTheater);
         return this.modelMapper.map(movieTheater, MovieTheaterServiceModel.class);
     }

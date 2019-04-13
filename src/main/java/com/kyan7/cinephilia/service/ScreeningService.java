@@ -9,4 +9,6 @@ public interface ScreeningService {
     List<ScreeningServiceModel> findAllScreeningsByMovieId(String movieId);
 
     ScreeningServiceModel addScreening(ScreeningServiceModel screeningServiceModel);
+
+    ScreeningServiceModel deleteScreening(String screeningId);
 }

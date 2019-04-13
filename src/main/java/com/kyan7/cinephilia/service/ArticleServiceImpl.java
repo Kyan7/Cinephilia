@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleServiceModel findArticleByIdAndIncrementViews(String id) {
         Article article = this.articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Article id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Article not found!"));
         article.setViews(article.getViews() + 1);
         this.articleRepository.saveAndFlush(article);
         return this.modelMapper.map(article, ArticleServiceModel.class);
@@ -55,14 +55,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleServiceModel findArticleById(String id) {
         Article article = this.articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Article id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Article not found!"));
         return this.modelMapper.map(article, ArticleServiceModel.class);
     }
 
     @Override
     public ArticleServiceModel editArticle(String id, ArticleServiceModel articleServiceModel, boolean isAssociatedMoviesEdited) {
         Article article = this.articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Article id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Article not found!"));
         article.setTitle(articleServiceModel.getTitle());
         if (isAssociatedMoviesEdited) {
             article.setAssociatedMovies(
@@ -91,7 +91,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleServiceModel deleteArticle(String id) {
         Article article = this.articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Article id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Article not found!"));
         this.articleRepository.delete(article);
         return this.modelMapper.map(article, ArticleServiceModel.class);
     }

@@ -62,9 +62,9 @@ public class ArticleController extends BaseController {
                     })
                     .collect(Collectors.toList());
             modelAndView.addObject("articles", articles);
-            return super.view("article/all-articles", modelAndView);
+            return view("article/all-articles", modelAndView);
         } catch (Exception e) {
-            return super.redirect("home");
+            return redirect("home");
         }
     }
 
@@ -73,9 +73,9 @@ public class ArticleController extends BaseController {
     public ModelAndView addArticle(ModelAndView modelAndView) {
         try {
             modelAndView.addObject("pageTitle", "Add Article");
-            return super.view("article/add-article", modelAndView);
+            return view("article/add-article", modelAndView);
         } catch (Exception e) {
-            return super.redirect("/articles/all");
+            return redirect("/articles/all");
         }
     }
 
@@ -95,9 +95,9 @@ public class ArticleController extends BaseController {
             );
             articleServiceModel.setUser(this.userService.findUserByUsername(principal.getName()));
             this.articleService.addArticle(articleServiceModel);
-            return super.redirect("/articles/all");
+            return redirect("/articles/all");
         } catch (Exception e) {
-            return super.redirect("/articles/all");
+            return redirect("/articles/all");
         }
 
     }
@@ -123,12 +123,12 @@ public class ArticleController extends BaseController {
             article.setAssociatedMovies(tempAssociatedMovies);
             modelAndView.addObject("article", article);
 
-            return super.view("article/details-article", modelAndView);
+            return view("article/details-article", modelAndView);
         } catch (Exception e) {
             if (currentUser.getAuthorities().contains("ROLE_ADMIN")) {
-                return super.redirect("/articles/all");
+                return redirect("/articles/all");
             }
-            return super.redirect("/articles/list");
+            return redirect("/articles/list");
         }
     }
 
@@ -143,9 +143,9 @@ public class ArticleController extends BaseController {
             modelAndView.addObject("article", model);
             modelAndView.addObject("articleId", id);
 
-            return super.view("article/edit-article", modelAndView);
+            return view("article/edit-article", modelAndView);
         } catch (Exception e) {
-            return super.redirect("/articles/all");
+            return redirect("/articles/all");
         }
     }
 
@@ -162,13 +162,13 @@ public class ArticleController extends BaseController {
                 }
                 articleServiceModel.setAssociatedMovies(movieServiceModels);
                 this.articleService.editArticleWithEditedAssociatedMovies(id, articleServiceModel);
-                return super.redirect("/articles/details/" + id);
+                return redirect("/articles/details/" + id);
             } catch (Exception e) {
                 this.articleService.editArticleWithUneditedAssociatedMovies(id, articleServiceModel);
-                return super.redirect("/articles/details/" + id);
+                return redirect("/articles/details/" + id);
             }
         } catch (Exception e) {
-            return super.redirect("/articles/details/" + id);
+            return redirect("/articles/details/" + id);
         }
     }
 
@@ -177,9 +177,9 @@ public class ArticleController extends BaseController {
     public ModelAndView deleteArticle(@PathVariable String id) {
         try {
             this.articleService.deleteArticle(id);
-            return super.redirect("/articles/all");
+            return redirect("/articles/all");
         } catch (Exception e) {
-            return super.redirect("/articles/all");
+            return redirect("/articles/all");
         }
     }
 }

@@ -2,7 +2,6 @@ package com.kyan7.cinephilia.service;
 
 import com.kyan7.cinephilia.domain.entities.Movie;
 import com.kyan7.cinephilia.domain.entities.Screening;
-import com.kyan7.cinephilia.domain.models.service.ReviewServiceModel;
 import com.kyan7.cinephilia.domain.models.service.ScreeningServiceModel;
 import com.kyan7.cinephilia.repository.ScreeningRepository;
 import org.modelmapper.ModelMapper;
@@ -39,5 +38,13 @@ public class ScreeningServiceImpl implements ScreeningService {
     public ScreeningServiceModel addScreening(ScreeningServiceModel screeningServiceModel) {
         Screening screening = this.modelMapper.map(screeningServiceModel, Screening.class);
         return this.modelMapper.map(this.screeningRepository.saveAndFlush(screening), ScreeningServiceModel.class);
+    }
+
+    @Override
+    public ScreeningServiceModel deleteScreening(String screeningId) {
+        Screening screening = this.screeningRepository.findById(screeningId)
+                .orElseThrow(() -> new IllegalArgumentException("Review not found!"));
+        this.screeningRepository.delete(screening);
+        return this.modelMapper.map(screening, ScreeningServiceModel.class);
     }
 }

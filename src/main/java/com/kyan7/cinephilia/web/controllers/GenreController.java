@@ -40,14 +40,14 @@ public class GenreController extends BaseController{
                 .map(g -> this.modelMapper.map(g, GenreViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("genres", genres);
-        return super.view("genre/all-genres", modelAndView);
+        return view("genre/all-genres", modelAndView);
     }
 
     @GetMapping("/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addGenre(ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "Add Genre");
-        return super.view("genre/add-genre", modelAndView);
+        return view("genre/add-genre", modelAndView);
     }
 
     @PostMapping("/add")
@@ -55,9 +55,9 @@ public class GenreController extends BaseController{
     public ModelAndView addGenreConfirm(@ModelAttribute(name = "model") GenreAddBindingModel model) {
         try {
             this.genreService.addGenre(this.modelMapper.map(model, GenreServiceModel.class));
-            return super.redirect("all");
+            return redirect("all");
         } catch (IllegalArgumentException iae) {
-            return super.redirect("all");
+            return redirect("all");
         }
     }
 
@@ -68,9 +68,9 @@ public class GenreController extends BaseController{
             GenreViewModel genreViewModel = this.modelMapper.map(this.genreService.findGenreById(id), GenreViewModel.class);
             modelAndView.addObject("pageTitle", "Edit g:" + genreViewModel.getName());
             modelAndView.addObject("model", genreViewModel);
-            return super.view("genre/edit-genre", modelAndView);
+            return view("genre/edit-genre", modelAndView);
         } catch (Exception e) {
-            return super.redirect("/genres/all");
+            return redirect("/genres/all");
         }
     }
 
@@ -79,9 +79,9 @@ public class GenreController extends BaseController{
     public ModelAndView editGenreConfirm(@PathVariable String id, @ModelAttribute GenreAddBindingModel model) {
         try {
             this.genreService.editGenre(id, this.modelMapper.map(model, GenreServiceModel.class));
-            return super.redirect("/genres/all");
+            return redirect("/genres/all");
         } catch (Exception e) {
-            return super.redirect("/genres/all");
+            return redirect("/genres/all");
         }
     }
 
@@ -90,9 +90,9 @@ public class GenreController extends BaseController{
     public ModelAndView deleteGenre(@PathVariable String id) {
         try {
             this.genreService.deleteGenre(id);
-            return super.redirect("/genres/all");
+            return redirect("/genres/all");
         } catch (Exception e) {
-            return super.redirect("/genres/all");
+            return redirect("/genres/all");
         }
     }
 

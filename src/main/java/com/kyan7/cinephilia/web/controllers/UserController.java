@@ -42,7 +42,7 @@ public class UserController extends BaseController {
     @PreAuthorize("isAnonymous()")
     public ModelAndView register(ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "Register");
-        return super.view("register", modelAndView);
+        return view("register", modelAndView);
     }
 
     /**
@@ -59,12 +59,12 @@ public class UserController extends BaseController {
         try {
             if (!model.getPassword().equals(model.getConfirmPassword())) {
                 modelAndView.addObject("pageTitle", "Register");
-                return super.view("register", modelAndView);
+                return view("register", modelAndView);
             }
             this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
-            return super.redirect("login");
+            return redirect("login");
         } catch (Exception e) {
-            return super.redirect("register");
+            return redirect("register");
         }
     }
 
@@ -78,7 +78,7 @@ public class UserController extends BaseController {
     @PreAuthorize("isAnonymous()")
     public ModelAndView login(ModelAndView modelAndView) {
         modelAndView.addObject("pageTitle", "Login");
-        return super.view("login", modelAndView);
+        return view("login", modelAndView);
     }
 
     /**
@@ -94,7 +94,7 @@ public class UserController extends BaseController {
                 .map(this.userService.findUserByUsername(principal.getName()), UserProfileViewModel.class);
         modelAndView.addObject("model", userProfileViewModel);
         modelAndView.addObject("pageTitle", "#" + userProfileViewModel.getUsername());
-        return super.view("profile", modelAndView);
+        return view("profile", modelAndView);
     }
 
     /**
@@ -110,7 +110,7 @@ public class UserController extends BaseController {
                 .map(this.userService.findUserByUsername(principal.getName()), UserProfileViewModel.class);
         modelAndView.addObject("model", userProfileViewModel);
         modelAndView.addObject("pageTitle", "Edit #" + userProfileViewModel.getUsername());
-        return super.view("edit-profile", modelAndView);
+        return view("edit-profile", modelAndView);
     }
 
     /**
@@ -127,12 +127,12 @@ public class UserController extends BaseController {
         try {
             if (!model.getPassword().equals(model.getConfirmPassword())) {
                 modelAndView.addObject("pageTitle", "Edit #" + model.getUsername());
-                return super.view("edit-profile", modelAndView);
+                return view("edit-profile", modelAndView);
             }
             this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
-            return super.redirect("/users/profile");
+            return redirect("/users/profile");
         } catch (Exception e) {
-            return super.redirect("/users/profile");
+            return redirect("/users/profile");
         }
     }
 
@@ -164,7 +164,7 @@ public class UserController extends BaseController {
         modelAndView.addObject("users", users);
 
         modelAndView.addObject("currentUser", findCurrentUser(principal));
-        return super.view("all-users", modelAndView);
+        return view("all-users", modelAndView);
     }
 
     /**
@@ -177,9 +177,9 @@ public class UserController extends BaseController {
     public ModelAndView setUser(@PathVariable String id) {
         try {
             this.userService.setUserRole(id, "user");
-            return super.redirect("/users/all");
+            return redirect("/users/all");
         } catch (Exception e) {
-            return super.redirect("/users/all");
+            return redirect("/users/all");
         }
 
     }
@@ -194,9 +194,9 @@ public class UserController extends BaseController {
     public ModelAndView setAdmin(@PathVariable String id) {
         try {
             this.userService.setUserRole(id, "admin");
-            return super.redirect("/users/all");
+            return redirect("/users/all");
         } catch (Exception e) {
-            return super.redirect("/users/all");
+            return redirect("/users/all");
         }
     }
 

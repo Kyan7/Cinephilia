@@ -46,14 +46,14 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public GenreServiceModel findGenreById(String id) {
         Genre genre = this.genreRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Genre id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Genre not found!"));
         return this.modelMapper.map(genre, GenreServiceModel.class);
     }
 
     @Override
     public GenreServiceModel editGenre(String id, GenreServiceModel genreServiceModel) {
         Genre genre = this.genreRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Genre id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Genre not found!"));
         genre.setName(genreServiceModel.getName());
         return this.modelMapper.map(this.genreRepository.saveAndFlush(genre), GenreServiceModel.class);
     }
@@ -61,7 +61,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public GenreServiceModel deleteGenre(String id) {
         Genre genre = this.genreRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Genre id not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Genre not found!"));
         this.genreRepository.delete(genre);
         return this.modelMapper.map(genre, GenreServiceModel.class);
     }
