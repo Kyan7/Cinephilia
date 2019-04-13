@@ -23,6 +23,10 @@ public class ArticleServiceImpl implements ArticleService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Finds all articles in the database.
+     * @return list of article service models.
+     */
     @Override
     public List<ArticleServiceModel> findAllArticles() {
         return this.articleRepository.findAll()

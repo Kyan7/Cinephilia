@@ -19,14 +19,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/genres")
 public class GenreController extends BaseController{
 
-    private final UserService userService;
     private final GenreService genreService;
     private final ModelMapper modelMapper;
 
     @Autowired
     public GenreController(UserService userService, GenreService genreService, ModelMapper modelMapper) {
         super(userService, modelMapper);
-        this.userService = userService;
         this.genreService = genreService;
         this.modelMapper = modelMapper;
     }

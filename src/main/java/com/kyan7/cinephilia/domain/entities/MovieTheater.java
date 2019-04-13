@@ -52,7 +52,7 @@ public class MovieTheater {
         this.address = address;
     }
 
-    @OneToMany(mappedBy = "movieTheater", targetEntity = Screening.class, orphanRemoval = true)
+    @OneToMany(mappedBy = "movieTheater", targetEntity = Screening.class, orphanRemoval = true, cascade = CascadeType.REMOVE)
     public List<Screening> getScreenings() {
         return screenings;
     }

@@ -26,12 +26,12 @@
             <tbody>
                 <th:block th:each="user, iter : ${users}">
                     <tr class="row mx-auto">
-                        <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}" />
-                        <td class="col-md-3 text-center text-sm" th:text="${user.id}" />
-                        <td class="col-md-2 text-center text-sm" th:text="${user.username}" />
-                        <td class="col-md-2 text-center text-sm" th:text="${user.firstName} + ' ' + ${user.lastName}" />
-                        <td class="col-md-2 text-center text-sm" th:text="${user.email}" />
-                        <td class="col-md-1 text-center text-sm" th:text="${#strings.listJoin(user.authorities, ', ')}" />
+                        <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}">
+                        <td class="col-md-3 text-center text-sm" th:text="${user.id}">
+                        <td class="col-md-2 text-center text-sm" th:text="${user.username}">
+                        <td class="col-md-2 text-center text-sm" th:text="${user.firstName} + ' ' + ${user.lastName}">
+                        <td class="col-md-2 text-center text-sm" th:text="${user.email}">
+                        <td class="col-md-1 text-center text-sm" th:text="${#strings.listJoin(user.authorities, ', ')}">
                         <td class="col-md-1 text-center">
                             <div class="row justify-content-center">
                                 <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ROOT') && !currentUser.username.equals(user.username)}">

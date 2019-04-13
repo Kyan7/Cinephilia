@@ -12,7 +12,7 @@
         <h1 class="text-center">All Articles</h1>
         <hr>
         <div class="text-center"><a th:href="@{/articles/add}"><button class="btn btn-dark align-content-center cinephilia-button">Add</button></a></div>
-        <hr />
+        <hr>
         <table width="100%" class="table-sm table-hover table-bordered cinephilia-grey-bg central">
             <thead>
             <tr class="row mx-auto">
@@ -28,12 +28,12 @@
             <tbody>
             <th:block th:each="article, iter : ${articles}">
                 <tr class="row mx-auto">
-                    <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}" />
-                    <td class="col-md-3 text-center text-sm" th:text="${article.id}" />
-                    <td class="col-md-1 text-center text-sm" th:text="${article.title}" />
-                    <td class="col-md-2 text-center text-sm" th:text="${article.user}" />
-                    <td class="col-md-1 text-center text-sm" th:text="${article.views}" />
-                    <td class="col-md-2 text-center text-sm" th:text="${#strings.listJoin(article.associatedMovies, ', ')}" />
+                    <td class="col-md-1 text-center text-sm " th:text="${iter.index + 1}">
+                    <td class="col-md-3 text-center text-sm" th:text="${article.id}">
+                    <td class="col-md-1 text-center text-sm" th:text="${article.title}">
+                    <td class="col-md-2 text-center text-sm" th:text="${article.user}">
+                    <td class="col-md-1 text-center text-sm" th:text="${article.views}">
+                    <td class="col-md-2 text-center text-sm" th:text="${#strings.listJoin(article.associatedMovies, ', ')}">
                     <td class="col-md-2 text-center">
                         <div class="row justify-content-center">
                             <a class="push-left" th:href="@{/articles/details/{id} (id = ${article.id})}">

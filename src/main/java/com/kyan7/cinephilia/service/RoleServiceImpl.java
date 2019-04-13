@@ -2,7 +2,6 @@ package com.kyan7.cinephilia.service;
 
 import com.kyan7.cinephilia.domain.entities.Role;
 import com.kyan7.cinephilia.domain.models.service.RoleServiceModel;
-import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
 import com.kyan7.cinephilia.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

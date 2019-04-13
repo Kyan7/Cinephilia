@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-8">
                     <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
-                        <br />
+                        <br>
                         <div class="row">
                             <div class="col-md-10"></div>
                             <div class="col-md-2">
@@ -32,19 +32,19 @@
                         </div>
                         <small class="cinephilia-orange-text" th:text="'Creator: ' + ${article.user}"></small>
                     </th:block>
-                    <br />
+                    <br>
                     <small class="cinephilia-orange-text" th:text="${article.views} + ' View(s)'"></small>
                     <div class="row">
                         <div class="col-md-11">
                             <div class="cinephilia-title-text" th:text="${article.title}"></div>
-                            <hr />
+                            <hr>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-11">
-                            <hr />
+                            <hr>
                             <div class="cinephilia-article-content" th:text="${article.content}"></div>
-                            <hr />
+                            <hr>
                             <p class="cinephilia-orange-text"> Associated movies:
                                 <th:block th:each="movie, iter : ${article.associatedMovies}">
                                     <th:block th:if="${iter.index} < ${article.associatedMovies.size() - 1}">

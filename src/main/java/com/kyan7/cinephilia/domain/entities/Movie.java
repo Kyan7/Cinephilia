@@ -218,7 +218,7 @@ public class Movie {
         this.trailerLinks = trailerLinks;
     }
 
-    @OneToMany(mappedBy = "movie", targetEntity = Screening.class, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", targetEntity = Screening.class, orphanRemoval = true, cascade = CascadeType.REMOVE)
     public List<Screening> getScreenings() {
         return screenings;
     }

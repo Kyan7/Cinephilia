@@ -111,9 +111,9 @@ public class MovieTheaterController extends BaseController {
         try {
             MovieTheaterServiceModel movieTheaterServiceModel = this.modelMapper.map(model, MovieTheaterServiceModel.class);
             this.movieTheaterService.editMovieTheater(id, movieTheaterServiceModel);
-            return redirect("/movie-theaters/details/" + id);
+            return redirect("/movie-theaters/all");
         } catch (Exception e) {
-            return redirect("/movie-theaters/details/" + id);
+            return redirect("/movie-theaters/all");
         }
     }
 

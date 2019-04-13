@@ -12,7 +12,7 @@
         <h1 class="text-center">All Genres</h1>
         <hr>
         <div class="text-center"><a th:href="@{/genres/add}"><button class="btn btn-dark align-content-center cinephilia-button">Add</button></a></div>
-        <hr />
+        <hr>
         <table width="70%" class="table-sm table-hover table-bordered cinephilia-grey-bg central">
             <thead>
             <tr class="row mx-auto">
@@ -25,9 +25,9 @@
             <tbody>
             <th:block th:each="genre, iter : ${genres}">
                 <tr class="row mx-auto">
-                    <td class="col-md-2 text-center text-sm " th:text="${iter.index + 1}" />
-                    <td class="col-md-5 text-center text-sm" th:text="${genre.id}" />
-                    <td class="col-md-3 text-center text-sm" th:text="${genre.name}" />
+                    <td class="col-md-2 text-center text-sm " th:text="${iter.index + 1}">
+                    <td class="col-md-5 text-center text-sm" th:text="${genre.id}">
+                    <td class="col-md-3 text-center text-sm" th:text="${genre.name}">
                     <td class="col-md-2 text-center">
                         <div class="row justify-content-center">
                             <a class="push-left" th:href="@{/genres/edit/{id} (id = ${genre.id})}">

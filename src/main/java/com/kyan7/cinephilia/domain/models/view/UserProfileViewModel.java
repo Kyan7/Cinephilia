@@ -1,7 +1,5 @@
 package com.kyan7.cinephilia.domain.models.view;
 
-import java.util.List;
-
 public class UserProfileViewModel {
 
     private String username;

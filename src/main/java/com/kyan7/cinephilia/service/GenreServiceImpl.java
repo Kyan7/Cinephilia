@@ -14,13 +14,11 @@ import java.util.stream.Collectors;
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
-    private final MovieService movieService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public GenreServiceImpl(GenreRepository genreRepository, MovieService movieService, ModelMapper modelMapper) {
+    public GenreServiceImpl(GenreRepository genreRepository, ModelMapper modelMapper) {
         this.genreRepository = genreRepository;
-        this.movieService = movieService;
         this.modelMapper = modelMapper;
     }
 

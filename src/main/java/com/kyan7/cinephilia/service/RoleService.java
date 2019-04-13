@@ -1,7 +1,6 @@
 package com.kyan7.cinephilia.service;
 
 import com.kyan7.cinephilia.domain.models.service.RoleServiceModel;
-import com.kyan7.cinephilia.domain.models.service.UserServiceModel;
 
 import java.util.Set;
 

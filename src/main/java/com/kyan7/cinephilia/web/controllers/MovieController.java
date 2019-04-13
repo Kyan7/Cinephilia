@@ -1,6 +1,5 @@
 package com.kyan7.cinephilia.web.controllers;
 
-import com.kyan7.cinephilia.domain.entities.Screening;
 import com.kyan7.cinephilia.domain.models.binding.MovieAddBindingModel;
 import com.kyan7.cinephilia.domain.models.binding.ReviewAddBindingModel;
 import com.kyan7.cinephilia.domain.models.binding.ScreeningMultiAddBindingModel;
@@ -357,8 +356,7 @@ public class MovieController extends BaseController {
         try {
             MovieTheaterServiceModel movieTheater = this.movieTheaterService.findMovieTheaterById(multiModel.getMovieTheater());
             MovieServiceModel movie = this.movieService.findMovieById(movieId);
-            Arrays.asList(multiModel.getTimeStamps().split(", "))
-                    .stream()
+            Arrays.stream(multiModel.getTimeStamps().split(", "))
                     .forEach(ts -> {
                         try {
                             ScreeningServiceModel current = this.modelMapper.map(multiModel, ScreeningServiceModel.class);
@@ -366,7 +364,7 @@ public class MovieController extends BaseController {
                             current.setMovieTheater(movieTheater);
                             current.setMovie(movie);
                             this.screeningService.addScreening(current);
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
                     });
 
@@ -416,9 +414,9 @@ public class MovieController extends BaseController {
      * @return the extracted trailer ids.
      */
     private List<String> findTrailerIds(MovieServiceModel movieServiceModel) {
-        List<String> trailerLinks = Arrays.asList(movieServiceModel
+        String[] trailerLinks = movieServiceModel
                 .getTrailerLinks()
-                .split(", "));
+                .split(", ");
         List<String> trailerIds = new ArrayList<>();
         for (String trailerLink : trailerLinks) {
             trailerIds.add(trailerLink.split("=")[1]);

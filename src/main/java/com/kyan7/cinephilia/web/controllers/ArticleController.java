@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,7 +110,7 @@ public class ArticleController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView addArticleConfirm(@ModelAttribute(name = "model") ArticleAddBindingModel model, Principal principal, ModelAndView modelAndView) throws IOException {
+    public ModelAndView addArticleConfirm(@ModelAttribute(name = "model") ArticleAddBindingModel model, Principal principal, ModelAndView modelAndView) {
         try {
             ArticleServiceModel articleServiceModel = this.modelMapper.map(model, ArticleServiceModel.class);
             articleServiceModel.setAssociatedMovies(

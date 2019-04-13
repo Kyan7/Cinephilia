@@ -11,10 +11,10 @@
     <div class="jumbotron cinephilia-dark cinephilia-small-block">
         <h1 class="text-center">Profile</h1>
         <hr>
-        <h4 class="cinephilia-orange-text font-italic"> Username: <h4 th:text="${model.username}" /> </h4>
-        <h4 class="cinephilia-orange-text font-italic"> Email: <h4 th:text="${model.email}" /> </h4>
-        <h4 class="cinephilia-orange-text font-italic"> Name: </h4><h4 th:text="${model.firstName} + ' ' + ${model.lastName}" /></h4>
-        <hr />
+        <h4 class="cinephilia-orange-text font-italic"> Username: </h4><h4 th:text="${model.username}"></h4>
+        <h4 class="cinephilia-orange-text font-italic"> Email: </h4><h4 th:text="${model.email}"></h4>
+        <h4 class="cinephilia-orange-text font-italic"> Name: </h4><h4 th:text="${model.firstName} + ' ' + ${model.lastName}"></h4>
+        <hr>
         <div class="text-center"><a th:href="@{/users/edit}"><button class="btn btn-dark align-content-center cinephilia-button">Edit Profile</button></a></div>
     </div>
 </main>

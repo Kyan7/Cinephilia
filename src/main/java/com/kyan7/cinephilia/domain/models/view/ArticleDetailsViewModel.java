@@ -1,7 +1,6 @@
 package com.kyan7.cinephilia.domain.models.view;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ArticleDetailsViewModel {
 

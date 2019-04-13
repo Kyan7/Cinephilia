@@ -53,7 +53,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-7">
                     <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
-                        <br />
+                        <br>
                         <div class="row">
                             <div class="col-md-10"></div>
                             <div class="col-md-2">
@@ -69,12 +69,12 @@
                         </div>
                         <small class="cinephilia-orange-text" th:text="'Creator: ' + ${movie.user}"></small>
                     </th:block>
-                    <br />
+                    <br>
                     <small class="cinephilia-orange-text" th:text="${movie.views} + ' View(s)'"></small>
                     <div class="row">
                         <div class="col-md-11">
                             <div class="cinephilia-title-text" th:text="${movie.title}"></div>
-                            <hr />
+                            <hr>
                         </div>
                     </div>
                     <div class="row">
@@ -107,11 +107,11 @@
                     </div>
                     <div class="row">
                         <div class="col-md-11">
-                            <hr />
+                            <hr>
                             <div class="cinephilia-small-text cinephilia-orange-text">Description: </div><div class="cinephilia-small-text" th:text="${movie.description}"></div>
                         </div>
                     </div>
-                    <hr />
+                    <hr>
                     <div class="col-md-11">
                         <th:block th:each="movieTheater : ${groupedScreenings}">
                             <div class="jumbotron-fluid cinephilia-screening-theater-block">
@@ -159,10 +159,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-11">
-                            <br />
-                            <br />
-                            <br />
-                            <hr />
+                            <br>
+                            <br>
+                            <br>
+                            <hr>
                             <div class="jumbotron-fluid cinephilia-review-post-block">
                                 <form th:action="@{/movies/add-review/{id} (id = ${movie.id})}" th:method="post">
                                     <div class="form-group tiny-margin-top-bottom">

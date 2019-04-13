@@ -3,7 +3,6 @@ package com.kyan7.cinephilia.service;
 import com.kyan7.cinephilia.domain.entities.Movie;
 import com.kyan7.cinephilia.domain.entities.Review;
 import com.kyan7.cinephilia.domain.models.service.ReviewServiceModel;
-import com.kyan7.cinephilia.repository.MovieRepository;
 import com.kyan7.cinephilia.repository.ReviewRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
