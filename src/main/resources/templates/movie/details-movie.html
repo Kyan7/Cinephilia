@@ -195,6 +195,7 @@
                                             <div class="col-md-4">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:utext="${review.title}"></div>
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:utext="${review.rating}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">By: </div><div class="cinephilia-small-text" th:utext="${review.reviewer}"></div>
                                                 <form th:action="@{/movies/delete-review/{movieId}/{reviewId} (movieId = ${movie.id}, reviewId = ${review.id})}" th:method="post">
                                                     <input type="hidden" name="_csrf"
                                                            value="80417983-fe8b-45c7-963e-31f6915a1560">
@@ -213,6 +214,7 @@
                                             <div class="col-md-4">
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Title: </div><div class="cinephilia-small-text" th:utext="${review.title}"></div>
                                                 <div class="cinephilia-small-text cinephilia-orange-text">Rating: </div><div class="cinephilia-small-text" th:utext="${review.rating}"></div>
+                                                <div class="cinephilia-small-text cinephilia-orange-text">By: </div><div class="cinephilia-small-text" th:utext="${review.reviewer}"></div>
                                                 <th:block th:if="${#lists.contains(currentUser.authorities, 'ROLE_ADMIN')}">
                                                     <form th:action="@{/movies/delete-review/{movieId}/{reviewId} (movieId = ${movie.id}, reviewId = ${review.id})}" th:method="post">
                                                         <input type="hidden" name="_csrf"
